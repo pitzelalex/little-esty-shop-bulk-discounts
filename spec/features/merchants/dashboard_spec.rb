@@ -12,6 +12,26 @@ RSpec.describe 'it shows the merchant dashboard page', type: :feature do
       expect(current_path).to eq "/merchants/#{merchant_1.id}/dashboard"
       expect(page).to have_content "KDavis"
       expect(page).to_not have_content "APitzel"
+
+      visit "/merchants/#{merchant_2.id}/dashboard"
+
+      expect(current_path).to eq "/merchants/#{merchant_2.id}/dashboard"
+      expect(page).to_not have_content "KDavis"
+      expect(page).to have_content "APitzel"
+    end
+
+    describe 'dashboard navigation' do
+      it 'has a link to the merchants items index' do
+        visit "/merchants/#{merchant_2.id}/dashboard"
+
+        expect(page).to have_link "Items Index", href: "/merchants/#{merchant_2.id}/items"
+      end
+
+      it 'has a link to the merchant invoices index' do
+        visit "/merchants/#{merchant_1.id}/dashboard"
+
+        expect(page).to have_link "Invoice Index", href: "/merchants/#{merchant_1.id}/invoices"
+      end
     end
   end
 end
