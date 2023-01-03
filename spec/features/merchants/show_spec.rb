@@ -33,5 +33,17 @@ RSpec.describe 'it shows the merchant dashboard page', type: :feature do
         expect(page).to have_link "Invoice Index", href: "/merchants/#{merchant_1.id}/invoices"
       end
     end
+
+    describe 'Favorite Customers' do
+      it 'shows the names of the top 5 customers by number of successful transactions' do
+        visit "/merchants/#{merchant_1.id}/dashboard"
+
+        expect(page).to have_content ""
+      end
+
+      it 'shows the number of successful transactions next to each customers name' do
+
+      end
+    end
   end
 end
