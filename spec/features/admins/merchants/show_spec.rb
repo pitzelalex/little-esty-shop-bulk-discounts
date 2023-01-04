@@ -36,8 +36,19 @@ RSpec.describe 'The Admin Merchant Show page', type: :feature do
         fill_in 'Name', with: 'Charlie'
         click_button 'Save'
 
+        expect(current_path).to eq admin_merchant_path(merchant_1)
         expect(page).to have_content("Charlie")
-        expect(page).to have_content("Merchant Information Successfully Updated")
+        expect(page).to have_content('Merchant Information Successfully Updated')
+      end
+
+      it 'will show an error message if update was not successful' do
+        visit edit_admin_merchant_path(merchant_1)
+
+        fill_in 'Name', with: ''
+        click_button 'Save'
+        
+        expect(current_path).to eq edit_admin_merchant_path(merchant_1)
+        expect(page).to have_content('Name field must not be empty. Please fill out and resubmit.')
       end
     end
   end 
