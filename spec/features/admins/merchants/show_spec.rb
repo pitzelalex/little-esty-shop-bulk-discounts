@@ -11,3 +11,4 @@ RSpec.describe 'The Admin Merchant Show page', type: :feature do
     end 
   end 
 end
+
