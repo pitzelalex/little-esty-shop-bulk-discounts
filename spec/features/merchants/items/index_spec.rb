@@ -25,5 +25,13 @@ RSpec.describe 'The merchant items index page', type: :feature do
       expect(page).to_not have_content "Item_3"
       expect(page).to have_content "Item_4"
     end
+    
+    it 'each name is a link to the item show page' do
+      visit merchant_items_path(merchant_1)
+
+      merchant_1.items.each do |item|
+        expect(page).to have_link item.name, href: merchant_item_path(merchant_1, item)
+      end
+    end
   end
 end
