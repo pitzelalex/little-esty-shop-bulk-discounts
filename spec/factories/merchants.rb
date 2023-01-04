@@ -14,17 +14,16 @@ FactoryBot.define do
         end
       end
     end
-    
+
     factory :merchant_with_invoices do
       transient do
         item_num { 4 }
-        item_name { 'default_item_name' }
         invoice_num { 2 }
       end
 
       before(:create) do |merchant, evaluator|
-        evaluator.item_num.times do |t| 
-          item = create(:item, name: "#{evaluator.item_name}_#{t}", merchant: merchant)
+        evaluator.item_num.times do |t|
+          item = create(:item, merchant: merchant)
           invoice = create(:invoice)
           create(:invoice_item, item: item, invoice: invoice)
         end
