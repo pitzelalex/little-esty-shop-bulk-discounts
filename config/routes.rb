@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :customers
   resources :merchants do
-    resources :items, only: [:index], controller: "merchants/items"
+    resources :items, only: [:index, :show], controller: "merchants/items"
   end
   get '/merchants/:id/dashboard', to: "merchants#show"
   namespace :admin do
