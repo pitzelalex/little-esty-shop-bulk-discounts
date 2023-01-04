@@ -5,12 +5,11 @@ FactoryBot.define do
     factory :merchant_with_items do
       transient do
         num { 4 }
-        item_name { 'default_item_name' }
       end
 
       before(:create) do |merchant, evaluator|
-        evaluator.num.times do |t|
-          create(:item, name: "#{evaluator.item_name}_#{t}", merchant: merchant)
+        evaluator.num.times do |t| 
+          create(:item, merchant: merchant)
         end
       end
     end
