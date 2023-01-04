@@ -23,7 +23,7 @@ RSpec.describe 'The Admin Merchant Index page', type: :feature do
 
       click_link(merchant_1.name)
 
-      expect(current_path).to eq(admin_merchants_path(merchant_1))
+      expect(current_path).to eq(admin_merchant_path(merchant_1))
     end
   end
 end
