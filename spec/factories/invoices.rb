@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :invoices do
+  factory :invoice do
     status { 0 }
     association :customer
 
