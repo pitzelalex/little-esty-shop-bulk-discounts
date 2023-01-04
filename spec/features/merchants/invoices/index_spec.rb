@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'The merchant items index page', type: :feature do
+RSpec.describe 'The merchant invoices index page', type: :feature do
   describe 'as a merchant' do
     describe 'when I visit my merchant invoices index' do
       let(:merchant_1) { create(:merchant_with_invoices) }
