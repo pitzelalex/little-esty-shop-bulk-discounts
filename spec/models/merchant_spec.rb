@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Merchant, type: :model do
 
   let!(:merchant_1) { Merchant.create!(name: "KDavis") }
-  
+
   describe "relationships" do
     it {should have_many :items}
     it {should have_many(:invoices).through(:items)}
