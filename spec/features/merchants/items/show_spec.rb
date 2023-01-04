@@ -20,9 +20,9 @@ RSpec.describe 'The merchant items show page', type: :feature do
       item = merchant_2.items.first
       visit merchant_item_path(merchant_2, item)
 
-      expect(page).to have_button item.name
+      expect(page).to have_button "Update Item Information"
 
-      click_button item.name
+      click_button "Update Item Information"
 
       expect(current_path).to eq edit_merchant_item_path(merchant_2, item)
     end
