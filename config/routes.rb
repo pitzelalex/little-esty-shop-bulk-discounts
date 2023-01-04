@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   end
   get '/merchants/:id/dashboard', to: "merchants#show"
   namespace :admin do
-    resources :merchants, only: [:index, :show]
+    resources :merchants, only: [:index, :show, :edit, :update]
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
