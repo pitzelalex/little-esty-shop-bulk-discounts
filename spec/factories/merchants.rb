@@ -9,7 +9,7 @@ FactoryBot.define do
       end
 
       before(:create) do |merchant, evaluator|
-        evaluator.num.times do |t| 
+        evaluator.num.times do |t|
           create(:item, name: "#{evaluator.item_name}_#{t}", merchant: merchant)
         end
       end

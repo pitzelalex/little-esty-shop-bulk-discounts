@@ -26,11 +26,11 @@ RSpec.describe 'The merchant items index page', type: :feature do
         end
       end
 
-      xit "has a link from each id to the corresponding merchant invoice page" do
+      it "has a link from each id to the corresponding merchant invoice page" do
         visit merchant_invoices_path(merchant_1)
 
         merchant_1.invoices.each do |invoice|
-          expect(page).to have_link "#{invoice.id}", href: merchant_invoice_path(merchant_1, invoice.id)
+          expect(page).to have_link "#{invoice.id}", href: merchant_invoice_path(merchant_1, invoice)
         end
       end
     end
