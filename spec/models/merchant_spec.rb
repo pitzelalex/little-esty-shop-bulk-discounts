@@ -11,6 +11,10 @@ RSpec.describe Merchant, type: :model do
     it {should have_many(:customers).through(:invoices)}
   end
 
+  describe "validations" do
+    it { should validate_presence_of :name }
+  end
+
   describe 'top_customers' do
     xit 'returns the top 5 customers with the most successful transactions' do
       expect(merchant_1.top_customers).to eq([])

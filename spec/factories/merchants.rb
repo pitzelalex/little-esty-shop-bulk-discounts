@@ -10,7 +10,7 @@ FactoryBot.define do
       status { 1 }
     end
 
-    factory :enabled_merchant, traits: [:disabled]
+    factory :disabled_merchant, traits: [:disabled]
     factory :enabled_merchant, traits: [:enabled]
 
     factory :merchant_with_items do

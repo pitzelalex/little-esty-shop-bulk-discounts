@@ -39,28 +39,48 @@ RSpec.describe 'The Admin Merchant Index page', type: :feature do
     end
     
     describe 'enable and disable' do
-      xit 'has an enable and disable button next to each merchant' do
+      it 'has an enable or disable button next to each merchant' do
         visit admin_merchants_path
 
         within "#merchant_#{merchant_1.id}" do 
           expect(page).to have_button "Enable Merchant"
-          expect(page).to have_button "Disable Merchant"
+          expect(page).to_not have_button "Disable Merchant"
         end 
 
         within "#merchant_#{merchant_2.id}" do 
           expect(page).to have_button "Enable Merchant"
-          expect(page).to have_button "Disable Merchant"
         end 
 
         within "#merchant_#{merchant_3.id}" do 
           expect(page).to have_button "Enable Merchant"
+        end 
+       
+        within "#merchant_#{merchant_4.id}" do 
           expect(page).to have_button "Disable Merchant"
+          expect(page).to_not have_button "Enable Merchant"
         end 
 
+        within "#merchant_#{merchant_5.id}" do 
+          expect(page).to have_button "Disable Merchant"
+        end 
       end
 
-      xit "will update a merchant's status" do
+      it "will update a merchant's status" do
+        visit admin_merchants_path
 
+        expect(merchant_1.status).to eq('disabled')
+        expect(merchant_5.status).to eq('enabled')
+
+        click_button "Disable #{merchant_5.name}"
+
+        expect(current_path).to eq admin_merchants_path
+        expect(Merchant.find(merchant_5.id).status).to eq('disabled')
+
+
+        click_button "Enable #{merchant_1.name}"
+
+        expect(current_path).to eq admin_merchants_path
+        expect(Merchant.find(merchant_1.id).status).to eq('enabled')
       end
     end 
   end
