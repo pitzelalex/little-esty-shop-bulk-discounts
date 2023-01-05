@@ -50,5 +50,21 @@ RSpec.describe 'The merchant invocie show page', type: :feature do
 
       expect(page).to have_content("Total revenue: $150.00")
     end
+
+    it 'has a status drop down for each status with a default selection of the current status' do
+      invoice = merchant_1.invoices.first
+
+      visit merchant_invoice_path(merchant_1, invoice)
+
+      invoice.items.each do |item|
+        within "#item-#{item.id}" do
+          expect(page).to have_select('status', selected: item.invoice_item_by_invoice(invoice).status)
+          expect(page).to have_select('status', options: ['packaged', 'pending', 'shipped'])
+        end
+      end
+    end
+    it 'has the option to select a new status for the item'
+    it "has a button to 'Update Item Status'"
+    it "updates the item status when I click the update button and returns me to the show page with the updated status"
   end
 end
