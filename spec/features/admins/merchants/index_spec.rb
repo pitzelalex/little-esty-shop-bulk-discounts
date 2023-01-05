@@ -110,5 +110,48 @@ RSpec.describe 'Admin Merchant Index page', type: :feature do
         end
       end
     end 
+
+    describe 'create a new merchant' do 
+      it 'has a link to a form to create a new merchant' do 
+        visit admin_merchants_path
+
+        click_link("Create a New Merchant")
+
+        expect(current_path).to eq new_admin_merchant_path
+
+        expect(page).to have_field 'Name'
+        expect(page).to have_button 'Create Merchant'
+      end
+
+      it 'will show the new merchant on the admin merchants index page once form is submitted' do 
+        visit admin_merchants_path
+
+        click_link("Create a New Merchant")
+
+        fill_in 'Name', with: 'Betty Draper'
+        click_button 'Create Merchant'
+        
+        betty_merchant = Merchant.last
+        expect(current_path).to eq admin_merchants_path
+        expect(page).to have_content(betty_merchant.name)
+      end
+
+      it 'will have the new merchant with a default status of disabled' do 
+        visit admin_merchants_path
+
+        click_link("Create a New Merchant")
+
+        fill_in 'Name', with: 'Betty Draper'
+        click_button 'Create Merchant'
+        
+        betty_merchant = Merchant.last
+
+        expect(betty_merchant.status).to eq('disabled')
+
+        within "#disabled_merchants" do 
+          expect(page).to have_content(betty_merchant.name)
+        end
+      end
+    end
   end
 end
