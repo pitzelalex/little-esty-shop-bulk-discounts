@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'The merchant invocie show page', type: :feature do
   let(:merchant_1) { create(:merchant_with_invoices) }
+  let(:merchant_2) { create(:merchant_with_invoices) }
 
   describe "I visit one of my merchant's invoice show pages" do
     it "Displays information about that invoice" do
@@ -26,6 +27,11 @@ RSpec.describe 'The merchant invocie show page', type: :feature do
               expect(page).to have_content("Quantity ordered: #{item.invoice_items.where(invoice_id: invoice.id).first.quantity}")
               expect(page).to have_content("Sale price: #{item.invoice_items.where(invoice_id: invoice.id).first.unit_price}")
               expect(page).to have_content("Status: #{item.invoice_items.where(invoice_id: invoice.id).first.status}")
+            end
+          end
+          merchant_2.invoices.group(:id).each do |invoice|
+            invoice.items.each do |item|
+              expect(page).not_to have_content(item.name)
             end
           end
         end
