@@ -23,9 +23,6 @@ FactoryBot.define do
       end
 
       before(:create) do |invoice, opt|
-        # items = opt.item_qty.times do
-        #   create(:item, merchant: opt.merchant)
-        # end
         items = create_list(:item, opt.item_qty, merchant: opt.merchant)
         items.each do |item|
           create(:invoice_item, invoice: invoice, item: item, quantity: opt.ii_qty, unit_price: opt.ii_price)
