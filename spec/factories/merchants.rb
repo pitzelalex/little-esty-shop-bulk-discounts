@@ -19,7 +19,7 @@ FactoryBot.define do
       end
 
       before(:create) do |merchant, evaluator|
-        evaluator.num.times do |t| 
+        evaluator.num.times do |t|
           create(:item, merchant: merchant)
         end
       end
@@ -27,15 +27,17 @@ FactoryBot.define do
 
     factory :merchant_with_invoices do
       transient do
-        item_num { 4 }
         invoice_num { 2 }
+        item_num { 2 }
       end
 
       before(:create) do |merchant, evaluator|
-        evaluator.item_num.times do |t|
-          item = create(:item, merchant: merchant)
+        evaluator.invoice_num.times do 
+          items = create_list(:item, evaluator.item_num, merchant: merchant)
           invoice = create(:invoice)
-          create(:invoice_item, item: item, invoice: invoice)
+          items.each do |item|
+            create(:invoice_item, item: item, invoice: invoice)
+          end
         end
       end
     end

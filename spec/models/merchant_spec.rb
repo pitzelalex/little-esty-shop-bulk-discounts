@@ -6,16 +6,16 @@ RSpec.describe Merchant, type: :model do
   let!(:merchant_2) { create(:disabled_merchant) }
   let!(:merchant_3) { create(:disabled_merchant) }
   let!(:merchant_4) { create(:disabled_merchant) }
-
   let!(:merchant_5) { create(:enabled_merchant) }
   let!(:merchant_6) { create(:enabled_merchant) }
   let!(:merchant_7) { create(:enabled_merchant) }
 
-
   describe "relationships" do
     it {should have_many :items}
-    it {should have_many(:invoices).through(:items)}
+    it {should have_many(:invoice_items).through(:items)}
+    it {should have_many(:invoices).through(:invoice_items)}
     it {should have_many(:customers).through(:invoices)}
+    it {should have_many(:transactions).through(:invoices)}
   end
 
   describe "validations" do
