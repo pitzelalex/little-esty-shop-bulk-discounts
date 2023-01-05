@@ -70,17 +70,42 @@ RSpec.describe 'The Admin Merchant Index page', type: :feature do
 
         expect(merchant_1.status).to eq('disabled')
         expect(merchant_5.status).to eq('enabled')
+        
+        click_button "Enable #{merchant_1.name}"
+
+        expect(current_path).to eq admin_merchants_path
+        expect(Merchant.find(merchant_1.id).status).to eq('enabled')
 
         click_button "Disable #{merchant_5.name}"
 
         expect(current_path).to eq admin_merchants_path
         expect(Merchant.find(merchant_5.id).status).to eq('disabled')
+      end
 
+      it 'has a section with the enabled merchants' do
+        visit admin_merchants_path
 
-        click_button "Enable #{merchant_1.name}"
+        expect(page).to have_content('Enabled Merchants')
 
-        expect(current_path).to eq admin_merchants_path
-        expect(Merchant.find(merchant_1.id).status).to eq('enabled')
+        within "#enabled_merchants" do 
+          expect(page).to have_content(merchant_4)
+          expect(page).to have_content(merchant_5)
+          expect(page).to_not have_content(merchant_2)
+        end
+      end 
+
+      xit 'has a section with the disabled merchants' do
+        visit admin_merchants_path
+
+        expect(page).to have_content('Disabled Merchants')
+
+        within "#enabled_merchants" do 
+          expect(page).to have_content(merchant_1)
+          expect(page).to have_content(merchant_2)
+          expect(page).to have_content(merchant_3)
+          expect(page).to_not have_content(merchant_4)
+          expect(page).to_not have_content(merchant_5)
+        end
       end
     end 
   end
