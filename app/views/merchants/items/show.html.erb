@@ -1,3 +1,4 @@
 <p><%= "Name: #{@item.name}" %></p>
 <p><%= "Description: #{@item.description}" %></p>
 <p><%= "Unit Price: #{@item.unit_price}" %></p>
+<%= button_to "Update Item Information", edit_merchant_item_path(@merchant, @item), method: :get %>
