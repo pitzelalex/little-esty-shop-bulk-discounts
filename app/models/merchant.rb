@@ -10,4 +10,12 @@ class Merchant < ApplicationRecord
   
   def top_customers
   end
+
+  def self.enabled_merchants
+    self.where(status: 'enabled')
+  end
+
+  def self.disabled_merchants
+    self.where(status: 'disabled')
+  end
 end
