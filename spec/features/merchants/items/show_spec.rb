@@ -15,5 +15,16 @@ RSpec.describe 'The merchant items show page', type: :feature do
       expect(page).to_not have_content "Name: Item_2"    
       expect(page).to_not have_content "Description: Description_2"    
     end
+
+    it 'has a link to update item information' do
+      item = merchant_2.items.first
+      visit merchant_item_path(merchant_2, item)
+
+      expect(page).to have_button "Update Item Information"
+
+      click_button "Update Item Information"
+
+      expect(current_path).to eq edit_merchant_item_path(merchant_2, item)
+    end
   end
 end
