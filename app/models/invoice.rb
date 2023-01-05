@@ -6,4 +6,10 @@ class Invoice < ApplicationRecord
   has_many :merchants, through: :items
 
   enum status: ['in progress', 'completed', 'cancelled']
+
+  def total_revenue
+    invoice_items.sum do |ii|
+      ii.revenue
+    end
+  end
 end

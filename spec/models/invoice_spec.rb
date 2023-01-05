@@ -13,7 +13,7 @@ RSpec.describe Invoice, type: :model do
     describe '#total_revenue' do
       it 'returns the total revenue for an invoice' do
         invoice_1 = create(:invoice_with_items, item_qty: 2, ii_qty: 5, ii_price: 3000)
-        invoice_1 = create(:invoice_with_items, item_qty: 3, ii_qty: 2, ii_price: 2500)
+        invoice_2 = create(:invoice_with_items, item_qty: 3, ii_qty: 2, ii_price: 2500)
 
         expect(invoice_1.total_revenue).to eq(30000)
         expect(invoice_2.total_revenue).to eq(15000)
