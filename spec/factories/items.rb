@@ -4,5 +4,9 @@ FactoryBot.define do
     sequence(:description) { |n| "Description_#{n}" }
     sequence(:unit_price) { |n| 10000 + (n * 1000) }
     association :merchant
+
+    trait :enabled do
+      status { 1 }
+    end
   end
 end
