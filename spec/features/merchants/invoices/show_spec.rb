@@ -18,15 +18,17 @@ RSpec.describe 'The merchant invocie show page', type: :feature do
     it "Displays a list of all that invoice's items with my merchant and their details" do
       merchant_1.invoices.group(:id).each do |invoice|
         visit merchant_invoice_path(merchant_1, invoice)
-        # within "#items" do
+        within "#items" do
           invoice.items.each do |item|
-            require 'pry'; binding.pry
+            # require 'pry'; binding.pry
             within "#item-#{item.id}" do
               expect(page).to have_content(item.name)
-              expect(page).to have_content("Quantity ordered: #{item.invoice_items.where(invoice_id: invoice.id).first}")
+              expect(page).to have_content("Quantity ordered: #{item.invoice_items.where(invoice_id: invoice.id).first.quantity}")
+              expect(page).to have_content("Sale price: #{item.invoice_items.where(invoice_id: invoice.id).first.unit_price}")
+              expect(page).to have_content("Status: #{item.invoice_items.where(invoice_id: invoice.id).first.status}")
             end
           end
-        # end
+        end
       end
     end
   end
