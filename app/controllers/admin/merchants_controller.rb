@@ -14,18 +14,20 @@ class Admin::MerchantsController < ApplicationController
 
   def update 
     @merchant = Merchant.find(params[:id])
-    if params[:name].empty?
-      redirect_to edit_admin_merchant_path(@merchant)
-      flash[:alert] = 'Name field must not be empty. Please fill out and resubmit.'
-    else
-      @merchant.update(merchant_params)
+    if params[:status] != nil
+      @merchant.update!(merchant_params)
+      redirect_to admin_merchants_path
+    elsif @merchant.update(merchant_params) 
       redirect_to admin_merchant_path(@merchant)
       flash[:notice] = 'Merchant Information Successfully Updated'
+    else
+      flash[:alert] = 'Name field must not be empty. Please fill out and resubmit.'
+      redirect_to edit_admin_merchant_path(@merchant)
     end
   end
 
   private
   def merchant_params
-    params.permit(:name)
+    params.permit(:name, :status)
   end
 end
