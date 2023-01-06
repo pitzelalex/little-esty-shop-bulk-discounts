@@ -152,6 +152,18 @@ RSpec.describe 'Admin Merchant Index page', type: :feature do
           expect(page).to have_content("Betty Draper")
         end
       end
+
+      it 'will show an error message if the merchant was not created' do 
+        visit admin_merchants_path
+
+        click_link("Create a New Merchant")
+
+        fill_in 'Name', with: ''
+        click_button 'Create Merchant'
+
+        expect(current_path).to eq new_admin_merchant_path 
+        expect(page).to have_content('Name field must not be empty. Please fill out and resubmit.')
+      end
     end
   end
 end
