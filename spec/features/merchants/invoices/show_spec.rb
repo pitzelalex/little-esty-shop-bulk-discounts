@@ -94,7 +94,7 @@ RSpec.describe 'The merchant invocie show page', type: :feature do
         click_button('Update Item Status')
       end
 
-      expect(page).to have_content('Status is not valid')
+      expect(page).to have_content("Status can't be blank")
     end
   end
 end
