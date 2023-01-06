@@ -2,6 +2,7 @@
 <p>Status: <%= @invoice.status %></p>
 <p>Created at: <%= @invoice.created_at.strftime("%A, %B %-d, %Y") %></p>
 <p>Customer: <%= @invoice.customer.first_name %> <%= @invoice.customer.last_name %></p>
+<p>Total revenue: <%= number_to_currency(@invoice.total_revenue / 100) %></p>
 <div id="items">
   <% @items.each do |item| %>
     <div id="item-<%= item.id %>">

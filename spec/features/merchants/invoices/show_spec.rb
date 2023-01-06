@@ -21,7 +21,6 @@ RSpec.describe 'The merchant invocie show page', type: :feature do
         visit merchant_invoice_path(merchant_1, invoice)
         within "#items" do
           invoice.items.each do |item|
-            # require 'pry'; binding.pry
             within "#item-#{item.id}" do
               expect(page).to have_content(item.name)
               expect(page).to have_content("Quantity ordered: #{item.invoice_items.where(invoice_id: invoice.id).first.quantity}")
@@ -36,6 +35,20 @@ RSpec.describe 'The merchant invocie show page', type: :feature do
           end
         end
       end
+    end
+
+    it 'displays the total revenue that will be generated from all of my items on the invoice' do
+      merchant_3 = create(:merchant)
+      invoice_1 = create(:invoice_with_items, item_qty: 2, ii_qty: 5, ii_price: 3000, merchant: merchant_3)
+      invoice_2 = create(:invoice_with_items, item_qty: 3, ii_qty: 2, ii_price: 2500, merchant: merchant_3)
+
+      visit merchant_invoice_path(merchant_3, invoice_1)
+
+      expect(page).to have_content("Total revenue: $300.00")
+
+      visit merchant_invoice_path(merchant_3, invoice_2)
+
+      expect(page).to have_content("Total revenue: $150.00")
     end
   end
 end
