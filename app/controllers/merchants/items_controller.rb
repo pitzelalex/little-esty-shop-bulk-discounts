@@ -9,9 +9,8 @@ class Merchants::ItemsController < ApplicationController
     @item = Item.find(params[:id])
   end
 
-  def edit
-    @merchant = Merchant.find(params[:merchant_id])
-    @item = Item.find(params[:id])
+  def new
+    @item = Item.new
   end
 
   def edit
