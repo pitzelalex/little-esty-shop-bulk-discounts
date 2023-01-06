@@ -66,5 +66,28 @@ RSpec.describe 'The merchant items index page', type: :feature do
         expect(item_1.status).to eq "enabled"
       end
     end
+
+    describe 'Enabled / Disabled item sections' do
+      it 'displays enabled items in the enabled items section' do
+        visit merchant_items_path(merchant_2)
+
+        expect(page).to have_content "Enabled Items"
+
+        within("#enabled_items") do
+          expect(page).to have_content "#{item_9.name}"
+          expect(page).to_not have_content "Item_1"
+        end
+      end
+
+      it 'displays disabled items in the disabled items section' do
+        item = merchant_2.items.first
+        visit merchant_items_path(merchant_2)
+
+        within("#disabled_items") do
+          expect(page).to have_content "#{item.name}"
+          expect(page).to_not have_content "Item_9"
+        end
+      end
+    end
   end
 end
