@@ -75,7 +75,7 @@ RSpec.describe 'The merchant invocie show page', type: :feature do
           expect(page).to have_button 'Update Item Status'
         end
       end
-      
+
       within "#item-#{item_1.id}" do
         select 'packaged', from: 'invoice_item[status]'
         click_button('Update Item Status')
