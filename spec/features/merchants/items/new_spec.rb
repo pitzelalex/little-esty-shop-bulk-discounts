@@ -28,5 +28,17 @@ RSpec.describe 'Merchant Item New page', type: :feature do
         expect(page).to have_content "New Item"
       end
     end
+
+    it 'redirects back to the new page and displays error message if submission is invalid' do
+      visit new_merchant_item_path(merchant_1)
+
+      fill_in "item[name]", with: 'New Item'
+      fill_in "item[description]", with: 'Test description'
+      fill_in "item[unit_price]", with: 'bad price data'
+      click_button "Create Item"
+      
+      expect(current_path).to eq new_merchant_item_path(merchant_1)
+      expect(page).to have_content "Unit price is not a number"
+    end
   end
 end
