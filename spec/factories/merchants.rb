@@ -1,16 +1,12 @@
 FactoryBot.define do
   factory :merchant do
     sequence(:name) { |n| "Merchant_#{n}" }
-
-    trait :disabled do 
-      status { 0 }
-    end
+    status { 0 }
     
     trait :enabled do 
       status { 1 }
     end
 
-    factory :disabled_merchant, traits: [:disabled]
     factory :enabled_merchant, traits: [:enabled]
 
     factory :merchant_with_items do

@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe Merchant, type: :model do
 
   let!(:merchant_1) { Merchant.create!(name: "KDavis", status: 0) }
-  let!(:merchant_2) { create(:disabled_merchant) }
-  let!(:merchant_3) { create(:disabled_merchant) }
-  let!(:merchant_4) { create(:disabled_merchant) }
+  let!(:merchant_2) { create(:merchant) }
+  let!(:merchant_3) { create(:merchant) }
+  let!(:merchant_4) { create(:merchant) }
   let!(:merchant_5) { create(:enabled_merchant) }
   let!(:merchant_6) { create(:enabled_merchant) }
   let!(:merchant_7) { create(:enabled_merchant) }

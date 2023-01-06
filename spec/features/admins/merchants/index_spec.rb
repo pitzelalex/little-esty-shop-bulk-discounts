@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe 'Admin Merchant Index page', type: :feature do
-  let!(:merchant_1) { create(:disabled_merchant) }
-  let!(:merchant_2) { create(:disabled_merchant) }
-  let!(:merchant_3) { create(:disabled_merchant) }
+  let!(:merchant_1) { create(:merchant) }
+  let!(:merchant_2) { create(:merchant) }
+  let!(:merchant_3) { create(:merchant) }
   let!(:merchant_4) { create(:enabled_merchant) }
   let!(:merchant_5) { create(:enabled_merchant) }
 
@@ -133,7 +133,7 @@ RSpec.describe 'Admin Merchant Index page', type: :feature do
         
         betty_merchant = Merchant.last
         expect(current_path).to eq admin_merchants_path
-        expect(page).to have_content(betty_merchant.name)
+        expect(page).to have_content("Betty Draper")
       end
 
       it 'will have the new merchant with a default status of disabled' do 
@@ -149,7 +149,7 @@ RSpec.describe 'Admin Merchant Index page', type: :feature do
         expect(betty_merchant.status).to eq('disabled')
 
         within "#disabled_merchants" do 
-          expect(page).to have_content(betty_merchant.name)
+          expect(page).to have_content("Betty Draper")
         end
       end
     end
