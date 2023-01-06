@@ -1,4 +1,14 @@
 <p>Id: <%= @invoice.id %></p>
 <p>Status: <%= @invoice.status %></p>
-<p>Created at: <%= @invoice.created_at.strftime("%A, %B %e, %Y") %></p>
+<p>Created at: <%= @invoice.created_at.strftime("%A, %B %-d, %Y") %></p>
 <p>Customer: <%= @invoice.customer.first_name %> <%= @invoice.customer.last_name %></p>
+<div id="items">
+  <% @items.each do |item| %>
+    <div id="item-<%= item.id %>">
+      <p><%= item.name %></p>
+      <p>Quantity ordered: <%= item.invoice_item_by_invoice(@invoice).quantity %></p>
+      <p>Sale price: <%= item.invoice_item_by_invoice(@invoice).unit_price %></p>
+      <p>Status: <%= item.invoice_item_by_invoice(@invoice).status %></p>
+    </div>
+  <% end %>
+</div>

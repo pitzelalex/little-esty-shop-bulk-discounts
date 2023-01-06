@@ -8,6 +8,16 @@ FactoryBot.define do
 
     trait :enabled do
       status { 1 }
+     end
+
+    factory :item_with_invoice_item do
+      transient do
+        invoice { create(:invoice) }
+      end
+
+      before(:create) do |item, evaluator|
+        create(:invoice_item, invoice: evaluator.invoice, item: item)
+      end
     end
   end
 end
