@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe 'Admin Merchant Index page', type: :feature do
-  let!(:merchant_1) { create(:disabled_merchant) }
-  let!(:merchant_2) { create(:disabled_merchant) }
-  let!(:merchant_3) { create(:disabled_merchant) }
+  let!(:merchant_1) { create(:merchant) }
+  let!(:merchant_2) { create(:merchant) }
+  let!(:merchant_3) { create(:merchant) }
   let!(:merchant_4) { create(:enabled_merchant) }
   let!(:merchant_5) { create(:enabled_merchant) }
 
@@ -72,14 +72,16 @@ RSpec.describe 'Admin Merchant Index page', type: :feature do
         expect(merchant_5.status).to eq('enabled')
         
         click_button "Enable #{merchant_1.name}"
+        merchant_1.reload
 
         expect(current_path).to eq admin_merchants_path
-        expect(Merchant.find(merchant_1.id).status).to eq('enabled')
+        expect(merchant_1.status).to eq('enabled')
 
         click_button "Disable #{merchant_5.name}"
+        merchant_5.reload
 
         expect(current_path).to eq admin_merchants_path
-        expect(Merchant.find(merchant_5.id).status).to eq('disabled')
+        expect(merchant_5.status).to eq('disabled')
       end
 
       it 'has a section with the enabled merchants' do
@@ -108,5 +110,48 @@ RSpec.describe 'Admin Merchant Index page', type: :feature do
         end
       end
     end 
+
+    describe 'create a new merchant' do 
+      it 'has a link to a form to create a new merchant' do 
+        visit admin_merchants_path
+
+        click_link("Create a New Merchant")
+
+        expect(current_path).to eq new_admin_merchant_path
+
+        expect(page).to have_field 'Name'
+        expect(page).to have_button 'Create Merchant'
+      end
+
+      it 'will show the new merchant on the admin merchants index page once form is submitted' do 
+        visit admin_merchants_path
+
+        click_link("Create a New Merchant")
+
+        fill_in 'Name', with: 'Betty Draper'
+        click_button 'Create Merchant'
+        
+        betty_merchant = Merchant.last
+        expect(current_path).to eq admin_merchants_path
+        expect(page).to have_content("Betty Draper")
+      end
+
+      it 'will have the new merchant with a default status of disabled' do 
+        visit admin_merchants_path
+
+        click_link("Create a New Merchant")
+
+        fill_in 'Name', with: 'Betty Draper'
+        click_button 'Create Merchant'
+        
+        betty_merchant = Merchant.last
+
+        expect(betty_merchant.status).to eq('disabled')
+
+        within "#disabled_merchants" do 
+          expect(page).to have_content("Betty Draper")
+        end
+      end
+    end
   end
 end
