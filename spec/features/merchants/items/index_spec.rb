@@ -4,7 +4,7 @@ RSpec.describe 'The merchant items index page', type: :feature do
 
   let!(:merchant_1) { create(:merchant_with_items) }
   let!(:merchant_2) { create(:merchant_with_items) }
-  let!(:item_9) { create(:item, :disabled, merchant: merchant_2) }
+  let!(:item_9) { create(:item, :enabled, merchant: merchant_2) }
 
   describe 'when a user visits a merchants items index page' do
     it 'displays all the names of a merchants items' do
@@ -35,32 +35,35 @@ RSpec.describe 'The merchant items index page', type: :feature do
 
     describe 'enabling and disabling items' do
       it 'has a button to disable or enable each item' do
-        visit merchant_items_path(merchant_1)
+        item_1 = merchant_2.items.first
+        enabled_item = merchant_2.items.last
+        visit merchant_items_path(merchant_2)
 
-        within("#item_1") do
+        within "#item_#{item_1.id}" do
           expect(page).to have_button "Enable"
         end
 
-        within("#item_5") do
+        within "#item_#{enabled_item.id}" do
           expect(page).to have_button "Disable"
         end
       end
 
       it 'can change an items status and return to the index page' do
-        item = merchant.items.first
+        item_1 = merchant_1.items.first
         visit merchant_items_path(merchant_1)
-        
-        within("#item_1") do
+
+        within("#item_#{item_1.id}") do
           click_button "Enable"
         end
 
         expect(current_path).to eq merchant_items_path(merchant_1)
-        
-        within("#item_1") do
+        item_1.reload
+
+        within "#item_#{item_1.id}" do
           expect(page).to have_button "Disable"
         end
 
-        expect(item.status).to eq "enabled"
+        expect(item_1.status).to eq "enabled"
       end
     end
   end
