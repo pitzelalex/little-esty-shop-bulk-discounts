@@ -10,7 +10,7 @@
       
       <p>Quantity ordered: <%= item.invoice_item_by_invoice(@invoice).quantity %></p>
       
-      <p>Sale price: <%= item.invoice_item_by_invoice(@invoice).unit_price %></p>
+      <p>Sale price: <%= number_to_currency(item.invoice_item_by_invoice(@invoice).unit_price) %></p>
       
       <p>Status: 
       <%= form_with model: item.invoice_item_by_invoice(@invoice), local: true do |form| %>
