@@ -18,8 +18,14 @@ RSpec.describe 'Admin Dashboard', type: :feature do
       expect(current_path).to eq admin_merchants_path
     end
 
-    xit 'has a link to the admin invoices index page' do 
+    it 'has a link to the admin invoices index page' do 
+      visit admin_index_path 
 
+      expect(page).to have_link "Admin Invoices Index"
+
+      click_link("Admin Invoices Index")
+      
+      expect(current_path).to eq admin_invoices_path
     end 
   end
 end
