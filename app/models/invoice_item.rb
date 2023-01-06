@@ -4,7 +4,8 @@ class InvoiceItem < ApplicationRecord
   enum status: ['pending', 'packaged', 'shipped']
 
   def revenue
-    cents = unit_price * quantity
+    InvoiceItem.where(id: self.id).sum('quantity*unit_price')
+    # cents = unit_price * quantity
     # helper.number_to_currency(cents / 100.0)
   end
 end
