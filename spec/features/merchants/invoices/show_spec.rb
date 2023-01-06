@@ -59,7 +59,7 @@ RSpec.describe 'The merchant invocie show page', type: :feature do
       invoice.items.each do |item|
         within "#item-#{item.id}" do
           expect(page).to have_select('invoice_item[status]', selected: item.invoice_item_by_invoice(invoice).status)
-          expect(page).to have_select('invoice_item[status]', options: ['pending','packaged', 'shipped'])
+          expect(page).to have_select('invoice_item[status]', options: ['', 'pending','packaged', 'shipped'])
         end
       end
     end
@@ -88,6 +88,13 @@ RSpec.describe 'The merchant invocie show page', type: :feature do
       end
 
       expect(item_1.invoice_item_by_invoice(invoice).status).to eq('packaged')
+
+      within "#item-#{item_1.id}" do
+        select '', from: 'invoice_item[status]'
+        click_button('Update Item Status')
+      end
+
+      expect(page).to have_content('Status is not valid')
     end
   end
 end

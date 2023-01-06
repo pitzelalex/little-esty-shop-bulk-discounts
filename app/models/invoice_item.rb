@@ -1,6 +1,7 @@
 class InvoiceItem < ApplicationRecord
   belongs_to :item
   belongs_to :invoice
+  validates :status, inclusion: { in: ['pending', 'packaged', 'shipped'], message: 'is not valid'}
   enum status: ['pending', 'packaged', 'shipped']
 
   def revenue

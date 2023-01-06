@@ -1,17 +1,19 @@
 class InvoiceItemsController < ApplicationController
   def update
-    ii = InvoiceItem.find(update_status[:id])
-    ii.update(status: update_status[:status])
+    ii = InvoiceItem.find(params[:id])
     mer = ii.invoice.merchants.first
     inv = ii.invoice
-    redirect_to merchant_invoice_path(mer, inv)
+    if ii.update(update_status)
+      redirect_to merchant_invoice_path(mer, inv)
+    else
+      flash[:alert] = ii.errors.full_messages.to_sentence
+      redirect_to merchant_invoice_path(mer, inv)
+    end
   end
 
   private
 
   def update_status
-    update = params.require(:invoice_item).permit(:status)
-    id = params.permit(:id)
-    update.merge(id)
+    params.require(:invoice_item).permit(:status)
   end
 end
