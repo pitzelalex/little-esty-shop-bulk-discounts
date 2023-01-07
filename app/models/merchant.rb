@@ -8,8 +8,9 @@ class Merchant < ApplicationRecord
   validates_presence_of :name 
 
   enum status: ['disabled', 'enabled']
-  
+
   def top_customers
+    self.customers.joins(:transactions).where(transactions: { result: 1 }).group('customers.id').order("count(transactions) desc").limit(5)
   end
 
   def self.enabled_merchants
