@@ -23,8 +23,16 @@ RSpec.describe Merchant, type: :model do
   end
 
   describe 'top_customers' do
-    xit 'returns the top 5 customers with the most successful transactions' do
-      expect(merchant_1.top_customers).to eq([])
+    it 'returns the top 5 customers with the most successful transactions' do
+      mer1 = create(:merchant)
+      cus1 = create(:customer_with_success_trans, merchant: mer1, inv_count: 3)
+      cus2 = create(:customer_with_success_trans, merchant: mer1, inv_count: 4)
+      cus3 = create(:customer_with_success_trans, merchant: mer1, inv_count: 1) # cus 3 not in top
+      cus4 = create(:customer_with_success_trans, merchant: mer1, inv_count: 2)
+      cus5 = create(:customer_with_success_trans, merchant: mer1, inv_count: 5)
+      cus6 = create(:customer_with_success_trans, merchant: mer1, inv_count: 6)
+
+      expect(mer1.top_customers).to eq([cus6, cus5, cus2, cus1, cus4])
     end
   end
 
