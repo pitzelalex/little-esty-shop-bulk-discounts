@@ -26,7 +26,7 @@ FactoryBot.define do
         invoice_num { 2 }
         item_num { 2 }
       end
-
+  
       before(:create) do |merchant, evaluator|
         evaluator.invoice_num.times do 
           items = create_list(:item, evaluator.item_num, merchant: merchant)
