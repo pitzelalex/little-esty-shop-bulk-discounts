@@ -104,22 +104,39 @@ RSpec.describe 'The merchant items index page', type: :feature do
 
     describe 'Popular Items' do
       it 'displays the name of the top 5 items with links to the item show page' do
+
+        item_1 = create(:item_with_successful_transaction, number_of_invoices: 5, merchant: merchant_1)
+        item_2 = create(:item_with_successful_transaction, number_of_invoices: 1, merchant: merchant_1)
+        item_3 = create(:item_with_successful_transaction, number_of_invoices: 3, merchant: merchant_1)
+        item_4 = create(:item_with_successful_transaction, number_of_invoices: 6, merchant: merchant_1)
+        item_5 = create(:item_with_successful_transaction, number_of_invoices: 2, merchant: merchant_1)
+        item_6 = create(:item_with_successful_transaction, number_of_invoices: 4, merchant: merchant_1)
+
         visit merchant_items_path(merchant_1)
 
-        save_and_open_page
         within("#top_items") do
-          expect(page).to have_content "1. ??"
-          expect(page).to have_link "Update link info"
-          expect(page).to have_content "5. ???"
-          expect(page).to have_link "Update link info"
+          expect(page).to have_content "1. #{item_4.name}"
+          expect(page).to have_link "#{item_4.name}"
+          expect(page).to have_content "5. #{item_5.name}"
+          expect(page).to have_link "#{item_5.name}"
         end
       end
 
       it 'displays the total revenue generated for each item in order from most to least' do
+
+        item_1 = create(:item_with_successful_transaction, number_of_invoices: 5, merchant: merchant_1)
+        item_2 = create(:item_with_successful_transaction, number_of_invoices: 1, merchant: merchant_1)
+        item_3 = create(:item_with_successful_transaction, number_of_invoices: 3, merchant: merchant_1)
+        item_4 = create(:item_with_successful_transaction, number_of_invoices: 6, merchant: merchant_1)
+        item_5 = create(:item_with_successful_transaction, number_of_invoices: 2, merchant: merchant_1)
+        item_6 = create(:item_with_successful_transaction, number_of_invoices: 4, merchant: merchant_1)
+
         visit merchant_items_path(merchant_1)
-        
-        expect("1. ?? Revenue 123").to appear_before "3. ?? 123"
-        expect("3. ?? 123").to appear_before "5. ?? Revenue: 123123"
+        #TODO:orderly didn't like/couldn't find expectations with names.
+        within("#top_items") do
+          expect("Total Revenue: 300000").to appear_before "Total Revenue: 200000"
+          expect("Total Revenue: 200000").to appear_before "Total Revenue: 100000"
+        end
       end
     end
   end

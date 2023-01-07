@@ -21,7 +21,7 @@ FactoryBot.define do
     end
 
     #TODO: consider adding price / qty if you want to do more granular testing
-    #number is sufficient because just give an item more sales
+    #number_of_invoices is sufficient because it gives an item more sales instead of modifying price
     factory :item_with_successful_transaction do
       transient do
         number_of_invoices { 2 }

@@ -1,3 +1,11 @@
+<h2>Top Items</h2>
+<div id="top_items">
+  <% @merchant.top_items.each_with_index do |item, index| %>
+    <%= "#{index + 1}. " %> <%= link_to "#{item.name}", merchant_item_path(@merchant, item)%>
+    <%= "Total Revenue: #{item.revenue}" %>
+    <br>
+  <% end %>
+</div>
 <section id="enabled_items">
 <h2>Enabled Items</h2>
   <% @items.enabled.each do |item| %>
