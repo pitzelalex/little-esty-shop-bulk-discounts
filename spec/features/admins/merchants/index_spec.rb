@@ -252,11 +252,11 @@ RSpec.describe 'Admin Merchant Index page', type: :feature do
         visit admin_merchants_path 
 
         within "#top_merchants" do 
-          expect(page).to have_content("#{merchant_6.name} - $ 2160000 in sales")
-          expect(page).to have_content("#{merchant_5.name} - $ 1800000 in sales")
-          expect(page).to have_content("#{merchant_1.name} - $ 960000 in sales")
-          expect(page).to have_content("#{merchant_2.name} - $ 540000 in sales")
-          expect(page).to have_content("#{merchant_4.name} - $ 240000 in sales")
+          expect(page).to have_content("1. #{merchant_6.name} - $ 2160000 in sales")
+          expect(page).to have_content("2. #{merchant_5.name} - $ 1800000 in sales")
+          expect(page).to have_content("3. #{merchant_1.name} - $ 960000 in sales")
+          expect(page).to have_content("4. #{merchant_2.name} - $ 540000 in sales")
+          expect(page).to have_content("5. #{merchant_4.name} - $ 240000 in sales")
         end 
       end
     end
