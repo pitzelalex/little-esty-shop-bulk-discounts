@@ -12,6 +12,10 @@ class Merchant < ApplicationRecord
   def top_customers
   end
 
+  def top_items
+    self.items.joins(:invoices).merge(Invoice.has_successful_transaction).select('items.*, sum(invoice_items.quantity * invoice_items.unit_price) as revenue').group('items.name', :id).order(revenue: :desc).limit(5)
+  end
+
   def self.enabled_merchants
     self.where(status: 'enabled')
   end
