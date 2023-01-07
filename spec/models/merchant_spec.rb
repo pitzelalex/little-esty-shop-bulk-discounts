@@ -10,6 +10,38 @@ RSpec.describe Merchant, type: :model do
   let!(:merchant_6) { create(:enabled_merchant) }
   let!(:merchant_7) { create(:enabled_merchant) }
 
+  let!(:invoice_1) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_1, transaction_qty: 1)}
+  let!(:invoice_2) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_1, transaction_qty: 1)}
+  let!(:invoice_3) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_1, transaction_qty: 1)}
+  let!(:invoice_4) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_1, transaction_qty: 1)}
+
+  let!(:invoice_5) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_2, transaction_qty: 2)}
+  let!(:invoice_6) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_2, transaction_qty: 2)}
+  let!(:invoice_7) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_2, transaction_qty: 2)}
+
+  let!(:invoice_8) { create(:invoice_with_transactions, invoice_has_success: false, merchant: merchant_3, transaction_qty: 2)}
+  let!(:invoice_9) { create(:invoice_with_transactions, invoice_has_success: false, merchant: merchant_3, transaction_qty: 2)}
+  let!(:invoice_10) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_3, transaction_qty: 2)}
+
+  let!(:invoice_11) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_4, transaction_qty: 1)}
+  let!(:invoice_12) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_4, transaction_qty: 1)}
+
+  let!(:invoice_13) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_5, transaction_qty: 2)}
+  let!(:invoice_14) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_5, transaction_qty: 2)}
+  let!(:invoice_15) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_5, transaction_qty: 2)}
+  let!(:invoice_16) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_5, transaction_qty: 2)}
+  let!(:invoice_17) { create(:invoice_with_transactions, invoice_has_success: false, merchant: merchant_5, transaction_qty: 2)}
+  let!(:invoice_18) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_5, transaction_qty: 2)}
+
+  let!(:invoice_19) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_6, transaction_qty: 1)}
+  let!(:invoice_20) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_6, transaction_qty: 1)}
+  let!(:invoice_21) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_6, transaction_qty: 1)}
+  let!(:invoice_22) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_6, transaction_qty: 1)}
+  let!(:invoice_23) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_6, transaction_qty: 1)}
+  let!(:invoice_24) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_6, transaction_qty: 1)}
+
+  let!(:invoice_25) { create(:invoice_with_transactions, invoice_has_success: false, merchant: merchant_7, transaction_qty: 1)}
+
   describe "relationships" do
     it {should have_many :items}
     it {should have_many(:invoice_items).through(:items)}
@@ -50,6 +82,12 @@ RSpec.describe Merchant, type: :model do
     describe 'disabled merchants' do
       it 'sorts the merchants with status as disabled' do
         expect(Merchant.disabled_merchants).to eq([merchant_1, merchant_2, merchant_3, merchant_4])
+      end
+    end
+
+    describe 'top 5 merchants' do 
+      it 'determines the top 5 merchants by total revenue with at least 1 successful transaction' do 
+        expect(Merchant.top_five_merchants).to eq([merchant_6, merchant_5, merchant_1, merchant_2, merchant_4])
       end
     end
   end

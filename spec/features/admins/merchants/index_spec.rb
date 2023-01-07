@@ -6,6 +6,13 @@ RSpec.describe 'Admin Merchant Index page', type: :feature do
   let!(:merchant_3) { create(:merchant) }
   let!(:merchant_4) { create(:enabled_merchant) }
   let!(:merchant_5) { create(:enabled_merchant) }
+  let!(:merchant_6) { create(:merchant) }
+  let!(:invoice_1) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_1, transaction_qty: 1)}
+  let!(:invoice_2) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_2, transaction_qty: 2)}
+  let!(:invoice_3) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_4, transaction_qty: 5)}
+  let!(:invoice_4) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_5, transaction_qty: 5)}
+  let!(:invoice_5) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_6, transaction_qty: 5)}
+  let!(:invoice_6) { create(:invoice_with_transactions, invoice_has_success: false, merchant: merchant_3, transaction_qty: 5)}
 
   describe 'when a user visits the admin merchant index page' do 
     it 'lists the name of each merchant in the system' do 
@@ -163,6 +170,25 @@ RSpec.describe 'Admin Merchant Index page', type: :feature do
 
         expect(current_path).to eq new_admin_merchant_path 
         expect(page).to have_content('Name field must not be empty. Please fill out and resubmit.')
+      end
+    end
+
+    describe 'top 5 merchants' do 
+      it 'lists the names of the top 5 merchants by total revenue generated' do 
+        
+        visit admin_merchants_path 
+ 
+        within "#top_merchants" do 
+          
+        end
+      end
+
+      xit 'each top 5 merchant name links to their admin merchant show page' do 
+
+      end
+
+      xit 'has the total revenue generated next to each merchant name' do 
+
       end
     end
   end
