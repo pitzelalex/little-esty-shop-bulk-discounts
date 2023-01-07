@@ -101,5 +101,26 @@ RSpec.describe 'The merchant items index page', type: :feature do
         expect(current_path).to eq new_merchant_item_path(merchant_1)
       end
     end
+
+    describe 'Popular Items' do
+      it 'displays the name of the top 5 items with links to the item show page' do
+        visit merchant_items_path(merchant_1)
+
+        save_and_open_page
+        within("#top_items") do
+          expect(page).to have_content "1. ??"
+          expect(page).to have_link "Update link info"
+          expect(page).to have_content "5. ???"
+          expect(page).to have_link "Update link info"
+        end
+      end
+
+      it 'displays the total revenue generated for each item in order from most to least' do
+        visit merchant_items_path(merchant_1)
+        
+        expect("1. ?? Revenue 123").to appear_before "3. ?? 123"
+        expect("3. ?? 123").to appear_before "5. ?? Revenue: 123123"
+      end
+    end
   end
 end
