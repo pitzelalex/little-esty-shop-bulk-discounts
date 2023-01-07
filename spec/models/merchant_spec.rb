@@ -28,6 +28,16 @@ RSpec.describe Merchant, type: :model do
     end
   end
 
+  describe 'top_items' do
+    it 'returns the top 5 items and their total revenue in ascending order by revenue for a merchant' do
+      create(:item_with_successful_transaction, merchant: merchant_2)
+
+      expect(merchant_2.top_items).to eq [item]
+      expect(item_1.revenue).to eq 
+      expect(item_4.revenue).to eq  
+    end
+  end
+
   describe 'disabled status' do
     it 'can set the merchant status to disabled' do
       expect(merchant_1.status).to eq("disabled")
