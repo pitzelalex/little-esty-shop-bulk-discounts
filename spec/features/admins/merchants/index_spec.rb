@@ -9,38 +9,6 @@ RSpec.describe 'Admin Merchant Index page', type: :feature do
   let!(:merchant_6) { create(:merchant) }
   let!(:merchant_7) { create(:enabled_merchant) }
 
-  let!(:invoice_1) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_1, transaction_qty: 1)}
-  let!(:invoice_2) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_1, transaction_qty: 1)}
-  let!(:invoice_3) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_1, transaction_qty: 1)}
-  let!(:invoice_4) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_1, transaction_qty: 1)}
-
-  let!(:invoice_5) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_2, transaction_qty: 2)}
-  let!(:invoice_6) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_2, transaction_qty: 2)}
-  let!(:invoice_7) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_2, transaction_qty: 2)}
-
-  let!(:invoice_8) { create(:invoice_with_transactions, invoice_has_success: false, merchant: merchant_3, transaction_qty: 2)}
-  let!(:invoice_9) { create(:invoice_with_transactions, invoice_has_success: false, merchant: merchant_3, transaction_qty: 2)}
-  let!(:invoice_10) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_3, transaction_qty: 2)}
-
-  let!(:invoice_11) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_4, transaction_qty: 1)}
-  let!(:invoice_12) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_4, transaction_qty: 1)}
-
-  let!(:invoice_13) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_5, transaction_qty: 2)}
-  let!(:invoice_14) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_5, transaction_qty: 2)}
-  let!(:invoice_15) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_5, transaction_qty: 2)}
-  let!(:invoice_16) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_5, transaction_qty: 2)}
-  let!(:invoice_17) { create(:invoice_with_transactions, invoice_has_success: false, merchant: merchant_5, transaction_qty: 2)}
-  let!(:invoice_18) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_5, transaction_qty: 2)}
-
-  let!(:invoice_19) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_6, transaction_qty: 1)}
-  let!(:invoice_20) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_6, transaction_qty: 1)}
-  let!(:invoice_21) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_6, transaction_qty: 1)}
-  let!(:invoice_22) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_6, transaction_qty: 1)}
-  let!(:invoice_23) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_6, transaction_qty: 1)}
-  let!(:invoice_24) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_6, transaction_qty: 1)}
-
-  let!(:invoice_25) { create(:invoice_with_transactions, invoice_has_success: false, merchant: merchant_7, transaction_qty: 1)}
-
   describe 'when a user visits the admin merchant index page' do 
     it 'lists the name of each merchant in the system' do 
       visit admin_merchants_path
@@ -60,16 +28,18 @@ RSpec.describe 'Admin Merchant Index page', type: :feature do
       expect(page).to have_link(merchant_3.name)
       expect(page).to have_link(merchant_4.name)
       expect(page).to have_link(merchant_5.name)
+      expect(page).to have_link(merchant_6.name)
+      expect(page).to have_link(merchant_7.name)
 
-      click_link(merchant_1.name)
+      click_link(merchant_7.name)
 
-      expect(current_path).to eq(admin_merchant_path(merchant_1))
+      expect(current_path).to eq(admin_merchant_path(merchant_7))
 
       visit admin_merchants_path
+     
+      click_link(merchant_3.name)
 
-      click_link(merchant_2.name)
-
-      expect(current_path).to eq(admin_merchant_path(merchant_2))
+      expect(current_path).to eq(admin_merchant_path(merchant_3))
     end
     
     describe 'enable and disable' do
@@ -201,8 +171,23 @@ RSpec.describe 'Admin Merchant Index page', type: :feature do
     end
 
     describe 'top 5 merchants' do 
-      it 'lists the names of the top 5 merchants by total revenue generated' do 
+      it 'lists the names of the top 5 merchants in order by total revenue generated' do 
+        4.times { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_1, transaction_qty: 1)}
         
+        3.times { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_2, transaction_qty: 2)}
+        
+        2.times { create(:invoice_with_transactions, invoice_has_success: false, merchant: merchant_3, transaction_qty: 2)}
+        create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_3, transaction_qty: 2)
+        
+        2.times { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_4, transaction_qty: 1)}
+        
+        5.times { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_5, transaction_qty: 2)}
+        create(:invoice_with_transactions, invoice_has_success: false, merchant: merchant_5, transaction_qty: 2)
+        
+        6.times { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_6, transaction_qty: 1)}
+  
+        create(:invoice_with_transactions, invoice_has_success: false, merchant: merchant_7, transaction_qty: 1)
+  
         visit admin_merchants_path 
 
         within "#top_merchants" do 
@@ -215,12 +200,64 @@ RSpec.describe 'Admin Merchant Index page', type: :feature do
         end
       end
 
-      xit 'each top 5 merchant name links to their admin merchant show page' do 
+      it 'each top 5 merchant name links to their admin merchant show page' do
+        4.times { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_1, transaction_qty: 1)}
+        
+        3.times { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_2, transaction_qty: 2)}
+        
+        2.times { create(:invoice_with_transactions, invoice_has_success: false, merchant: merchant_3, transaction_qty: 2)}
+        create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_3, transaction_qty: 2)
+        
+        2.times { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_4, transaction_qty: 1)}
+        
+        5.times { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_5, transaction_qty: 2)}
+        create(:invoice_with_transactions, invoice_has_success: false, merchant: merchant_5, transaction_qty: 2)
+        
+        6.times { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_6, transaction_qty: 1)}
+  
+        create(:invoice_with_transactions, invoice_has_success: false, merchant: merchant_7, transaction_qty: 1)
+  
+        visit admin_merchants_path 
 
+        within "#top_merchants" do 
+          expect(page).to have_link(merchant_6.name)
+          expect(page).to have_link(merchant_5.name)
+          expect(page).to have_link(merchant_1.name)
+          expect(page).to have_link(merchant_2.name)
+          expect(page).to have_link(merchant_4.name)
+
+          click_link(merchant_6.name)
+        end
+
+        expect(current_path).to eq(admin_merchant_path(merchant_6))
       end
 
-      xit 'has the total revenue generated next to each merchant name' do 
+      it 'has the total revenue generated next to each merchant name' do 
+        4.times { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_1, transaction_qty: 1)}
+        
+        3.times { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_2, transaction_qty: 2)}
+        
+        2.times { create(:invoice_with_transactions, invoice_has_success: false, merchant: merchant_3, transaction_qty: 2)}
+        create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_3, transaction_qty: 2)
+        
+        2.times { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_4, transaction_qty: 1)}
+        
+        5.times { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_5, transaction_qty: 2)}
+        create(:invoice_with_transactions, invoice_has_success: false, merchant: merchant_5, transaction_qty: 2)
+        
+        6.times { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_6, transaction_qty: 1)}
+  
+        create(:invoice_with_transactions, invoice_has_success: false, merchant: merchant_7, transaction_qty: 1)
+  
+        visit admin_merchants_path 
 
+        within "#top_merchants" do 
+          expect(page).to have_content("#{merchant_6.name} - $ 2160000 in sales")
+          expect(page).to have_content("#{merchant_5.name} - $ 1800000 in sales")
+          expect(page).to have_content("#{merchant_1.name} - $ 960000 in sales")
+          expect(page).to have_content("#{merchant_2.name} - $ 540000 in sales")
+          expect(page).to have_content("#{merchant_4.name} - $ 240000 in sales")
+        end 
       end
     end
   end
