@@ -25,7 +25,7 @@ RSpec.describe 'The merchant invocie show page', type: :feature do
               expect(page).to have_content(item.name)
               expect(page).to have_content("Quantity ordered: #{item.invoice_items.where(invoice_id: invoice.id).first.quantity}")
               expect(page).to have_content("Sale price: #{item.invoice_items.where(invoice_id: invoice.id).first.unit_price}")
-              expect(page).to have_content("Status: #{item.invoice_items.where(invoice_id: invoice.id).first.status}")
+              # expect(page).to have_content("Status: #{item.invoice_items.where(invoice_id: invoice.id).first.status}")
             end
           end
           merchant_2.invoices.group(:id).each do |invoice|
@@ -49,6 +49,52 @@ RSpec.describe 'The merchant invocie show page', type: :feature do
       visit merchant_invoice_path(merchant_3, invoice_2)
 
       expect(page).to have_content("Total revenue: $150.00")
+    end
+
+    it 'has a status drop down for each status with a default selection of the current status' do
+      invoice = merchant_1.invoices.first
+
+      visit merchant_invoice_path(merchant_1, invoice)
+
+      invoice.items.each do |item|
+        within "#item-#{item.id}" do
+          expect(page).to have_select('invoice_item[status]', selected: item.invoice_item_by_invoice(invoice).status)
+          expect(page).to have_select('invoice_item[status]', options: ['', 'pending','packaged', 'shipped'])
+        end
+      end
+    end
+
+    it "has a button to 'Update Item Status' which updates the invoice item status when clicked" do
+      invoice = merchant_1.invoices.first
+      item_1 = invoice.items.first
+
+      visit merchant_invoice_path(merchant_1, invoice)
+
+      invoice.items.each do |item|
+        within "#item-#{item.id}" do
+          expect(page).to have_button 'Update Item Status'
+        end
+      end
+
+      within "#item-#{item_1.id}" do
+        select 'packaged', from: 'invoice_item[status]'
+        click_button('Update Item Status')
+      end
+
+      expect(current_path).to eq(merchant_invoice_path(merchant_1, invoice))
+
+      within "#item-#{item_1.id}" do
+        expect(page).to have_select('invoice_item[status]', selected: 'packaged')
+      end
+
+      expect(item_1.invoice_item_by_invoice(invoice).status).to eq('packaged')
+
+      within "#item-#{item_1.id}" do
+        select '', from: 'invoice_item[status]'
+        click_button('Update Item Status')
+      end
+
+      expect(page).to have_content("Status can't be blank")
     end
   end
 end
