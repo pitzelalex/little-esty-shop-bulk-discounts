@@ -27,4 +27,8 @@ class Merchant < ApplicationRecord
     .select("merchants.*, sum(invoice_items.quantity * invoice_items.unit_price) as total_rev")
     .order(total_rev: :desc).limit(5)
   end
+
+  def revenue 
+    
+  end
 end

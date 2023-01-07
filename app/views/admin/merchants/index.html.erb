@@ -23,6 +23,9 @@
 <div id="top_merchants">
   <h3>Top Merchants</h3>
   <% @merchants.top_five_merchants.each do |top_merch| %>
-    <li><%= top_merch.name %></li>
+    <li>
+      <%= link_to top_merch.name, admin_merchant_path(top_merch) %>
+        <%= "- $ #{top_merch.total_rev} in sales" %>
+    </li>
   <% end %>  
 </div>
