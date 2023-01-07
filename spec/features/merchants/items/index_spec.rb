@@ -33,7 +33,7 @@ RSpec.describe 'The merchant items index page', type: :feature do
       end
     end
 
-    describe 'enabling and disabling items' do
+    describe 'Enabling and Disabling items' do
       it 'has a button to disable or enable each item' do
         item_1 = merchant_2.items.first
         enabled_item = merchant_2.items.last
@@ -87,6 +87,18 @@ RSpec.describe 'The merchant items index page', type: :feature do
           expect(page).to have_content "#{item.name}"
           expect(page).to_not have_content "Item_9"
         end
+      end
+    end
+
+    describe 'New Items' do
+      it 'has a link to create a new item' do
+        visit merchant_items_path(merchant_1)
+        
+        expect(page).to have_link "Create Item"
+
+        click_link "Create Item"
+
+        expect(current_path).to eq new_merchant_item_path(merchant_1)
       end
     end
   end

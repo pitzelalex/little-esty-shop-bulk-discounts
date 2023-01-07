@@ -7,9 +7,16 @@
   <% @items.each do |item| %>
     <div id="item-<%= item.id %>">
       <p><%= item.name %></p>
+      
       <p>Quantity ordered: <%= item.invoice_item_by_invoice(@invoice).quantity %></p>
-      <p>Sale price: <%= item.invoice_item_by_invoice(@invoice).unit_price %></p>
-      <p>Status: <%= item.invoice_item_by_invoice(@invoice).status %></p>
+      
+      <p>Sale price: <%= number_to_currency(item.invoice_item_by_invoice(@invoice).unit_price) %></p>
+      
+      <p>Status: 
+      <%= form_with model: item.invoice_item_by_invoice(@invoice), local: true do |form| %>
+        <%= form.select :status, ['', 'pending', 'packaged', 'shipped'] %>
+        <%= form.submit 'Update Item Status' %>
+      <% end %>
     </div>
   <% end %>
 </div>
