@@ -7,12 +7,39 @@ RSpec.describe 'Admin Merchant Index page', type: :feature do
   let!(:merchant_4) { create(:enabled_merchant) }
   let!(:merchant_5) { create(:enabled_merchant) }
   let!(:merchant_6) { create(:merchant) }
+  let!(:merchant_7) { create(:enabled_merchant) }
+
   let!(:invoice_1) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_1, transaction_qty: 1)}
-  let!(:invoice_2) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_2, transaction_qty: 2)}
-  let!(:invoice_3) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_4, transaction_qty: 5)}
-  let!(:invoice_4) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_5, transaction_qty: 5)}
-  let!(:invoice_5) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_6, transaction_qty: 5)}
-  let!(:invoice_6) { create(:invoice_with_transactions, invoice_has_success: false, merchant: merchant_3, transaction_qty: 5)}
+  let!(:invoice_2) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_1, transaction_qty: 1)}
+  let!(:invoice_3) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_1, transaction_qty: 1)}
+  let!(:invoice_4) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_1, transaction_qty: 1)}
+
+  let!(:invoice_5) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_2, transaction_qty: 2)}
+  let!(:invoice_6) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_2, transaction_qty: 2)}
+  let!(:invoice_7) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_2, transaction_qty: 2)}
+
+  let!(:invoice_8) { create(:invoice_with_transactions, invoice_has_success: false, merchant: merchant_3, transaction_qty: 2)}
+  let!(:invoice_9) { create(:invoice_with_transactions, invoice_has_success: false, merchant: merchant_3, transaction_qty: 2)}
+  let!(:invoice_10) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_3, transaction_qty: 2)}
+
+  let!(:invoice_11) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_4, transaction_qty: 1)}
+  let!(:invoice_12) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_4, transaction_qty: 1)}
+
+  let!(:invoice_13) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_5, transaction_qty: 2)}
+  let!(:invoice_14) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_5, transaction_qty: 2)}
+  let!(:invoice_15) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_5, transaction_qty: 2)}
+  let!(:invoice_16) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_5, transaction_qty: 2)}
+  let!(:invoice_17) { create(:invoice_with_transactions, invoice_has_success: false, merchant: merchant_5, transaction_qty: 2)}
+  let!(:invoice_18) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_5, transaction_qty: 2)}
+
+  let!(:invoice_19) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_6, transaction_qty: 1)}
+  let!(:invoice_20) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_6, transaction_qty: 1)}
+  let!(:invoice_21) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_6, transaction_qty: 1)}
+  let!(:invoice_22) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_6, transaction_qty: 1)}
+  let!(:invoice_23) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_6, transaction_qty: 1)}
+  let!(:invoice_24) { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_6, transaction_qty: 1)}
+
+  let!(:invoice_25) { create(:invoice_with_transactions, invoice_has_success: false, merchant: merchant_7, transaction_qty: 1)}
 
   describe 'when a user visits the admin merchant index page' do 
     it 'lists the name of each merchant in the system' do 
@@ -177,9 +204,14 @@ RSpec.describe 'Admin Merchant Index page', type: :feature do
       it 'lists the names of the top 5 merchants by total revenue generated' do 
         
         visit admin_merchants_path 
- 
+
         within "#top_merchants" do 
-          
+          expect(merchant_6.name).to appear_before(merchant_5.name)
+          expect(merchant_5.name).to appear_before(merchant_1.name)
+          expect(merchant_1.name).to appear_before(merchant_2.name)
+          expect(merchant_2.name).to appear_before(merchant_4.name)
+          expect(page).to_not have_content(merchant_3.name)
+          expect(page).to_not have_content(merchant_7.name)
         end
       end
 

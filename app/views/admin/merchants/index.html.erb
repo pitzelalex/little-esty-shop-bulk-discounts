@@ -19,3 +19,10 @@
     </div>
   <% end %>
 </section>
+
+<div id="top_merchants">
+  <h3>Top Merchants</h3>
+  <% @merchants.top_five_merchants.each do |top_merch| %>
+    <li><%= top_merch.name %></li>
+  <% end %>  
+</div>
