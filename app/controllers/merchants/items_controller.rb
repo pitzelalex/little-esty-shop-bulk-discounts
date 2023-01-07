@@ -45,7 +45,7 @@ class Merchants::ItemsController < ApplicationController
   end
 
   private
-
+  #TODO: not all calls to merchant_item_params have (:item)
   def merchant_item_params
     params.require(:item).permit(:name, :description, :unit_price, :status)
   end
