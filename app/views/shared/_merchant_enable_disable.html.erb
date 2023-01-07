@@ -1,0 +1,5 @@
+<% if merchant.status == 'disabled' %>
+  <%= button_to "Enable #{merchant.name}", admin_merchant_path(merchant), method: :patch, params: {status: 'enabled'} %>
+<% else %>
+  <%= button_to "Disable #{merchant.name}", admin_merchant_path(merchant), method: :patch, params: {status: 'disabled'} %>
+<% end %>

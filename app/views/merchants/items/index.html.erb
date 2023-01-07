@@ -1,22 +1,18 @@
 <section id="enabled_items">
-<h2>Enabled Items</h2>
+  <h2>Enabled Items</h2>
   <% @items.enabled.each do |item| %>
-    <div id="item_<%=item.id%>"> <%= link_to "#{item.name}", merchant_item_path(@merchant, item)  %> <% if item.status == 'disabled' %>
-        <%= button_to "Enable", merchant_item_path(@merchant, item), method: :patch, params: {status: 'enabled'} %>
-      <% else %>
-        <%= button_to "Disable", merchant_item_path(@merchant, item), method: :patch, params: {status: 'disabled'} %>
-      <% end %>
+    <div id="item_<%=item.id%>"> 
+      <%= link_to "#{item.name}", merchant_item_path(@merchant, item)  %> 
+      <%= render partial: 'shared/item_enable_disable', locals: { item: item } %>
     </div>
   <% end %>
 </section>
 <section id="disabled_items">
-<h2>Disabled Items</h2>
+  <h2>Disabled Items</h2>
   <% @items.disabled.each do |item| %>
-    <div id="item_<%=item.id%>"> <%= link_to "#{item.name}", merchant_item_path(@merchant, item)  %> <% if item.status == 'disabled' %>
-        <%= button_to "Enable", merchant_item_path(@merchant, item), method: :patch, params: {status: 'enabled'} %>
-      <% else %>
-        <%= button_to "Disable", merchant_item_path(@merchant, item), method: :patch, params: {status: 'disabled'} %>
-      <% end %>
+    <div id="item_<%=item.id%>"> 
+      <%= link_to "#{item.name}", merchant_item_path(@merchant, item)  %> 
+      <%= render partial: 'shared/item_enable_disable', locals: { item: item } %>
     </div>
   <% end %>
 </section>
