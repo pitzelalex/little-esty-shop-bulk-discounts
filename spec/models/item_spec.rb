@@ -31,5 +31,14 @@ RSpec.describe Item, type: :model do
         expect(item_2.invoice_item_by_invoice(invoice_2)).not_to eq(ii_1)
       end
     end
+
+    describe '#date_with_most_sales' do
+      it 'returns the date an item had the most sales' do
+        merchant_1 = create(:merchant)
+        item_1 = create(:item_with_dated_invoices, merchant: merchant_1)
+        
+        expect(item_1.date_with_most_sales.strftime("%A, %B %-d, %Y")).to eq "Thursday, December 8, 2022"
+      end
+    end
   end
 end
