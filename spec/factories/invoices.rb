@@ -35,5 +35,11 @@ FactoryBot.define do
         create(:successful_transaction, invoice: invoice)
       end
     end
+
+    factory :invoice_with_unsuccessful_transaction do
+      after(:create) do |invoice, options|
+        create(:transaction, invoice: invoice)
+      end
+    end
   end
 end

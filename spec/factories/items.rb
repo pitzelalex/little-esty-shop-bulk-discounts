@@ -34,5 +34,18 @@ FactoryBot.define do
         end
       end
     end
+
+    factory :item_with_unsuccessful_transaction do
+      transient do
+        number_of_invoices { 2 }
+      end
+
+      after(:create) do |item, options|
+        invoices = create_list(:invoice_with_unsuccessful_transaction, options.number_of_invoices)   
+        invoices.each do |invoice|
+          create(:invoice_item, quantity: 5, unit_price: 10000, invoice: invoice, item: item)
+        end
+      end
+    end
   end
 end
