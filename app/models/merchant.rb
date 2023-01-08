@@ -13,6 +13,10 @@ class Merchant < ApplicationRecord
     self.invoices.joins(:customer, :transactions).where(transactions: { result: 1 }).select('customers.*').group('customers.id').order("count(transactions) desc").limit(5)
   end
 
+  def customer_amount_of_successful_transactions(cus_id)
+    self.invoices.where(customer_id: cus_id).joins(:transactions).where(transactions: { result: 1 }).distinct.count
+  end
+
   def self.enabled_merchants
     self.where(status: 'enabled')
   end

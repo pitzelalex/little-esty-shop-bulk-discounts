@@ -22,7 +22,7 @@ RSpec.describe Merchant, type: :model do
     it { should validate_presence_of :name }
   end
 
-  describe 'top_customers' do
+  describe '#top_customers' do
     it 'returns the top 5 customers with the most successful transactions' do
       mer1 = create(:merchant)
       mer2 = create(:merchant)
@@ -34,7 +34,30 @@ RSpec.describe Merchant, type: :model do
       cus6 = create(:customer_with_success_trans, merchant: mer1, inv_count: 6)
       cus2_invoices = 5.times { create(:invoice_with_transactions, merchant: mer2, customer: cus2)}
       cus2_unsuccesful_invoices = 5.times { create(:invoice_with_transactions, merchant: mer1, customer: cus2, invoice_has_success: false)}
+      
       expect(mer1.top_customers.map(&:id)).to eq([cus6.id, cus5.id, cus2.id, cus1.id, cus4.id])
+    end
+  end
+
+  describe '#customer_amount_of_successful_transactions' do
+    it 'returns the number of successful transactions a customer has with this merchant' do
+      mer1 = create(:merchant)
+      mer2 = create(:merchant)
+      cus1 = create(:customer_with_success_trans, merchant: mer1, inv_count: 3)
+      cus2 = create(:customer_with_success_trans, merchant: mer1, inv_count: 4)
+      cus3 = create(:customer_with_success_trans, merchant: mer1, inv_count: 1) # cus 3 not in top
+      cus4 = create(:customer_with_success_trans, merchant: mer1, inv_count: 2)
+      cus5 = create(:customer_with_success_trans, merchant: mer1, inv_count: 5)
+      cus6 = create(:customer_with_success_trans, merchant: mer1, inv_count: 6)
+      cus2_invoices = 5.times { create(:invoice_with_transactions, merchant: mer2, customer: cus2)}
+      cus2_unsuccesful_invoices = 5.times { create(:invoice_with_transactions, merchant: mer1, customer: cus2, invoice_has_success: false)}
+
+      expect(mer1.customer_amount_of_successful_transactions(cus1.id)).to eq(3)
+      expect(mer1.customer_amount_of_successful_transactions(cus2.id)).to eq(4)
+      expect(mer1.customer_amount_of_successful_transactions(cus3.id)).to eq(1)
+      expect(mer1.customer_amount_of_successful_transactions(cus4.id)).to eq(2)
+      expect(mer1.customer_amount_of_successful_transactions(cus5.id)).to eq(5)
+      expect(mer1.customer_amount_of_successful_transactions(cus6.id)).to eq(6)
     end
   end
 
