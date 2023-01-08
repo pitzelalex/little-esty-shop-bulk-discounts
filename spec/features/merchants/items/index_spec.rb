@@ -111,6 +111,8 @@ RSpec.describe 'The merchant items index page', type: :feature do
         item_4 = create(:item_with_successful_transaction, number_of_invoices: 6, merchant: merchant_1)
         item_5 = create(:item_with_successful_transaction, number_of_invoices: 2, merchant: merchant_1)
         item_6 = create(:item_with_successful_transaction, number_of_invoices: 4, merchant: merchant_1)
+        item_7 = create(:item_with_unsuccessful_transaction, number_of_invoices: 11, merchant: merchant_1)
+        item_8 = create(:item_with_successful_transaction, number_of_invoices: 4, merchant: merchant_2)
 
         visit merchant_items_path(merchant_1)
 

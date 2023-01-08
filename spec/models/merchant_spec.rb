@@ -38,8 +38,8 @@ RSpec.describe Merchant, type: :model do
       item_5 = create(:item_with_successful_transaction, number_of_invoices: 2, merchant: merchant_2)
       item_6 = create(:item_with_successful_transaction, number_of_invoices: 4, merchant: merchant_2)
       item_7 = create(:item_with_successful_transaction, number_of_invoices: 11, merchant: merchant_3)
+      item_8 = create(:item_with_unsuccessful_transaction, number_of_invoices: 11, merchant: merchant_2)
 
-      #TODO: Add unsuccessful transactions
       expect(merchant_2.top_items).to eq [item_4, item_1, item_6, item_3, item_5]
       expect(merchant_2.top_items[0].revenue).to eq 300000 
       expect(merchant_2.top_items[4].revenue).to eq 100000
