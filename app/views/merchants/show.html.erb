@@ -1,3 +1,11 @@
 <%= @merchant.name %>
 <%= link_to "Items Index", "/merchants/#{@merchant.id}/items" %>
 <%= link_to "Invoice Index", "/merchants/#{@merchant.id}/invoices" %>
+
+<div id="top_customers">
+<h2>Top Customers</h2>
+  <%= @merchant.top_customers.each do |customer| %>
+  <!-- to do: create a top_customer_full_name method for transactions since top_customers returns transaction instances instead of customers -->
+    <p><%= customer.first_name %> <%= customer.last_name %></p>
+  <% end %>
+</div>

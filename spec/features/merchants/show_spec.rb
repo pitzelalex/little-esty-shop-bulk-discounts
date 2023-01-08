@@ -36,14 +36,14 @@ RSpec.describe 'it shows the merchant dashboard page', type: :feature do
 
     describe 'Favorite Customers' do
       it 'shows the names of the top 5 customers by number of successful transactions' do
-        cus1 = create(:customer_with_success_trans, merchant: mer1, inv_count: 3)
-        cus2 = create(:customer_with_success_trans, merchant: mer1, inv_count: 4)
-        cus3 = create(:customer_with_success_trans, merchant: mer1, inv_count: 1) # cus 3 not in top
-        cus4 = create(:customer_with_success_trans, merchant: mer1, inv_count: 2)
-        cus5 = create(:customer_with_success_trans, merchant: mer1, inv_count: 5)
-        cus6 = create(:customer_with_success_trans, merchant: mer1, inv_count: 6)
-        cus2_invoices = 5.times { create(:invoice_with_transactions, merchant: mer2, customer: cus2)}
-        cus2_unsuccesful_invoices = 5.times { create(:invoice_with_transactions, merchant: mer1, customer: cus2, invoice_has_success: false)}
+        cus1 = create(:customer_with_success_trans, merchant: merchant_1, inv_count: 3)
+        cus2 = create(:customer_with_success_trans, merchant: merchant_1, inv_count: 4)
+        cus3 = create(:customer_with_success_trans, merchant: merchant_1, inv_count: 1) # cus 3 not in top
+        cus4 = create(:customer_with_success_trans, merchant: merchant_1, inv_count: 2)
+        cus5 = create(:customer_with_success_trans, merchant: merchant_1, inv_count: 5)
+        cus6 = create(:customer_with_success_trans, merchant: merchant_1, inv_count: 6)
+        cus2_invoices = 5.times { create(:invoice_with_transactions, merchant: merchant_2, customer: cus2)}
+        cus2_unsuccesful_invoices = 5.times { create(:invoice_with_transactions, merchant: merchant_1, customer: cus2, invoice_has_success: false)}
 
         visit "/merchants/#{merchant_1.id}/dashboard"
 
