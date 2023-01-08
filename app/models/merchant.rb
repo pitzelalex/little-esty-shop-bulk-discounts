@@ -10,7 +10,7 @@ class Merchant < ApplicationRecord
   enum status: ['disabled', 'enabled']
 
   def top_customers
-    self.customers.joins(:transactions).where(transactions: { result: 1 }).group('customers.id').order("count(transactions) desc").limit(5)
+    self.invoices.joins(:customer, :transactions).where(transactions: { result: 1 }).select('customers.*').group('customers.id').order("count(transactions) desc").limit(5)
   end
 
   def self.enabled_merchants
