@@ -28,6 +28,24 @@ RSpec.describe Merchant, type: :model do
     end
   end
 
+  describe 'top_items' do
+    it 'returns the top 5 items and their total revenue in ascending order by revenue for a merchant' do
+      #factorybot revenue per invoice is 50000
+      item_1 = create(:item_with_successful_transaction, number_of_invoices: 5, merchant: merchant_2)
+      item_2 = create(:item_with_successful_transaction, number_of_invoices: 1, merchant: merchant_2)
+      item_3 = create(:item_with_successful_transaction, number_of_invoices: 3, merchant: merchant_2)
+      item_4 = create(:item_with_successful_transaction, number_of_invoices: 6, merchant: merchant_2)
+      item_5 = create(:item_with_successful_transaction, number_of_invoices: 2, merchant: merchant_2)
+      item_6 = create(:item_with_successful_transaction, number_of_invoices: 4, merchant: merchant_2)
+      item_7 = create(:item_with_successful_transaction, number_of_invoices: 11, merchant: merchant_3)
+
+      #TODO: Add unsuccessful transactions
+      expect(merchant_2.top_items).to eq [item_4, item_1, item_6, item_3, item_5]
+      expect(merchant_2.top_items[0].revenue).to eq 300000 
+      expect(merchant_2.top_items[4].revenue).to eq 100000
+    end
+  end
+
   describe 'disabled status' do
     it 'can set the merchant status to disabled' do
       expect(merchant_1.status).to eq("disabled")

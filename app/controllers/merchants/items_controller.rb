@@ -1,6 +1,7 @@
 class Merchants::ItemsController < ApplicationController
   def index
     @merchant = Merchant.find(params[:merchant_id])
+    # @top_items = @merchant.top_items
     @items = @merchant.items
   end
 
@@ -45,7 +46,7 @@ class Merchants::ItemsController < ApplicationController
   end
 
   private
-
+  #TODO: not all calls to merchant_item_params have (:item)
   def merchant_item_params
     params.require(:item).permit(:name, :description, :unit_price, :status)
   end

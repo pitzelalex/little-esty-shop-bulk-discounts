@@ -19,5 +19,33 @@ FactoryBot.define do
         create(:invoice_item, invoice: evaluator.invoice, item: item)
       end
     end
+
+    #TODO: consider adding price / qty if you want to do more granular testing
+    #number_of_invoices is sufficient because it gives an item more sales instead of modifying price
+    factory :item_with_successful_transaction do
+      transient do
+        number_of_invoices { 2 }
+      end
+
+      after(:create) do |item, options|
+        invoices = create_list(:invoice_with_successful_transaction, options.number_of_invoices)   
+        invoices.each do |invoice|
+          create(:invoice_item, quantity: 5, unit_price: 10000, invoice: invoice, item: item)
+        end
+      end
+    end
+
+    factory :item_with_unsuccessful_transaction do
+      transient do
+        number_of_invoices { 2 }
+      end
+
+      after(:create) do |item, options|
+        invoices = create_list(:invoice_with_unsuccessful_transaction, options.number_of_invoices)   
+        invoices.each do |invoice|
+          create(:invoice_item, quantity: 5, unit_price: 10000, invoice: invoice, item: item)
+        end
+      end
+    end
   end
 end

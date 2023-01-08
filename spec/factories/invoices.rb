@@ -30,6 +30,19 @@ FactoryBot.define do
       end
     end
 
+
+    factory :invoice_with_successful_transaction do
+      after(:create) do |invoice, options|
+        create(:successful_transaction, invoice: invoice)
+      end
+    end
+
+    factory :invoice_with_unsuccessful_transaction do
+      after(:create) do |invoice, options|
+        create(:transaction, invoice: invoice)
+      end
+    end
+
     factory :invoice_with_transactions do 
       transient do 
         merchant { create(:merchant) } 
