@@ -5,7 +5,7 @@
   <% @merchants.enabled_merchants.each do |merchant| %>
     <p><%= link_to merchant.name, admin_merchant_path(merchant) %></p>
     <div id="merchant_<%= merchant.id %>">
-      <%= render partial: 'shared/merchant_enable_disable', locals: { merchant: merchant } %>
+      <%= render partial: 'shared/enable_disable', locals: { entity: merchant, path: admin_merchant_path(merchant) } %>
     </div>
   <% end %>    
 </section>
@@ -14,7 +14,7 @@
   <% @merchants.disabled_merchants.each do |merchant| %>
     <p><%= link_to merchant.name, admin_merchant_path(merchant) %></p>
     <div id="merchant_<%= merchant.id %>">
-      <%= render partial: 'shared/merchant_enable_disable', locals: { merchant: merchant } %>
+      <%= render partial: 'shared/enable_disable', locals: { entity: merchant, path: admin_merchant_path(merchant) } %>
     </div>
   <% end %>
 </section>
