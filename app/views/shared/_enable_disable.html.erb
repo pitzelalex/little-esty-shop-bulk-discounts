@@ -1,0 +1,5 @@
+<% if entity.status == 'disabled' %>
+  <%= button_to "Enable", path, method: :patch, params: {status: 'enabled'} %>
+<% else %>
+  <%= button_to "Disable", path, method: :patch, params: {status: 'disabled'} %>
+<% end %>

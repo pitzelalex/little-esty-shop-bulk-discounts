@@ -47,25 +47,25 @@ RSpec.describe 'Admin Merchant Index page', type: :feature do
         visit admin_merchants_path
 
         within "#merchant_#{merchant_1.id}" do 
-          expect(page).to have_button "Enable Merchant"
-          expect(page).to_not have_button "Disable Merchant"
+          expect(page).to have_button "Enable"
+          expect(page).to_not have_button "Disable"
         end 
 
         within "#merchant_#{merchant_2.id}" do 
-          expect(page).to have_button "Enable Merchant"
+          expect(page).to have_button "Enable"
         end 
 
         within "#merchant_#{merchant_3.id}" do 
-          expect(page).to have_button "Enable Merchant"
+          expect(page).to have_button "Enable"
         end 
        
         within "#merchant_#{merchant_4.id}" do 
-          expect(page).to have_button "Disable Merchant"
-          expect(page).to_not have_button "Enable Merchant"
+          expect(page).to have_button "Disable"
+          expect(page).to_not have_button "Enable"
         end 
 
         within "#merchant_#{merchant_5.id}" do 
-          expect(page).to have_button "Disable Merchant"
+          expect(page).to have_button "Disable"
         end 
       end
 
@@ -74,14 +74,18 @@ RSpec.describe 'Admin Merchant Index page', type: :feature do
 
         expect(merchant_1.status).to eq('disabled')
         expect(merchant_5.status).to eq('enabled')
-        
-        click_button "Enable #{merchant_1.name}"
+
+        within("#merchant_#{merchant_1.id}") do
+          click_button "Enable"
+        end
         merchant_1.reload
 
         expect(current_path).to eq admin_merchants_path
         expect(merchant_1.status).to eq('enabled')
 
-        click_button "Disable #{merchant_5.name}"
+        within("#merchant_#{merchant_5.id}") do
+          click_button "Disable"
+        end
         merchant_5.reload
 
         expect(current_path).to eq admin_merchants_path
