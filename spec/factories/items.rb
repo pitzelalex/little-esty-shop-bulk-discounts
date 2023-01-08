@@ -49,9 +49,13 @@ FactoryBot.define do
     end
     
     factory :item_with_dated_invoices do
+      transient do
+        date_offset { 1.month }
+      end
+
       after(:create) do |item, options|
-        invoices = create_list(:invoice_with_successful_transaction, 3, :dated)
-        invoices2 = create_list(:invoice_with_successful_transaction, 2)
+        invoices = create_list(:invoice_with_successful_transaction, 3, :dated, date_offset: options.date_offset)
+        invoices2 = create_list(:invoice_with_successful_transaction, 2, :dated, date_offset: 1.month)
         invoices << invoices2
         invoices.flatten.each do |invoice|
           create(:invoice_item, quantity: 5, unit_price: 10000, invoice: invoice, item: item)
