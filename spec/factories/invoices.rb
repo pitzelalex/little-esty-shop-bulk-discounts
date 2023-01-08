@@ -11,6 +11,10 @@ FactoryBot.define do
       status { 2 }
     end
 
+    trait :dated do
+      created_at { Time.now - 1.month}
+    end
+
     factory :completed_invoice, traits: [:completed]
     factory :cancelled_invoice, traits: [:cancelled]
 
@@ -29,7 +33,6 @@ FactoryBot.define do
         end
       end
     end
-
 
     factory :invoice_with_successful_transaction do
       after(:create) do |invoice, options|
