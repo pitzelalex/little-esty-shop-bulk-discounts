@@ -52,5 +52,27 @@ RSpec.describe Merchant, type: :model do
         expect(Merchant.disabled_merchants).to eq([merchant_1, merchant_2, merchant_3, merchant_4])
       end
     end
+
+    describe 'top 5 merchants' do
+      it 'determines the top 5 merchants by total revenue with at least 1 successful transaction' do 
+        4.times { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_1, transaction_qty: 1)}
+        
+        3.times { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_2, transaction_qty: 2)}
+        
+        2.times { create(:invoice_with_transactions, invoice_has_success: false, merchant: merchant_3, transaction_qty: 2)}
+        create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_3, transaction_qty: 2)
+        
+        2.times { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_4, transaction_qty: 1)}
+        
+        5.times { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_5, transaction_qty: 2)}
+        create(:invoice_with_transactions, invoice_has_success: false, merchant: merchant_5, transaction_qty: 2)
+        
+        6.times { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_6, transaction_qty: 1)}
+
+        create(:invoice_with_transactions, invoice_has_success: false, merchant: merchant_7, transaction_qty: 1)
+  
+        expect(Merchant.top_five_merchants).to eq([merchant_6, merchant_5, merchant_1, merchant_2, merchant_4])
+      end
+    end
   end
 end
