@@ -5,10 +5,10 @@ RSpec.describe Customer, type: :model do
     it {should have_many :invoices}
     it {should have_many :transactions}
 
-    define 'instance methods' do
-      define '#full_name' do
+    describe 'instance methods' do
+      describe '#full_name' do
         it 'returns the customers full name' do
-          customer = create(:customer, first_name: 'Alex', last_name: 'Pitzel')
+          customer = Customer.create!(first_name: 'Alex', last_name: 'Pitzel')
 
           expect(customer.full_name).to eq('Alex Pitzel')
         end

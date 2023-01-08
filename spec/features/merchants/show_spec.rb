@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'it shows the merchant dashboard page', type: :feature do
-
   let!(:merchant_1) { create(:merchant) }
   let!(:merchant_2) { create(:merchant) }
 
@@ -56,8 +55,33 @@ RSpec.describe 'it shows the merchant dashboard page', type: :feature do
         end
       end
 
-      xit 'shows the number of successful transactions next to each customers name' do
+      it 'shows the number of successful transactions next to each customers name' do
+        cus1 = create(:customer_with_success_trans, merchant: merchant_1, inv_count: 3)
+        cus2 = create(:customer_with_success_trans, merchant: merchant_1, inv_count: 4)
+        cus3 = create(:customer_with_success_trans, merchant: merchant_1, inv_count: 1) # cus 3 not in top
+        cus4 = create(:customer_with_success_trans, merchant: merchant_1, inv_count: 2)
+        cus5 = create(:customer_with_success_trans, merchant: merchant_1, inv_count: 5)
+        cus6 = create(:customer_with_success_trans, merchant: merchant_1, inv_count: 6)
+        cus2_invoices = 5.times { create(:invoice_with_transactions, merchant: merchant_2, customer: cus2)}
+        cus2_unsuccesful_invoices = 5.times { create(:invoice_with_transactions, merchant: merchant_1, customer: cus2, invoice_has_success: false)}
 
+        visit "/merchants/#{merchant_1.id}/dashboard"
+
+        within "#customer-#{cus1.id}" do
+          expect(page).to have_content 'Number of successful transactions with this merchant: 3'
+        end
+        within "#customer-#{cus2.id}" do
+          expect(page).to have_content 'Number of successful transactions with this merchant: 4'
+        end
+        within "#customer-#{cus4.id}" do
+          expect(page).to have_content 'Number of successful transactions with this merchant: 2'
+        end
+        within "#customer-#{cus5.id}" do
+          expect(page).to have_content 'Number of successful transactions with this merchant: 5'
+        end
+        within "#customer-#{cus6.id}" do
+          expect(page).to have_content 'Number of successful transactions with this merchant: 6'
+        end
       end
     end
   end
