@@ -1,3 +1,12 @@
 <h2>Admin Dashboard</h2>
 <%= link_to "Admin Merchants Index", admin_merchants_path %>
 <%= link_to "Admin Invoices Index", admin_invoices_path %>
+
+<section id="top_customers"> 
+  <h3>Top 5 Customers</h3>
+  <% @top_5_customers.each_with_index do |customer, index| %>
+    <%= "#{index + 1}. " %> <%= customer.first_name %> <%= customer.last_name %>
+    <%= "- #{customer.num_transactions} purchases" %>
+    <br>
+  <% end %>
+</section>
