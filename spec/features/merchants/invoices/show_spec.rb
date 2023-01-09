@@ -25,7 +25,7 @@ RSpec.describe 'The merchant invocie show page', type: :feature do
             within "#item-#{item.id}" do
               expect(page).to have_content(item.name)
               expect(page).to have_content("Quantity ordered: #{item.invoice_items.where(invoice_id: invoice.id).first.quantity}")
-              expect(page).to have_content("Sale price: #{number_to_currency(item.invoice_items.where(invoice_id: invoice.id).first.unit_price)}")
+              expect(page).to have_content("Sale price: #{number_to_currency((item.invoice_items.where(invoice_id: invoice.id).first.unit_price)/100.00)}")
             end
           end
           merchant_2.invoices.group(:id).each do |invoice|

@@ -35,4 +35,11 @@ class Merchant < ApplicationRecord
   def items_ready_to_ship
     self.items.packaged.distinct
   end
+
+  def best_day 
+    self.invoices.joins(:transactions)
+    .where(transactions: {result: 1})
+    .select('invoices.created_at', 'sum(invoice_items.quantity * invoice_items.unit_price) as total_day_revenue')
+    .group(:created_at).order(total_day_revenue: :desc).first.created_at
+  end
 end
