@@ -17,6 +17,6 @@ class Item < ApplicationRecord
   end
 
   def shippable_invoices
-    self.invoices.joins(:invoice_items).where(invoice_items: { status: 1 })
+    self.invoices.joins(:invoice_items).where(invoice_items: { status: 1 }).distinct
   end
 end

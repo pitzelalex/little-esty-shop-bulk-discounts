@@ -15,6 +15,9 @@
 <div id='items_to_ship'>
   <h2>Items Ready to Ship:</h2>
   <% @merchant.items_ready_to_ship.each do |item| %>
-    <%= item.name %>
+    <div id="item-<%= item.id %>">
+      <p><%= item.name %></p>
+      <p>Shippable Invoices: <%= item.shippable_invoices.map { |invoice| invoice.id }.join(', ') %></p>
+    </div>
   <% end %>
 </div>

@@ -92,7 +92,22 @@ RSpec.describe 'it shows the merchant dashboard page', type: :feature do
           end
         end
 
-        it 'displays the id of the invoices that ordered that item next to each item'
+        it 'displays the id of the invoices that ordered that item next to each item' do
+          mer3 = create(:merchant)
+          inv1 = create(:invoice_with_items, merchant: mer3)
+          inv2 = create(:invoice_with_items, merchant: mer3)
+          create(:invoice_item, item: mer3.items.first, invoice: inv2, status: 1)
+
+          visit "/merchants/#{mer3.id}/dashboard"
+
+          within "#item-#{mer3.items[0].id}" do
+            expect(page).to have_content("Shippable Invoices: #{inv1.id}, #{inv2.id}")
+          end
+
+          within "#item-#{mer3.items[2].id}" do
+            expect(page).to have_content("Shippable Invoices: #{inv2.id}")
+          end
+        end
 
         it 'displays the ids as links to my merchants invoice show page'
       end
