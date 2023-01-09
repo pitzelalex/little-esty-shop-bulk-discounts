@@ -2,6 +2,6 @@ class AdminController < ApplicationController
   
   def index 
     @top_5_customers = Customer.top_5_customers
-    @invoices = Invoice.all
+    @incomplete_invoices = Invoice.incomplete_invoices
   end
 end
