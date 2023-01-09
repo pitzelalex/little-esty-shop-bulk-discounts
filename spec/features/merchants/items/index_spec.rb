@@ -153,7 +153,7 @@ RSpec.describe 'The merchant items index page', type: :feature do
         item_6 = create(:item_with_dated_invoices, merchant: merchant_1)
 
         visit merchant_items_path(merchant_1)
-save_and_open_page
+
         within("#top_items") do
           expect(page).to have_content "Top selling date for #{item_4.name} was #{item_4.date_with_most_sales.strftime("%A, %B %-d, %Y")}"
           expect(page).to have_content "Top selling date for #{item_1.name} was #{item_1.date_with_most_sales.strftime("%A, %B %-d, %Y")}"

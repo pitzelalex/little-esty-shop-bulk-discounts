@@ -62,5 +62,15 @@ FactoryBot.define do
         end
       end
     end
+
+    factory :packaged_item do
+      transient do
+        invoice { 'Requires Invoice as argument' }
+      end
+
+      after(:create) do |item, opt|
+        create(:invoice_item, invoice: opt.invoice, item: item, status: 1)
+      end
+    end
   end
 end

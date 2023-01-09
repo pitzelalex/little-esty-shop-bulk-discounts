@@ -4,10 +4,20 @@
 
 <div id="top_customers">
 <h2>Top Customers</h2>
-  <%= @merchant.top_customers.each do |customer| %>
+  <% @merchant.top_customers.each do |customer| %>
     <div id="customer-<%= customer.id %>">
       <p><%= customer.first_name %> <%= customer.last_name %></p>
       <p>Number of successful transactions with this merchant: <%= @merchant.customer_amount_of_successful_transactions(customer.id) %> </p>
+    </div>
+  <% end %>
+</div>
+
+<div id='items_to_ship'>
+  <h2>Items Ready to Ship:</h2>
+  <% @merchant.items_ready_to_ship.each do |item| %>
+    <div id="item-<%= item.id %>">
+      <p><%= item.name %></p>
+      <p>Shippable Invoices: <%= item.shippable_invoices.map { |invoice| link_to invoice.id, merchant_invoice_path(@merchant, invoice) }.join(', ').html_safe %></p>
     </div>
   <% end %>
 </div>
