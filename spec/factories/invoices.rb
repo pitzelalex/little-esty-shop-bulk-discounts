@@ -35,8 +35,7 @@ FactoryBot.define do
           if index.even?
             create(:invoice_item, invoice: invoice, item: item, quantity: opt.ii_qty, unit_price: opt.ii_price, status: 1)
           else
-            statuses = [0, 2]
-            create(:invoice_item, invoice: invoice, item: item, quantity: opt.ii_qty, unit_price: opt.ii_price, status: statuses.sample)
+            create(:invoice_item, invoice: invoice, item: item, quantity: opt.ii_qty, unit_price: opt.ii_price, status: 2)
           end
         end
       end
