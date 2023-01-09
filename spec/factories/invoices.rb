@@ -11,6 +11,13 @@ FactoryBot.define do
       status { 2 }
     end
 
+    transient do
+      date_offset { 1.month}
+    end
+    trait :dated do
+      created_at { Date.new(2023, 01, 8) - date_offset}
+    end
+
     factory :completed_invoice, traits: [:completed]
     factory :cancelled_invoice, traits: [:cancelled]
 

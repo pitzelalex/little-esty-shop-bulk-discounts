@@ -12,4 +12,8 @@ class Item < ApplicationRecord
   def invoice_item_by_invoice(invoice)
     self.invoice_items.where(invoice_id: invoice.id).first
   end
+  
+  def date_with_most_sales
+    self.invoices.merge(Invoice.has_successful_transaction).select('invoices.*', 'count(invoices.created_at) as number_of_sales').group(:id, :created_at).order(:number_of_sales).first.created_at
+  end
 end

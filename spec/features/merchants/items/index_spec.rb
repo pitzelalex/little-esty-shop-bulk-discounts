@@ -111,6 +111,8 @@ RSpec.describe 'The merchant items index page', type: :feature do
         item_4 = create(:item_with_successful_transaction, number_of_invoices: 6, merchant: merchant_1)
         item_5 = create(:item_with_successful_transaction, number_of_invoices: 2, merchant: merchant_1)
         item_6 = create(:item_with_successful_transaction, number_of_invoices: 4, merchant: merchant_1)
+        item_7 = create(:item_with_unsuccessful_transaction, number_of_invoices: 11, merchant: merchant_1)
+        item_8 = create(:item_with_successful_transaction, number_of_invoices: 4, merchant: merchant_2)
 
         visit merchant_items_path(merchant_1)
 
@@ -138,6 +140,23 @@ RSpec.describe 'The merchant items index page', type: :feature do
         within("#top_items") do
           expect("Total Revenue: 300000").to appear_before "Total Revenue: 200000"
           expect("Total Revenue: 200000").to appear_before "Total Revenue: 100000"
+        end
+      end
+
+      it 'displays the date with the most sales for each popular item' do
+
+        item_1 = create(:item_with_dated_invoices, date_offset: 1.month - 2.days, merchant: merchant_1)
+        item_2 = create(:item_with_dated_invoices, date_offset: 2.months, merchant: merchant_1)
+        item_3 = create(:item_with_dated_invoices, date_offset: 1.week, merchant: merchant_1)
+        item_4 = create(:item_with_dated_invoices, date_offset: 5.months, merchant: merchant_1)
+        item_5 = create(:item_with_dated_invoices, merchant: merchant_1)
+        item_6 = create(:item_with_dated_invoices, merchant: merchant_1)
+
+        visit merchant_items_path(merchant_1)
+save_and_open_page
+        within("#top_items") do
+          expect(page).to have_content "Top selling date for #{item_4.name} was #{item_4.date_with_most_sales.strftime("%A, %B %-d, %Y")}"
+          expect(page).to have_content "Top selling date for #{item_1.name} was #{item_1.date_with_most_sales.strftime("%A, %B %-d, %Y")}"
         end
       end
     end

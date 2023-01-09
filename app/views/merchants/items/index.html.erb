@@ -3,6 +3,7 @@
   <% @merchant.top_items.each_with_index do |item, index| %>
     <%= "#{index + 1}. " %> <%= link_to "#{item.name}", merchant_item_path(@merchant, item)%>
     <%= "Total Revenue: #{item.revenue}" %>
+    <%= "Top selling date for #{item.name} was #{item.date_with_most_sales.strftime("%A, %B %-d, %Y")}" %>
     <br>
   <% end %>
 </div>
