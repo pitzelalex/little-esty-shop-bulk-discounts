@@ -13,11 +13,14 @@
 </div>
 
 <div id='items_to_ship'>
-  <h2>Items Ready to Ship:</h2>
+  <p>Items Ready to Ship:</p>
   <% @merchant.items_ready_to_ship.each do |item| %>
     <div id="item-<%= item.id %>">
-      <p><%= item.name %></p>
-      <p>Shippable Invoices: <%= item.shippable_invoices.map { |invoice| link_to invoice.id, merchant_invoice_path(@merchant, invoice) }.join(', ').html_safe %></p>
+      <h3><%= item.name %></h3>
+      <h4>Shippable Invoices:</h4>
+        <% item.shippable_invoices.each do |invoice| %>
+          <p>Invoice #<%= link_to invoice.id, merchant_invoice_path(@merchant, invoice) %> - <%= invoice.created_at.strftime("%A, %B %-d, %Y") %></p>
+        <% end %>
     </div>
   <% end %>
 </div>
