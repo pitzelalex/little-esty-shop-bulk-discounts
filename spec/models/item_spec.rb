@@ -6,6 +6,7 @@ RSpec.describe Item, type: :model do
     it { should have_many :invoice_items }
     it { should have_many(:invoices).through(:invoice_items) }
     it { should have_many(:customers).through(:invoices) }
+    it { should have_many(:transactions).through(:invoices) }
   end
 
   describe 'validations' do
@@ -37,9 +38,9 @@ RSpec.describe Item, type: :model do
         merchant_1 = create(:merchant)
         item_1 = create(:item_with_dated_invoices, merchant: merchant_1)
         item_2 = create(:item_with_dated_invoices, date_offset: 2.years + 2.month, merchant: merchant_1)
-        #TODO: change factory to be able to add a second item with a different date schema to bolster testing   
-        expect(item_1.date_with_most_sales.strftime("%A, %B %-d, %Y")).to eq "Thursday, December 8, 2022"
-        expect(item_2.date_with_most_sales.strftime("%A, %B %-d, %Y")).to eq "Sunday, November 8, 2020"
+
+        expect(item_1.date_with_most_sales.strftime('%A, %B %-d, %Y')).to eq 'Thursday, December 8, 2022'
+        expect(item_2.date_with_most_sales.strftime('%A, %B %-d, %Y')).to eq 'Sunday, November 8, 2020'
       end
     end
 

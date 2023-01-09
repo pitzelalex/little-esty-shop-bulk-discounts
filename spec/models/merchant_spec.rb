@@ -1,6 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe Merchant, type: :model do
+  describe 'relationships' do
+    it { should have_many :items }
+    it { should have_many(:invoice_items).through(:items) }
+    it { should have_many(:invoices).through(:invoice_items) }
+    it { should have_many(:customers).through(:invoices) }
+    it { should have_many(:transactions).through(:invoices) }
+  end
+
+  describe "validations" do
+    it { should validate_presence_of :name }
+  end
 
   let!(:merchant_1) { Merchant.create!(name: "KDavis", status: 0) }
   let!(:merchant_2) { create(:merchant) }
@@ -10,17 +21,6 @@ RSpec.describe Merchant, type: :model do
   let!(:merchant_6) { create(:enabled_merchant) }
   let!(:merchant_7) { create(:enabled_merchant) }
 
-  describe "relationships" do
-    it {should have_many :items}
-    it {should have_many(:invoice_items).through(:items)}
-    it {should have_many(:invoices).through(:invoice_items)}
-    it {should have_many(:customers).through(:invoices)}
-    it {should have_many(:transactions).through(:invoices)}
-  end
-
-  describe "validations" do
-    it { should validate_presence_of :name }
-  end
 
   describe 'instance methods' do
     describe '#top_customers' do
@@ -34,7 +34,7 @@ RSpec.describe Merchant, type: :model do
         cus5 = create(:customer_with_success_trans, merchant: mer1, inv_count: 5)
         cus6 = create(:customer_with_success_trans, merchant: mer1, inv_count: 6)
         cus2_invoices = 5.times { create(:invoice_with_transactions, merchant: mer2, customer: cus2)}
-        cus2_unsuccesful_invoices = 5.times { create(:invoice_with_transactions, merchant: mer1, customer: cus2, invoice_has_success: false)}
+        cus2_unsuccesful_invoices = 5.times { create(:invoice_with_transactions, merchant: mer1, customer: cus2, invoice_has_success: false) }
 
         expect(mer1.top_customers).to eq([cus6, cus5, cus2, cus1, cus4])
       end
@@ -94,7 +94,6 @@ RSpec.describe Merchant, type: :model do
   end
 
   describe 'class methods' do
-
     describe '#top 5 merchants' do
       it 'determines the top 5 merchants by total revenue with at least 1 successful transaction' do 
         4.times { create(:invoice_with_transactions, invoice_has_success: true, merchant: merchant_1, transaction_qty: 1)}

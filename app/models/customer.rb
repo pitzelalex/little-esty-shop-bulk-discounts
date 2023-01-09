@@ -7,7 +7,7 @@ class Customer < ApplicationRecord
   def full_name
     "#{self.first_name} #{self.last_name}"
   end
-  
+
   def self.top_5_customers 
     joins(invoices: :transactions)
     .where(transactions: {result: 1})
