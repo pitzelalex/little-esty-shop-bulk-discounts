@@ -109,7 +109,23 @@ RSpec.describe 'it shows the merchant dashboard page', type: :feature do
           end
         end
 
-        it 'displays the ids as links to my merchants invoice show page'
+        it 'displays the ids as links to my merchants invoice show page' do
+          mer3 = create(:merchant)
+          inv1 = create(:invoice_with_items, merchant: mer3)
+          inv2 = create(:invoice_with_items, merchant: mer3)
+          create(:invoice_item, item: mer3.items.first, invoice: inv2, status: 1)
+
+          visit "/merchants/#{mer3.id}/dashboard"
+          save_and_open_page
+          within "#item-#{mer3.items[0].id}" do
+            expect(page).to have_link "#{inv1.id}", href: merchant_invoice_path(mer3, inv1)
+            expect(page).to have_link "#{inv2.id}", href: merchant_invoice_path(mer3, inv2)
+          end
+
+          within "#item-#{mer3.items[2].id}" do
+            expect(page).to have_link "#{inv2.id}", href: merchant_invoice_path(mer3, inv2)
+          end
+        end
       end
     end
   end

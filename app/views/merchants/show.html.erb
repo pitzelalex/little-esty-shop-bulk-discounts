@@ -17,7 +17,7 @@
   <% @merchant.items_ready_to_ship.each do |item| %>
     <div id="item-<%= item.id %>">
       <p><%= item.name %></p>
-      <p>Shippable Invoices: <%= item.shippable_invoices.map { |invoice| invoice.id }.join(', ') %></p>
+      <p>Shippable Invoices: <%= item.shippable_invoices.map { |invoice| link_to invoice.id, merchant_invoice_path(@merchant, invoice) }.join(', ').html_safe %></p>
     </div>
   <% end %>
 </div>
