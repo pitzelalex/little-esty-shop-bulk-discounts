@@ -263,6 +263,18 @@ RSpec.describe 'Admin Merchant Index page', type: :feature do
           expect(page).to have_content("5. #{merchant_4.name} - $ 240000 in sales")
         end 
       end
+
+      it 'displays the date with the most revenue for the top 5 merchants' do 
+        merchant_1 = create(:merchant_with_dated_invoices, date_offset: 4.months)
+        merchant_2 = create(:merchant_with_dated_invoices, date_offset: 2.years)
+
+        visit admin_merchants_path 
+
+        within "#top_merchants" do 
+          expect(page).to have_content("Top selling date for #{merchant_1.name} was #{merchant_1.best_day.strftime("%A, %B %-d, %Y")}.")
+          expect(page).to have_content("Top selling date for #{merchant_2.name} was #{merchant_2.best_day.strftime("%A, %B %-d, %Y")}.")
+        end
+      end
     end
   end
 end

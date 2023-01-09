@@ -24,6 +24,7 @@
   <% @merchants.top_five_merchants.each_with_index do |top_merch, index| %>
       <%= "#{index + 1}. " %> <%= link_to top_merch.name, admin_merchant_path(top_merch) %>
         <%= "- $ #{top_merch.total_rev} in sales" %>
+        <%= "Top selling date for #{top_merch.name} was #{top_merch.best_day.strftime("%A, %B %-d, %Y")}." %>
     <br>
   <% end %>  
 </div>
