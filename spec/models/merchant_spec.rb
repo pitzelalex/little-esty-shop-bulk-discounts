@@ -36,7 +36,7 @@ RSpec.describe Merchant, type: :model do
         cus2_invoices = 5.times { create(:invoice_with_transactions, merchant: mer2, customer: cus2)}
         cus2_unsuccesful_invoices = 5.times { create(:invoice_with_transactions, merchant: mer1, customer: cus2, invoice_has_success: false)}
 
-        expect(mer1.top_customers.map(&:id)).to eq([cus6.id, cus5.id, cus2.id, cus1.id, cus4.id])
+        expect(mer1.top_customers).to eq([cus6, cus5, cus2, cus1, cus4])
       end
     end
 
