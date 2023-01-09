@@ -2,7 +2,7 @@
 <p>Status: <%= @invoice.status %></p>
 <p>Created at: <%= @invoice.created_at.strftime("%A, %B %-d, %Y") %></p>
 <p>Customer: <%= @invoice.customer.first_name %> <%= @invoice.customer.last_name %></p>
-<p>Total revenue: <%= number_to_currency(@invoice.total_revenue / 100) %></p>
+<p>Total revenue: <%= number_to_currency(@invoice.total_revenue / 100.00) %></p>
 <div id="items">
   <% @items.each do |item| %>
     <div id="item-<%= item.id %>">
@@ -10,8 +10,8 @@
       
       <p>Quantity ordered: <%= item.invoice_item_by_invoice(@invoice).quantity %></p>
       
-      <p>Sale price: <%= number_to_currency(item.invoice_item_by_invoice(@invoice).unit_price) %></p>
-      
+      <p>Sale price: <%= number_to_currency((item.invoice_item_by_invoice(@invoice).unit_price)/100.00) %></p>
+
       <p>Status: 
       <%= form_with model: item.invoice_item_by_invoice(@invoice), local: true do |form| %>
         <%= form.select :status, ['', 'pending', 'packaged', 'shipped'] %>
