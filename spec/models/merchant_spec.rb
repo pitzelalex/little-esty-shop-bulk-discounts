@@ -124,6 +124,14 @@ RSpec.describe Merchant, type: :model do
   
         expect(Merchant.top_five_merchants).to eq([merchant_6, merchant_5, merchant_1, merchant_2, merchant_4])
       end
+
+      it 'determines the top selling date for a merchant' do 
+        merchant_1 = create(:merchant_with_dated_invoices, date_offset: 4.months)
+        merchant_2 = create(:merchant_with_dated_invoices, date_offset: 2.years)
+
+        expect(merchant_1.best_day.strftime("%A, %B %-d, %Y")).to eq("Thursday, September 8, 2022")
+        expect(merchant_2.best_day.strftime("%A, %B %-d, %Y")).to eq("Friday, January 8, 2021")
+      end
     end
   end
 end
