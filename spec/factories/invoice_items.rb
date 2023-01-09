@@ -6,5 +6,4 @@ FactoryBot.define do
     status { 0 }
     association :invoice
   end
-  
 end

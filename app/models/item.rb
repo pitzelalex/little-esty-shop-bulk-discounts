@@ -3,11 +3,10 @@ class Item < ApplicationRecord
   has_many :invoice_items
   has_many :invoices, through: :invoice_items
   has_many :customers, through: :invoices
-
-  enum status: [:disabled, :enabled]
-
   validates_presence_of :name, :description, :unit_price
   validates_numericality_of :unit_price
+  enum status: [:disabled, :enabled]
+  scope :packaged, -> { joins(:invoice_items).where(invoice_items: { status: 1 }) }
 
   def invoice_item_by_invoice(invoice)
     self.invoice_items.where(invoice_id: invoice.id).first

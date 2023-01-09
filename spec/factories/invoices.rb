@@ -31,8 +31,13 @@ FactoryBot.define do
 
       before(:create) do |invoice, opt|
         items = create_list(:item, opt.item_count, merchant: opt.merchant)
-        items.each do |item|
-          create(:invoice_item, invoice: invoice, item: item, quantity: opt.ii_qty, unit_price: opt.ii_price)
+        items.each_with_index do |item, index|
+          if index.even?
+            create(:invoice_item, invoice: invoice, item: item, quantity: opt.ii_qty, unit_price: opt.ii_price, status: 1)
+          else
+            statuses = [0, 2]
+            create(:invoice_item, invoice: invoice, item: item, quantity: opt.ii_qty, unit_price: opt.ii_price, status: statuses.sample)
+          end
         end
       end
     end

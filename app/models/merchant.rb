@@ -5,12 +5,13 @@ class Merchant < ApplicationRecord
   has_many :customers, through: :invoices
   has_many :transactions, through: :invoices
 
-  validates_presence_of :name 
+  validates_presence_of :name
 
-  enum status: ['disabled', 'enabled']
+  enum status: %w[disabled enabled]
 
   def top_customers
-    self.invoices.joins(:customer, :transactions).where(transactions: { result: 1 }).select('customers.*').group('customers.id').order("count(transactions) desc").limit(5)
+    self.invoices.joins(:customer,
+                   :transactions).where(transactions: { result: 1 }).select('customers.*').group('customers.id').order('count(transactions) desc').limit(5)
   end
 
   def customer_amount_of_successful_transactions(cus_id)
@@ -18,22 +19,20 @@ class Merchant < ApplicationRecord
   end
 
   def top_items
-    self.items.joins(:invoices).merge(Invoice.has_successful_transaction).select('items.*, sum(invoice_items.quantity * invoice_items.unit_price) as revenue').group('items.name', :id).order(revenue: :desc).limit(5)
+    self.items.joins(:invoices).merge(Invoice.has_successful_transaction).select('items.*, sum(invoice_items.quantity * invoice_items.unit_price) as revenue').group(
+      'items.name', :id
+    ).order(revenue: :desc).limit(5)
   end
 
-  def self.enabled_merchants
-    self.where(status: 'enabled')
+  def self.top_five_merchants
+    self.joins(:invoices, :transactions)
+      .where(transactions: { result: 1 })
+      .group(:id)
+      .select('merchants.*, sum(invoice_items.quantity * invoice_items.unit_price) as total_rev')
+      .order(total_rev: :desc).limit(5)
   end
 
-  def self.disabled_merchants
-    self.where(status: 'disabled')
-  end
-
-  def self.top_five_merchants 
-    joins(:invoices, :transactions)
-    .where(transactions: {result: 1})
-    .group(:id)
-    .select("merchants.*, sum(invoice_items.quantity * invoice_items.unit_price) as total_rev")
-    .order(total_rev: :desc).limit(5)
+  def items_ready_to_ship
+    self.items.packaged.distinct
   end
 end
