@@ -42,5 +42,18 @@ RSpec.describe Item, type: :model do
         expect(item_2.date_with_most_sales.strftime("%A, %B %-d, %Y")).to eq "Sunday, November 8, 2020"
       end
     end
+
+    describe '#shippable_invoices' do
+      it 'returns the invoices that have an invoice item with this item that is packaged' do
+        inv1 = create(:invoice)
+        inv2 = create(:invoice)
+        inv3 = create(:invoice)
+        item = create(:packaged_item, invoice: inv1)
+        create(:invoice_item, item: item, invoice: inv2)
+        create(:packaged_ii, item: item, invoice: inv3)
+
+        expect(item.shippable_invoices).to eq([inv1, inv3])
+      end
+    end
   end
 end
