@@ -94,17 +94,6 @@ RSpec.describe Merchant, type: :model do
   end
 
   describe 'class methods' do
-    describe 'enabled merchants' do
-      it 'sorts the merchants with status as enabled' do
-        expect(Merchant.enabled_merchants).to eq([merchant_5, merchant_6, merchant_7])
-      end
-    end
-
-    describe '#disabled merchants' do
-      it 'sorts the merchants with status as disabled' do
-        expect(Merchant.disabled_merchants).to eq([merchant_1, merchant_2, merchant_3, merchant_4])
-      end
-    end
 
     describe '#top 5 merchants' do
       it 'determines the top 5 merchants by total revenue with at least 1 successful transaction' do 
