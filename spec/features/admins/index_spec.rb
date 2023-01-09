@@ -76,5 +76,49 @@ RSpec.describe 'Admin Dashboard', type: :feature do
         end
       end
     end
+
+    describe 'incomplete invoices' do 
+      it 'has a section for incomplete invoices with items that have not been shipped' do 
+        inv1 = create(:invoice_with_items)
+        inv2 = create(:invoice_with_items)
+        inv3 = create(:invoice)
+        ii1 = create(:invoice_item, invoice: inv3, status: 2)
+        ii2 = create(:invoice_item, invoice: inv3, status: 2)
+
+        visit admin_index_path 
+
+        within '#incomplete_invoices' do 
+          expect(page).to have_content(inv1.id)
+          expect(page).to have_content(inv2.id)
+          expect(page).to_not have_content(inv3.id)
+        end
+      end
+
+      it "has a link to the invoice's admin show page for each invoice id" do 
+        inv1 = create(:invoice_with_items)
+        inv2 = create(:invoice_with_items)
+        inv3 = create(:invoice)
+        ii1 = create(:invoice_item, invoice: inv3, status: 2)
+        ii2 = create(:invoice_item, invoice: inv3, status: 2)
+
+        visit admin_index_path 
+
+        within "#incomplete_invoices_#{inv1.id}" do 
+          expect(page).to have_link "#{inv1.id}"
+          click_link inv1.id
+        end
+
+        expect(current_path).to eq admin_invoice_path(inv1)
+
+        visit admin_index_path 
+
+        within "#incomplete_invoices_#{inv2.id}" do 
+          expect(page).to have_link "#{inv2.id}"
+          click_link inv2.id
+        end
+
+        expect(current_path).to eq admin_invoice_path(inv2)
+      end
+    end
   end
 end
