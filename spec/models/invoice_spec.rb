@@ -23,14 +23,15 @@ RSpec.describe Invoice, type: :model do
 
   describe 'class methods' do 
     describe 'incomplete_invoices' do 
-      it 'returns the invoices with items not yet shipped' do 
-        inv1 = create(:invoice_with_items)
-        inv2 = create(:invoice_with_items)
-        inv3 = create(:invoice)
-        ii1 = create(:invoice_item, invoice: inv3, status: 2)
-        ii2 = create(:invoice_item, invoice: inv3, status: 2)
+      it 'returns the invoices with items not yet shipped in order from oldest to youngest' do 
+        inv1 = create(:invoice_with_items, created_at: Date.new(2018,8,04))
+        inv2 = create(:invoice_with_items, created_at: Date.new(2021,12,20))
+        inv3 = create(:invoice_with_items, created_at: Date.new(2019,3,21))
+        inv4 = create(:invoice)
+        ii1 = create(:invoice_item, invoice: inv4, status: 2)
+        ii2 = create(:invoice_item, invoice: inv4, status: 2)
       
-        expect(Invoice.incomplete_invoices).to eq([inv1, inv2])
+        expect(Invoice.incomplete_invoices).to eq([inv1, inv3, inv2])
       end
     end
   end

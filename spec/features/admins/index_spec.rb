@@ -119,6 +119,41 @@ RSpec.describe 'Admin Dashboard', type: :feature do
 
         expect(current_path).to eq admin_invoice_path(inv2)
       end
+
+      it 'displays the date for each incomplete invoice ordered from oldest to newest' do 
+          inv1 = create(:invoice_with_items, created_at: Date.new(2018,8,04))
+          inv2 = create(:invoice_with_items, created_at: Date.new(2021,12,20))
+          inv3 = create(:invoice_with_items, created_at: Date.new(2019,3,21))
+          inv4 = create(:invoice)
+          ii1 = create(:invoice_item, invoice: inv4, status: 2)
+          ii2 = create(:invoice_item, invoice: inv4, status: 2)
+  
+          visit admin_index_path 
+
+          within '#incomplete_invoices' do 
+            expect(page).to have_content("#{inv1.id} - Saturday, August 4, 2018")
+            expect(page).to have_content("#{inv3.id} - Thursday, March 21, 2019")
+            expect(page).to have_content("#{inv2.id} - Monday, December 20, 2021")
+            expect(page).to_not have_content(inv4.id)
+          end
+        end 
+
+      it 'will sort the incomplete invoices from oldest to newest' do 
+        inv1 = create(:invoice_with_items, created_at: Date.new(2018,8,04))
+        inv2 = create(:invoice_with_items, created_at: Date.new(2021,12,20))
+        inv3 = create(:invoice_with_items, created_at: Date.new(2019,3,21))
+        inv4 = create(:invoice)
+        ii1 = create(:invoice_item, invoice: inv4, status: 2)
+        ii2 = create(:invoice_item, invoice: inv4, status: 2)
+
+        visit admin_index_path 
+
+        within '#incomplete_invoices' do 
+          expect("#{inv1.id}").to appear_before("#{inv3.id}")
+          expect("#{inv3.id}").to appear_before("#{inv2.id}")
+          expect(page).to_not have_content(inv4.id)
+        end
+      end
     end
   end
 end
