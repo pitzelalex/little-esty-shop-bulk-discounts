@@ -5,24 +5,23 @@ class Admin::MerchantsController < ApplicationController
   end
 
   def show
-    @merchant = Merchant.find(params[:id])
+    merchant
   end
 
   def edit
-    @merchant = Merchant.find(params[:id])
+    merchant
   end
 
   def update 
-    @merchant = Merchant.find(params[:id])
     if params[:status] != nil
-      @merchant.update!(merchant_params)
+      merchant.update!(merchant_params)
       redirect_to admin_merchants_path
-    elsif @merchant.update(merchant_params) 
-      redirect_to admin_merchant_path(@merchant)
+    elsif merchant.update(merchant_params) 
+      redirect_to admin_merchant_path(merchant)
       flash[:notice] = 'Merchant Information Successfully Updated'
     else
       flash[:alert] = 'Name field must not be empty. Please fill out and resubmit.'
-      redirect_to edit_admin_merchant_path(@merchant)
+      redirect_to edit_admin_merchant_path(merchant)
     end
   end
 
@@ -40,7 +39,12 @@ class Admin::MerchantsController < ApplicationController
   end
 
   private
+
   def merchant_params
     params.permit(:name, :status)
+  end
+
+  def merchant
+    @merchant ||= Merchant.find(params[:id])
   end
 end
