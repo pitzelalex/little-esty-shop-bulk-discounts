@@ -17,19 +17,18 @@ FactoryBot.define do
     factory :invoice_with_items do
       transient do
         merchant { create(:merchant) }
-        item_qty { 2 }
+        item_count { 2 }
         ii_qty { 5 }
         ii_price { 3000 }
       end
 
       before(:create) do |invoice, opt|
-        items = create_list(:item, opt.item_qty, merchant: opt.merchant)
+        items = create_list(:item, opt.item_count, merchant: opt.merchant)
         items.each do |item|
           create(:invoice_item, invoice: invoice, item: item, quantity: opt.ii_qty, unit_price: opt.ii_price)
         end
       end
     end
-
 
     factory :invoice_with_successful_transaction do
       after(:create) do |invoice, options|
@@ -43,28 +42,28 @@ FactoryBot.define do
       end
     end
 
-    factory :invoice_with_transactions do 
-      transient do 
-        merchant { create(:merchant) } 
-        invoice_has_success { true } 
-        item_qty { 2 }
+    factory :invoice_with_transactions do
+      transient do
+        merchant { create(:merchant) }
+        invoice_has_success { true }
+        item_count { 2 }
         ii_qty { 5 }
         ii_price { 3000 }
         transaction_qty { 2 }
-      end 
+      end
 
-      before(:create) do |invoice, opt|
-        items = create_list(:item, opt.item_qty, merchant: opt.merchant)
+     before(:create) do |invoice, opt|
+        items = create_list(:item, opt.item_count, merchant: opt.merchant)
         items.each do |item|
           create(:invoice_item, invoice: invoice, item: item, quantity: opt.ii_qty, unit_price: opt.ii_price)
         end
 
-        if opt.invoice_has_success 
+        if opt.invoice_has_success
           create(:transaction, result: 1, invoice: invoice)
-          create_list(:transaction, (opt.transaction_qty - 1), invoice: invoice )
-        else 
-          create_list(:transaction, (opt.transaction_qty), invoice: invoice )
-        end 
+          create_list(:transaction, (opt.transaction_qty - 1), invoice: invoice)
+        else
+          create_list(:transaction, opt.transaction_qty, invoice: invoice)
+        end
       end
     end
   end
