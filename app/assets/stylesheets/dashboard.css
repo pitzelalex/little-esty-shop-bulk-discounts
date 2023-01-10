@@ -9,3 +9,15 @@ h1 {
   text-align: center;
   font-size: 40pt;
 }
+
+.subtitle{
+  float: left;
+}
+
+nav {
+  float: right;
+}
+
+.header {
+  margin: 0px 50px 150px 50px;
+}
