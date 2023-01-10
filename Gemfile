@@ -47,6 +47,7 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'pry-rails'
   gem 'factory_bot_rails'
+  gem 'httparty'
 end
 
 group :development do
