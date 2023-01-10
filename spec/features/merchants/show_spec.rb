@@ -42,7 +42,7 @@ RSpec.describe 'it shows the merchant dashboard page', type: :feature do
       it 'shows the names of the top 5 customers by number of successful transactions' do
         cus2_invoices = 5.times { create(:invoice_with_transactions, merchant: merchant_2, customer: cus2)}
         cus2_unsuccesful_invoices = 5.times { create(:invoice_with_transactions, merchant: merchant_1, customer: cus2, invoice_has_success: false)}
-
+        
         visit "/merchants/#{merchant_1.id}/dashboard"
 
         within "#top_customers" do
@@ -76,6 +76,7 @@ RSpec.describe 'it shows the merchant dashboard page', type: :feature do
           expect(page).to have_content 'Number of successful transactions with this merchant: 6'
         end
       end
+
       describe 'Items Ready to Ship' do
         it 'has a section for items ready to ship that displays the name of all items that are ready to be shipped' do
           mer3 = create(:merchant)
