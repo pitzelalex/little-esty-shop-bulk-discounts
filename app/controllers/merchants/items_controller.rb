@@ -1,5 +1,4 @@
 class Merchants::ItemsController < ApplicationController
-  layout 'dashboard'
 
   def index
     merchant
@@ -12,6 +11,7 @@ class Merchants::ItemsController < ApplicationController
   end
 
   def new
+    merchant
     @item = Item.new
   end
 

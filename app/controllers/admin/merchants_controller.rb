@@ -47,4 +47,10 @@ class Admin::MerchantsController < ApplicationController
   def merchant
     @merchant ||= Merchant.find(params[:id])
   end
+
+  private
+
+  def admin
+    true
+  end
 end
