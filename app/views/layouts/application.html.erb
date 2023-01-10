@@ -10,6 +10,22 @@
   </head>
 
   <body>
+    <h1>Little Esty Shop</h1>
+    <% if admin %>
+      <%= render partial: "shared/header", locals: {
+        subtitle: "Admin Dashboard", 
+        link_1: "Dashboard", path: admin_index_path, 
+        link_2: "Merchants", path_2: admin_merchants_path, 
+        link_3: "Invoices", path_3: admin_invoices_path
+      }%>
+    <% else %>
+      <%= render partial: "shared/header", locals: {
+        subtitle: @merchant.name,
+        link_1: "Dashboard", path: "/merchants/#{@merchant.id}/dashboard", 
+        link_2: "My Items", path_2: merchant_items_path(@merchant), 
+        link_3: "My Invoices", path_3: merchant_invoices_path(@merchant)
+      }%>
+    <% end %>
     <% flash.each do |type, msg| %>
       <div>
         <%= msg %>
