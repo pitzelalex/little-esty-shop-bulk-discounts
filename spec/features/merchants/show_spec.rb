@@ -42,9 +42,8 @@ RSpec.describe 'it shows the merchant dashboard page', type: :feature do
       it 'shows the names of the top 5 customers by number of successful transactions' do
         cus2_invoices = 5.times { create(:invoice_with_transactions, merchant: merchant_2, customer: cus2)}
         cus2_unsuccesful_invoices = 5.times { create(:invoice_with_transactions, merchant: merchant_1, customer: cus2, invoice_has_success: false)}
-        # cus4_succesful_invoices = 5.times { create(:invoice_with_transactions, merchant: merchant_1, customer: cus4, invoice_has_success: true)}
+        
         visit "/merchants/#{merchant_1.id}/dashboard"
-        # save_and_open_page
 
         within "#top_customers" do
           expect(page).to have_content 'Top Customers'
@@ -60,7 +59,7 @@ RSpec.describe 'it shows the merchant dashboard page', type: :feature do
         cus2_unsuccesful_invoices = 5.times { create(:invoice_with_transactions, merchant: merchant_1, customer: cus2, invoice_has_success: false)}
 
         visit "/merchants/#{merchant_1.id}/dashboard"
-        # save_and_open_page
+
         within "#customer-#{cus1.id}" do
           expect(page).to have_content 'Number of successful transactions with this merchant: 3'
         end
