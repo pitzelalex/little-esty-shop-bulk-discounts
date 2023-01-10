@@ -7,7 +7,15 @@ class Invoice < ApplicationRecord
 
   enum status: ['in progress', 'completed', 'cancelled']
 
+  scope :has_successful_transaction, -> { joins(:transactions).where(transactions: {result: 'success'})}
+
+  scope :indexed, -> { distinct.order(:id) }
+
   def total_revenue
     self.invoice_items.sum('quantity*unit_price')
+  end
+  
+  def self.incomplete_invoices
+    self.joins(:invoice_items).where.not(invoice_items: { status: 2 }).order(:created_at)
   end
 end

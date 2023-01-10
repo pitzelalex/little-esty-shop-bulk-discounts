@@ -1,9 +1,19 @@
+<br>
+<h2>Top Items</h2>
+<div id="top_items">
+  <% @merchant.top_items.each_with_index do |item, index| %>
+    <%= "#{index + 1}. " %> <%= link_to "#{item.name}", merchant_item_path(@merchant, item)%>
+    <%= "Total Revenue: #{item.revenue}" %>
+    <%= "Top selling date for #{item.name} was #{item.date_with_most_sales.strftime("%A, %B %-d, %Y")}" %>
+    <br>
+  <% end %>
+</div>
 <section id="enabled_items">
   <h2>Enabled Items</h2>
   <% @items.enabled.each do |item| %>
     <div id="item_<%=item.id%>"> 
       <%= link_to "#{item.name}", merchant_item_path(@merchant, item)  %> 
-      <%= render partial: 'shared/item_enable_disable', locals: { item: item } %>
+      <%= render partial: 'shared/enable_disable', locals: { entity: item, path: merchant_item_path(@merchant, item)} %>
     </div>
   <% end %>
 </section>
@@ -12,7 +22,7 @@
   <% @items.disabled.each do |item| %>
     <div id="item_<%=item.id%>"> 
       <%= link_to "#{item.name}", merchant_item_path(@merchant, item)  %> 
-      <%= render partial: 'shared/item_enable_disable', locals: { item: item } %>
+      <%= render partial: 'shared/enable_disable', locals: { entity: item, path: merchant_item_path(@merchant, item)} %>
     </div>
   <% end %>
 </section>

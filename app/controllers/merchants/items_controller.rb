@@ -1,20 +1,21 @@
 class Merchants::ItemsController < ApplicationController
+
   def index
-    @merchant = Merchant.find(params[:merchant_id])
-    @items = @merchant.items
+    merchant
+    @items = merchant.items
   end
 
   def show
-    @merchant = Merchant.find(params[:merchant_id])
-    @item = Item.find(params[:id])
+    merchant
+    item
   end
 
   def new
+    merchant
     @item = Item.new
   end
 
   def create
-    merchant = Merchant.find(params[:merchant_id])
     item = merchant.items.new(merchant_item_params)
     if item.save(merchant_item_params)
       redirect_to merchant_items_path(merchant)
@@ -25,22 +26,21 @@ class Merchants::ItemsController < ApplicationController
   end
 
   def edit
-    @merchant = Merchant.find(params[:merchant_id])
-    @item = Item.find(params[:id])
+    merchant
+    item
   end
 
   def update
-    @merchant = Merchant.find(params[:merchant_id])
-    @item = Item.find(params[:id])
+    item
     if params[:status] != nil
-      @item.update!(merchant_item_params)
-      redirect_to merchant_items_path(@merchant)
-    elsif @item.update(merchant_item_params)
+      item.update!(update_params)
+      redirect_to merchant_items_path(merchant)
+    elsif item.update(merchant_item_params)
       flash[:alert] = "Item Information Successfully Updated"
-      redirect_to merchant_item_path(@merchant, @item)
+      redirect_to merchant_item_path(merchant, item)
     else
       flash[:alert] = @item.errors.full_messages.to_sentence
-      redirect_to edit_merchant_item_path(@merchant, @item)
+      redirect_to edit_merchant_item_path(merchant, item)
     end
   end
 
@@ -48,5 +48,17 @@ class Merchants::ItemsController < ApplicationController
 
   def merchant_item_params
     params.require(:item).permit(:name, :description, :unit_price, :status)
+  end
+
+  def update_params
+    params.permit(:status)
+  end
+
+  def merchant
+    @merchant ||= Merchant.find(params[:merchant_id])
+  end
+
+  def item
+    @item ||= Item.find(params[:id])
   end
 end

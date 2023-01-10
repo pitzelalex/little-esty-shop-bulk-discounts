@@ -5,5 +5,11 @@ FactoryBot.define do
     unit_price { item.unit_price }
     status { 0 }
     association :invoice
+
+    trait :packaged do
+      status { 1 }
+    end
+
+    factory :packaged_ii, traits: [:packaged]
   end
 end

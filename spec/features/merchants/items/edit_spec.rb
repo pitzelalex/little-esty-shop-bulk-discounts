@@ -10,16 +10,16 @@ RSpec.describe 'The Merchant item edit page', type: :feature do
       item = merchant_1.items.first
       visit edit_merchant_item_path(merchant_1, item)
 
-      expect(page).to have_field(:name, with: "#{item.name}")
-      expect(page).to have_field(:description, with: "#{item.description}")
-      expect(page).to have_field(:unit_price, with: "#{item.unit_price}")
+      expect(page).to have_field("item[name]", with: "#{item.name}")
+      expect(page).to have_field("item[description]", with: "#{item.description}")
+      expect(page).to have_field("item[unit_price]", with: "#{item.unit_price}")
     end
 
     it 'redirects back to the item show page with updated information when successfully updated' do
       item = merchant_1.items.first
       visit edit_merchant_item_path(merchant_1, item)
 
-      fill_in :name, with: "New Name"
+      fill_in "item[name]", with: "New Name"
       click_button "Submit"
 
       expect(current_path).to eq merchant_item_path(merchant_1, item)
@@ -31,8 +31,8 @@ RSpec.describe 'The Merchant item edit page', type: :feature do
       item = merchant_2.items.first
       visit edit_merchant_item_path(merchant_2, item)
 
-      fill_in :name, with: "New Name"
-      fill_in :unit_price, with: 11111
+      fill_in "item[name]", with: "New Name"
+      fill_in "item[unit_price]", with: 11111
       click_button "Submit"
 
       expect(current_path).to eq merchant_item_path(merchant_2, item)
@@ -45,9 +45,9 @@ RSpec.describe 'The Merchant item edit page', type: :feature do
     it 'redirects back to the item edit page if information is incorrectly filled in after clicking submit' do
       item = merchant_2.items.first
       visit edit_merchant_item_path(merchant_2, item)
-      
-      fill_in :name, with: ""
-      fill_in :unit_price, with: "Not a Price"
+
+      fill_in "item[name]", with: ""
+      fill_in "item[unit_price]", with: "Not a Price"
       click_button "Submit"
 
       expect(page).to have_content "Name can't be blank and Unit price is not a number"
