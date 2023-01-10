@@ -9,6 +9,7 @@ RSpec.describe 'it shows the merchant dashboard page', type: :feature do
   let!(:cus4) { create(:customer_with_success_trans, merchant: merchant_1, inv_count: 2)}
   let!(:cus5) { create(:customer_with_success_trans, merchant: merchant_1, inv_count: 5)}
   let!(:cus6) { create(:customer_with_success_trans, merchant: merchant_1, inv_count: 6)}
+  
   describe 'when a user visits the merchant dashboard' do
     it 'shows the name of the merchant' do
       visit "/merchants/#{merchant_1.id}/dashboard"
@@ -28,13 +29,19 @@ RSpec.describe 'it shows the merchant dashboard page', type: :feature do
       it 'has a link to the merchants items index' do
         visit "/merchants/#{merchant_2.id}/dashboard"
 
-        expect(page).to have_link "Items Index", href: "/merchants/#{merchant_2.id}/items"
+        expect(page).to have_link "Items Index", href: merchant_items_path(merchant_2)
+        click_link "Items Index"
+
+        expect(current_path).to eq merchant_items_path(merchant_2)
       end
 
       it 'has a link to the merchant invoices index' do
         visit "/merchants/#{merchant_1.id}/dashboard"
 
-        expect(page).to have_link "Invoice Index", href: "/merchants/#{merchant_1.id}/invoices"
+        expect(page).to have_link "Invoice Index", href: merchant_invoices_path(merchant_1)
+        click_link "Invoice Index"
+
+        expect(current_path).to eq merchant_invoices_path(merchant_1)
       end
     end
 
