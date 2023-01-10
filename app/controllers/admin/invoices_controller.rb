@@ -12,7 +12,7 @@ class Admin::InvoicesController < ApplicationController
 
     if params[:status] != @invoice.status
         @invoice.update!(invoice_params)
-        redirect_to admin_invoice_path
+        redirect_to admin_invoice_path(@invoice)
     end
   end
 
