@@ -1,7 +1,7 @@
 require 'rails_helper'
 include ActionView::Helpers::NumberHelper
 
-RSpec.describe 'The merchant invocie show page', type: :feature do
+RSpec.describe 'The merchant invoice show page', type: :feature do
   let(:merchant_1) { create(:merchant_with_invoices) }
   let(:merchant_2) { create(:merchant_with_invoices) }
 
