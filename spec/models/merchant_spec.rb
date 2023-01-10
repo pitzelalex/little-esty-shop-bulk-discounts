@@ -35,6 +35,12 @@ RSpec.describe Merchant, type: :model do
         cus6 = create(:customer_with_success_trans, merchant: mer1, inv_count: 6)
         cus2_invoices = 5.times { create(:invoice_with_transactions, merchant: mer2, customer: cus2)}
         cus2_unsuccesful_invoices = 5.times { create(:invoice_with_transactions, merchant: mer1, customer: cus2, invoice_has_success: false) }
+        inv_a = cus2.invoices.distinct[0]
+        inv_b = cus2.invoices.distinct[1]
+        item_a = cus2.invoices.distinct[0].items[0]
+        item_b = cus2.invoices.distinct[1].items[0]
+        create(:invoice_item, item: item_a, invoice: inv_b)
+        create(:invoice_item, item: item_b, invoice: inv_a)
 
         expect(mer1.top_customers).to eq([cus6, cus5, cus2, cus1, cus4])
       end
@@ -52,6 +58,12 @@ RSpec.describe Merchant, type: :model do
         cus6 = create(:customer_with_success_trans, merchant: mer1, inv_count: 6)
         cus2_invoices = 5.times { create(:invoice_with_transactions, merchant: mer2, customer: cus2)}
         cus2_unsuccesful_invoices = 5.times { create(:invoice_with_transactions, merchant: mer1, customer: cus2, invoice_has_success: false)}
+        inv_a = cus2.invoices.distinct[0]
+        inv_b = cus2.invoices.distinct[1]
+        item_a = cus2.invoices.distinct[0].items[0]
+        item_b = cus2.invoices.distinct[1].items[0]
+        create(:invoice_item, item: item_a, invoice: inv_b)
+        create(:invoice_item, item: item_b, invoice: inv_a)
 
         expect(mer1.customer_amount_of_successful_transactions(cus1.id)).to eq(3)
         expect(mer1.customer_amount_of_successful_transactions(cus2.id)).to eq(4)

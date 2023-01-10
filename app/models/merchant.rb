@@ -12,7 +12,8 @@ class Merchant < ApplicationRecord
   def top_customers
     # self.invoices.joins(:customer, :transactions).where(transactions: { result: 1 }).select('customers.*').group('customers.id').order('count(transactions) desc').limit(5)
 
-    Customer.joins(invoices: [:transactions, :items]).where(transactions: { result: 1 }).where(items: { merchant_id: self.id }).group(:id).order('count(transactions.*) desc').limit(5)
+    # Customer.joins(invoices: [:transactions, :items]).where(transactions: { result: 1 }).where(items: { merchant_id: self.id }).group(:id).order('count(transactions.*) desc').limit(5)
+    Transaction.joins(invoice: [:items, :customer]).where(result: 1).where(items: { merchant_id: self.id }).select('customers.*').group('customers.id').order('count(transactions) desc').limit(5)
   end
 
   def customer_amount_of_successful_transactions(cus_id)
