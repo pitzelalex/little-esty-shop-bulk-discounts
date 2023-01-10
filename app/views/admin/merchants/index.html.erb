@@ -2,19 +2,29 @@
 
 <section id="enabled_merchants">
   <h3>Enabled Merchants</h3>
-  <% @merchants.enabled_merchants.each do |merchant| %>
+  <% @merchants.enabled.each do |merchant| %>
     <p><%= link_to merchant.name, admin_merchant_path(merchant) %></p>
     <div id="merchant_<%= merchant.id %>">
-      <%= render partial: 'shared/merchant_enable_disable', locals: { merchant: merchant } %>
+      <%= render partial: 'shared/enable_disable', locals: { entity: merchant, path: admin_merchant_path(merchant) } %>
     </div>
   <% end %>    
 </section>
 <section id="disabled_merchants">
   <h3>Disabled Merchants</h3>
-  <% @merchants.disabled_merchants.each do |merchant| %>
+  <% @merchants.disabled.each do |merchant| %>
     <p><%= link_to merchant.name, admin_merchant_path(merchant) %></p>
     <div id="merchant_<%= merchant.id %>">
-      <%= render partial: 'shared/merchant_enable_disable', locals: { merchant: merchant } %>
+      <%= render partial: 'shared/enable_disable', locals: { entity: merchant, path: admin_merchant_path(merchant) } %>
     </div>
   <% end %>
 </section>
+
+<div id="top_merchants">
+  <h3>Top Merchants</h3>
+  <% @merchants.top_five_merchants.each_with_index do |top_merch, index| %>
+      <%= "#{index + 1}. " %> <%= link_to top_merch.name, admin_merchant_path(top_merch) %>
+        <%= "- $ #{top_merch.total_rev} in sales" %>
+        <%= "Top selling date for #{top_merch.name} was #{top_merch.best_day.strftime("%A, %B %-d, %Y")}." %>
+    <br>
+  <% end %>  
+</div>
