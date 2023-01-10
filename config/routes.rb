@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :merchants
-    resources :invoices, only: [:index, :show]
+    resources :invoices, only: [:index, :show, :update]
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
