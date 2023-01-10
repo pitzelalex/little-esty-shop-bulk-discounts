@@ -15,7 +15,7 @@
     </ul>
 <% end %>
 
-<%= form_with model: @invoice, url: admin_invoice_path, local: true do |form| %>
+<%= form_with model: @invoice, url: admin_invoice_path(@invoice), local: true do |form| %>
     <%= form.select :status, ['in progress', 'cancelled', 'completed'] %>
     <%= form.submit 'Update Invoice Status' %>
 <% end %>
