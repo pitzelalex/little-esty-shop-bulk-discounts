@@ -41,7 +41,7 @@ RSpec.describe Merchant, type: :model do
         item_b = cus2.invoices.distinct[1].items[0]
         create(:invoice_item, item: item_a, invoice: inv_b)
         create(:invoice_item, item: item_b, invoice: inv_a)
-
+        
         expect(mer1.top_customers).to eq([cus6, cus5, cus2, cus1, cus4])
       end
     end
