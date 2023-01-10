@@ -13,7 +13,7 @@ RSpec.describe 'The merchant invoice show page', type: :feature do
         expect(page).to have_content("Invoice ##{invoice.id}")
         expect(page).to have_content("Status: #{invoice.status}")
         expect(page).to have_content("Created at: #{invoice.created_at.strftime("%A, %B %-d, %Y")}")
-        expect(page).to have_content("#{invoice.customer.first_name} #{invoice.customer.last_name}")
+        expect(page).to have_content("Customer: #{invoice.customer.first_name} #{invoice.customer.last_name}")
       end
     end
 
@@ -21,9 +21,10 @@ RSpec.describe 'The merchant invoice show page', type: :feature do
       merchant_1.invoices.group(:id).each do |invoice|
         visit merchant_invoice_path(merchant_1, invoice)
         within "#items" do
+          expect(page).to have_content('Items on this Invoice:')
           invoice.items.each do |item|
             within "#item-#{item.id}" do
-              expect(page).to have_content(item.name)
+              expect(page).to have_content("Item Name: #{item.name}")
               expect(page).to have_content("Quantity ordered: #{item.invoice_items.where(invoice_id: invoice.id).first.quantity}")
               expect(page).to have_content("Sale price: #{number_to_currency((item.invoice_items.where(invoice_id: invoice.id).first.unit_price)/100.00)}")
             end
