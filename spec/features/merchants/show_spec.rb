@@ -101,11 +101,13 @@ RSpec.describe 'it shows the merchant dashboard page', type: :feature do
           visit "/merchants/#{mer3.id}/dashboard"
 
           within "#item-#{mer3.items[0].id}" do
-            expect(page).to have_content("Shippable Invoices: #{inv1.id}, #{inv2.id}")
+            expect(page).to have_content("Shippable Invoices:")
+            expect(page).to have_content("Invoice ##{inv1.id}")
+            expect(page).to have_content("Invoice ##{inv2.id}")
           end
 
           within "#item-#{mer3.items[2].id}" do
-            expect(page).to have_content("Shippable Invoices: #{inv2.id}")
+            expect(page).to have_content("Invoice ##{inv2.id}")
           end
         end
 
@@ -116,7 +118,7 @@ RSpec.describe 'it shows the merchant dashboard page', type: :feature do
           create(:invoice_item, item: mer3.items.first, invoice: inv2, status: 1)
 
           visit "/merchants/#{mer3.id}/dashboard"
-          
+
           within "#item-#{mer3.items[0].id}" do
             expect(page).to have_link "#{inv1.id}", href: merchant_invoice_path(mer3, inv1)
             expect(page).to have_link "#{inv2.id}", href: merchant_invoice_path(mer3, inv2)
@@ -124,6 +126,27 @@ RSpec.describe 'it shows the merchant dashboard page', type: :feature do
 
           within "#item-#{mer3.items[2].id}" do
             expect(page).to have_link "#{inv2.id}", href: merchant_invoice_path(mer3, inv2)
+          end
+        end
+
+        it "displays the date formated 'Monday, July 18, 2019' the invoice was created next to each invoice id ordered from oldest to newest" do
+          mer3 = create(:merchant)
+          inv1 = create(:invoice_with_items, merchant: mer3, created_at: Date.new(2020, 10, 10))
+          inv2 = create(:invoice_with_items, merchant: mer3, created_at: Date.new(2020, 9, 10))
+          inv3 = create(:invoice_with_items, merchant: mer3, created_at: Date.new(2020, 11, 10))
+          create(:invoice_item, item: mer3.items.first, invoice: inv2, status: 1)
+          create(:invoice_item, item: mer3.items.first, invoice: inv3, status: 1)
+
+          visit "/merchants/#{mer3.id}/dashboard"
+
+          within "#item-#{mer3.items[0].id}" do
+            expect(page).to have_content("Invoice ##{inv1.id} - Saturday, October 10, 2020")
+            expect(page).to have_content("Invoice ##{inv2.id} - Thursday, September 10, 2020")
+            expect(page).to have_content("Invoice ##{inv3.id} - Tuesday, November 10, 2020")
+
+            expect('Thursday, September 10, 2020').to appear_before('Saturday, October 10, 2020')
+
+            expect('Saturday, October 10, 2020').to appear_before('Tuesday, November 10, 2020')
           end
         end
       end
