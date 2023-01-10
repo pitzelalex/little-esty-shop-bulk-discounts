@@ -35,5 +35,28 @@ RSpec.describe 'Admin Invoice Show Page' do
 
             expect(page).to have_content("Total Revenue: #{@invoice_1.total_revenue}")
         end
+
+        it 'has invoice status as a select field and the current status is selected' do
+            visit admin_invoice_path(@invoice_1)
+
+            expect(page).to have_select('invoice[status]', selected: "#{@invoice_1.status}")
+            expect(page).to have_select('invoice[status]', options: ['in progress', 'cancelled', 'completed'])
+        end
+
+        it "has a button to 'Update Invoice Status' which updates the invoice status when clicked" do
+            visit admin_invoice_path(@invoice_1)
+
+            expect(@invoice_1.status).to eq('in progress')
+
+            select('completed', from: 'invoice[status]')
+            click_button('Update Invoice Status')
+
+            @invoice_1.reload
+            
+            expect(@invoice_1.status).to eq('completed')
+            expect(page).to have_select('invoice[status]', selected: 'completed')
+        
+            expect(current_path).to eq(admin_invoice_path(@invoice_1))
+        end
     end
 end
