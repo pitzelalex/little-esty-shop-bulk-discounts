@@ -1,4 +1,5 @@
 class Merchants::ItemsController < ApplicationController
+
   def index
     merchant
     @items = merchant.items
@@ -10,6 +11,7 @@ class Merchants::ItemsController < ApplicationController
   end
 
   def new
+    merchant
     @item = Item.new
   end
 
