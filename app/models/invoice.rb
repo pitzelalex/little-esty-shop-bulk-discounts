@@ -9,6 +9,8 @@ class Invoice < ApplicationRecord
 
   scope :has_successful_transaction, -> { joins(:transactions).where(transactions: {result: 'success'})}
 
+  scope :indexed, -> { distinct.order(:id) }
+
   def total_revenue
     self.invoice_items.sum('quantity*unit_price')
   end
