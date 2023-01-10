@@ -9,9 +9,9 @@ class GithubService
     @url = url
   end
 
-  def github_data
-    get_url
-  end
+  # def github_data
+  #   get_url
+  # end
 
   def get_url
     # response = HTTParty.get(@url)
@@ -24,7 +24,7 @@ class GithubService
   private
 
   def github_auth_token
-    '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'
+    Rails.application.credentials.config[:github]
   end
 
   def github_user_name

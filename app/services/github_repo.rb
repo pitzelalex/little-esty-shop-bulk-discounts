@@ -34,6 +34,6 @@ class GithubRepo
   end
 
   def repo_name
-    @_repo_name ||= @response[:name]
+    @repo_name = @response[:name]
   end
 end
