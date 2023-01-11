@@ -29,8 +29,8 @@ RSpec.describe 'it shows the merchant dashboard page', type: :feature do
       it 'has a link to the merchants items index' do
         visit "/merchants/#{merchant_2.id}/dashboard"
 
-        expect(page).to have_link "Items Index", href: merchant_items_path(merchant_2)
-        click_link "Items Index"
+        expect(page).to have_link "My Items", href: merchant_items_path(merchant_2)
+        click_link "My Items"
 
         expect(current_path).to eq merchant_items_path(merchant_2)
       end
@@ -38,8 +38,8 @@ RSpec.describe 'it shows the merchant dashboard page', type: :feature do
       it 'has a link to the merchant invoices index' do
         visit "/merchants/#{merchant_1.id}/dashboard"
 
-        expect(page).to have_link "Invoice Index", href: merchant_invoices_path(merchant_1)
-        click_link "Invoice Index"
+        expect(page).to have_link "My Invoices", href: merchant_invoices_path(merchant_1)
+        click_link "My Invoices"
 
         expect(current_path).to eq merchant_invoices_path(merchant_1)
       end
