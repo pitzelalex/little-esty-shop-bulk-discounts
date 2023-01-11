@@ -1,4 +1,4 @@
-class Poro::GithubDecorator
+class GithubDecorator
   def initialize(githubrepo)
     @git = githubrepo
   end
