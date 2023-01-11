@@ -41,5 +41,6 @@ This project requires Ruby 2.7.4.
 * From the command line, install gems and set up your DB:
     * `bundle`
     * `rails db:create`
+    * `rake load_csv:all`
 
 
