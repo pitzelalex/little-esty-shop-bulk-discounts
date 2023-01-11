@@ -1,6 +1,7 @@
 <section class="right">
   <div id="top_merchants">
   <h2>Top Merchants</h2>
+  <hr>
     <% @merchants.top_five_merchants.each_with_index do |top_merch, index| %>
       <p><%= "#{index + 1}. " %> <%= link_to top_merch.name, admin_merchant_path(top_merch) %>
         <%= "- #{number_to_currency(top_merch.total_rev / 100.00)} in sales" %></p>
@@ -15,6 +16,7 @@
 
   <section id="enabled_merchants">
   <h2>Enabled Merchants</h2>
+  <hr>
   <% @merchants.enabled.each do |merchant| %>
     <p><%= link_to merchant.name, admin_merchant_path(merchant) %></p>
       <div id="merchant_<%= merchant.id %>">
@@ -24,6 +26,7 @@
   </section>
   <section id="disabled_merchants">
   <h2>Disabled Merchants</h2>
+  <hr>
   <% @merchants.disabled.each do |merchant| %>
     <p><%= link_to merchant.name, admin_merchant_path(merchant) %></p>
       <div id="merchant_<%= merchant.id %>">
