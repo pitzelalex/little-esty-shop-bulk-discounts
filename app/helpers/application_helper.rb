@@ -13,7 +13,7 @@ module ApplicationHelper
     end
 
     def pull_requests
-      hash_to_display(@git.pull_requests)
+      total_number(@git.pull_requests)
     end
 
     def repo_name
@@ -26,6 +26,10 @@ module ApplicationHelper
       hash.map do |key, value|
         "#{key}: #{value}"
       end.join(', ')
+    end
+
+    def total_number(hash)
+      hash.values.sum
     end
   end
 end
