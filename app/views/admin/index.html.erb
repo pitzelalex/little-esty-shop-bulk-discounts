@@ -1,16 +1,16 @@
-<%= link_to "Admin Merchants Index", admin_merchants_path %>
-<%= link_to "Admin Invoices Index", admin_invoices_path %>
-
-<section id="top_customers"> 
-  <h2>Top Customers</h2>
-  <% @top_5_customers.each_with_index do |customer, index| %>
-    <%= "#{index + 1}. " %> <%= customer.first_name %> <%= customer.last_name %>
-    <%= "- #{customer.num_transactions} purchases" %>
-    <br>
-  <% end %>
+<section class="right">
+  <section id="top_customers"> 
+    <h2>Top Customers</h2>
+    <% @top_5_customers.each_with_index do |customer, index| %>
+      <%= "#{index + 1}. " %> <%= customer.first_name %> <%= customer.last_name %>
+      <%= "- #{customer.num_transactions} purchases" %>
+      <br>
+    <% end %>
+  </section>
 </section>
 
-<section id="incomplete_invoices">
+<section class="left">
+  <section id="incomplete_invoices">
     <h2>Incomplete Invoices</h2>
     <% @incomplete_invoices.each do |invoice| %>
       <div id="incomplete_invoices_<%= invoice.id %>">
@@ -18,4 +18,5 @@
         <%= "- #{invoice.created_at.strftime("%A, %B %-d, %Y")}" %></p>
       </div>
     <% end %> 
+  </section>
 </section>
