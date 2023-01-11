@@ -14,7 +14,6 @@ class GithubService
   # end
 
   def get_url
-    # response = HTTParty.get(@url)
     response = HTTParty.get("https://api.github.com#{@url}",
                  headers: { 'User-Agent' => github_user_name,
                             'Authorization' => "token #{github_auth_token}" })
