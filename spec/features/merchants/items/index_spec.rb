@@ -117,9 +117,9 @@ RSpec.describe 'The merchant items index page', type: :feature do
         visit merchant_items_path(merchant_1)
 
         within("#top_items") do
-          expect(page).to have_content "1. #{item_4.name}"
+          expect(page).to have_content "1. #{item_4.name} -"
           expect(page).to have_link "#{item_4.name}"
-          expect(page).to have_content "5. #{item_5.name}"
+          expect(page).to have_content "5. #{item_5.name} -"
           expect(page).to have_link "#{item_5.name}"
         end
       end
@@ -137,9 +137,10 @@ RSpec.describe 'The merchant items index page', type: :feature do
 
         visit merchant_items_path(merchant_1)
         #TODO:orderly didn't like/couldn't find expectations with names.
+
         within("#top_items") do
-          expect("Total Revenue: 300000").to appear_before "Total Revenue: 200000"
-          expect("Total Revenue: 200000").to appear_before "Total Revenue: 100000"
+          expect("$3,000.00 in sales").to appear_before "$2,000.00 in sales"
+          expect("$2,000.00 in sales").to appear_before "$1,000.00 in sales"
         end
       end
 

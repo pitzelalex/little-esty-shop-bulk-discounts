@@ -1,4 +1,5 @@
-<p>Repo Name: <%= @github.repo_name %></p>
-<p>User Names: </p>
-<p>Commits: </p>
-<p>Pull Requests: </p>
+<% github = ApplicationHelper::GithubDecorator.new(@github) %>
+<p>Repo Name: <%= github.repo_name %></p>
+<p>User Names: <%= github.usernames %></p>
+<p>Commits: <%= github.commits %></p>
+<p>Pull Requests: <%= github.pull_requests %> </p>

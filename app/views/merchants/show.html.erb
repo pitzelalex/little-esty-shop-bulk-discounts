@@ -1,10 +1,9 @@
 <section class="right">
   <div id="top_customers">
-  <h2>Top Customers</h2>
-    <% @merchant.top_customers.each do |customer| %>
+  <h2>Favourite Customers</h2>
+    <% @merchant.top_customers.each_with_index do |customer, index| %>
       <div id="customer-<%= customer.id %>">
-        <p><%= customer.full_name %></p>
-        <p>Number of successful transactions with this merchant: <%= @merchant.customer_amount_of_successful_transactions(customer.id) %> </p>
+        <p><%= index + 1 %>. <%= customer.full_name %>   - <%= @merchant.customer_amount_of_successful_transactions(customer.id) %> purchases</p>
       </div>
     <% end %>
   </div>
