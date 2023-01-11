@@ -53,11 +53,11 @@ RSpec.describe 'it shows the merchant dashboard page', type: :feature do
         visit "/merchants/#{merchant_1.id}/dashboard"
 
         within "#top_customers" do
-          expect(page).to have_content 'Top Customers'
-          expect(cus6.full_name).to appear_before cus5.full_name
-          expect(cus5.full_name).to appear_before cus2.full_name
-          expect(cus2.full_name).to appear_before cus1.full_name
-          expect(cus1.full_name).to appear_before cus4.full_name
+          expect(page).to have_content 'Favourite Customers'
+          expect("1. #{cus6.full_name}").to appear_before "2. #{cus5.full_name}"
+          expect("2. #{cus5.full_name}").to appear_before "3. #{cus2.full_name}"
+          expect("3. #{cus2.full_name}").to appear_before "4. #{cus1.full_name}"
+          expect("4. #{cus1.full_name}").to appear_before "5. #{cus4.full_name}"
         end
       end
 
@@ -68,19 +68,19 @@ RSpec.describe 'it shows the merchant dashboard page', type: :feature do
         visit "/merchants/#{merchant_1.id}/dashboard"
 
         within "#customer-#{cus1.id}" do
-          expect(page).to have_content 'Number of successful transactions with this merchant: 3'
+          expect(page).to have_content '- 3 purchases'
         end
         within "#customer-#{cus2.id}" do
-          expect(page).to have_content 'Number of successful transactions with this merchant: 4'
+          expect(page).to have_content '- 4 purchases'
         end
         within "#customer-#{cus4.id}" do
-          expect(page).to have_content 'Number of successful transactions with this merchant: 2'
+          expect(page).to have_content '- 2 purchases'
         end
         within "#customer-#{cus5.id}" do
-          expect(page).to have_content 'Number of successful transactions with this merchant: 5'
+          expect(page).to have_content '- 5 purchases'
         end
         within "#customer-#{cus6.id}" do
-          expect(page).to have_content 'Number of successful transactions with this merchant: 6'
+          expect(page).to have_content '- 6 purchases'
         end
       end
 
