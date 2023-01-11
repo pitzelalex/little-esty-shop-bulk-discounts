@@ -50,12 +50,12 @@ nav {
 
 .right {
   float: right;
-  margin: 50px 400px 0px 0px;
+  margin: 50px 300px 0px 0px;
 }
 
 .left {
   float: left;
-  margin: 50px 0px 0px 400px;
+  margin: 50px 0px 0px 300px;
 }
 
 table, th, td {
