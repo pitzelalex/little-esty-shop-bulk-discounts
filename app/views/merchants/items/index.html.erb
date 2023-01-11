@@ -2,6 +2,7 @@
 <br>
 <section class="right">
   <h2>Top Items</h2>
+  <hr>
   <div id="top_items">
     <% @merchant.top_items.each_with_index do |item, index| %>
       <p><%= "#{index + 1}. " %> <%= link_to "#{item.name}", merchant_item_path(@merchant, item)%> - <%= "#{number_to_currency(item.revenue / 100.00)} in sales" %></p>
@@ -15,6 +16,7 @@
   <section id="enabled_items">
     <p><%= link_to "Create Item", new_merchant_item_path(@merchant) %></p>
     <h2>Enabled Items</h2>
+    <hr>
     <% @items.enabled.each do |item| %>
       <div id="item_<%=item.id%>"> 
         <%= link_to "#{item.name}", merchant_item_path(@merchant, item)  %> 
@@ -24,6 +26,7 @@
   </section>
   <section id="disabled_items">
     <h2>Disabled Items</h2>
+    <hr>
     <% @items.disabled.each do |item| %>
       <div id="item_<%=item.id%>"> 
         <%= link_to "#{item.name}", merchant_item_path(@merchant, item)  %> 
