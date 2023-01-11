@@ -9,7 +9,7 @@ module ApplicationHelper
     end
 
     def commits
-      hash_to_display(@git.collab_commits)
+      hash_to_display(@git.collaborator_commits)
     end
 
     def pull_requests
