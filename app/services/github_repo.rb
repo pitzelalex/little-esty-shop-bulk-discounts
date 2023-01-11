@@ -26,28 +26,15 @@ class GithubRepo
   end
 
   def collaborator_commits
-    hash = {}
-    @commits.each do |commit|
-      if commit[:author].nil?
-      else
-        if usernames.include? commit[:author][:login]
-          hash[commit[:author][:login].to_sym] ||= 0
-          hash[commit[:author][:login].to_sym] += 1
-        end
-      end
-    end
-    hash
+    @commits.map do |commit| 
+      commit.dig(:author, :login) if usernames.include?(commit.dig(:author, :login)) 
+    end.compact.tally
   end
 
   def pull_requests
-    prs = {}
-    @pull_requests.each do |pr|
-      if usernames.include? pr[:user][:login]
-        prs[pr[:user][:login].to_sym] ||= 0
-        prs[pr[:user][:login].to_sym] += 1
-      end
-    end
-    prs
+    @pull_requests.map do |pr| 
+      pr.dig(:user, :login) if usernames.include?(pr.dig(:user, :login)) 
+    end.compact.tally
   end
 
   def repo_name
