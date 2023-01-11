@@ -3,7 +3,6 @@ class GithubRepo
     @response = GithubService.new("/repos/pitzelalex/little-esty-shop").get_url
     @collabs = GithubService.new("/repos/pitzelalex/little-esty-shop/collaborators").get_url
     @commits = []
-    @contributors = GithubService.new("/repos/pitzelalex/little-esty-shop/contributors").get_url
     @pull_requests = GithubService.new("/repos/pitzelalex/little-esty-shop/pulls?state=all&per_page=100").get_url
 
     get_commits
