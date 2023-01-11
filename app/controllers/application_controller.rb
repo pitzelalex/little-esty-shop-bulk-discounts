@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_action :github
+  # before_action :github
   helper_method :admin
     
   def github
