@@ -9,7 +9,8 @@ Rails.application.configure do
   # and those relying on copy on write to perform better.
   # Rake tasks automatically ignore this option for performance.
   config.eager_load = true
-  config.auto_load_paths << Rails.root.join("app/controllers/PORO")
+  # # config.enable_dependency_loading = true 
+  # config.auto_load_paths << Rails.root.join("app/controllers/poro")
   
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local       = false
