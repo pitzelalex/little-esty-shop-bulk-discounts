@@ -1,26 +1,38 @@
 # Little Esty Shop
 
-## Background and Description
+## Description
 
-"Little Esty Shop" is a group project that requires students to build a fictitious e-commerce platform where merchants and admins can manage inventory and fulfill customer invoices.
+"Little Esty Shop" is a group project that builds a fictitious e-commerce platform where merchants and admins can manage inventory and fulfill customer invoices.
 
-## Learning Goals
-- Practice designing a normalized database schema and defining model relationships
-- Utilize advanced routing techniques including namespacing to organize and group like functionality together.
-- Utilize advanced active record techniques to perform complex database queries
-- Practice consuming a public API while utilizing POROs as a way to apply OOP principles to organize code
+## Project
 
-## Requirements
-- must use Rails 5.2.x
-- must use PostgreSQL
-- all code must be tested via feature tests and model tests, respectively
-- must use GitHub branching, team code reviews via GitHub comments, and github projects to track progress on user stories
-- must include a thorough README to describe the project
-- must deploy completed code to Heroku
-- Continuous Integration / Continuous Deployment is not allowed
-- Any gems added to the project must be approved by an instructor
+Hosted on https://murmuring-reef-78817.herokuapp.com/
 
-## Setup
+### Authors
+
+    Thomas Casady: https://github.com/Tscasady
+    Kerynn Davis: https://github.com/Kerynn
+    Patricia Severance: https://github.com/pkseverance
+    Alex Pitzel: https://github.com/pitzelalex
+
+### Built With
+
+    Ruby on Rails
+    PostgreSQL
+    Heroku
+
+### Current Functionality
+
+The project currently contains two dashboards, one for an admin and another for a particular merchant. The admin dashboard allows an admin to view all merchants and invoices. The admin can manage these invoices, see relevant customer information, enable and disable merchants, etc. The merchant dashboard allows a merchant to see the status of their items, what needs to be shipped, which items generate the most revenue and other features.  
+
+### Moving Forward
+
+We could extend this functionality by allowing an admin to manage the statues of multiple invoices at the same time, adding sorting features, such as sorting items alphabetically, or filtering items by a particular attribute.
+
+We are also looking to upgrade the appearance of the application with Bootstrap.
+
+
+### Setup
 
 This project requires Ruby 2.7.4.
 
@@ -29,12 +41,5 @@ This project requires Ruby 2.7.4.
 * From the command line, install gems and set up your DB:
     * `bundle`
     * `rails db:create`
-* Run the test suite with `bundle exec rspec`.
-* Run your development server with `rails s` to see the app in action.
 
-## Phases
 
-1. [Database Setup](./doc/db_setup.md)
-1. [User Stories](./doc/user_stories.md)
-1. [Extensions](./doc/extensions.md)
-1. [Evaluation](./doc/evaluation.md)
