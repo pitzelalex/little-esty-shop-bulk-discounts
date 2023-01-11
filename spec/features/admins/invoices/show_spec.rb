@@ -36,7 +36,7 @@ RSpec.describe 'Admin Invoice Show Page' do
         it 'displays the total revenue generated from this invoice' do
             visit admin_invoice_path(@invoice_1)
 
-            expect(page).to have_content("Total Revenue: #{number_to_currency(@invoice_1.total_revenue / 100)}")
+            expect(page).to have_content("Total Revenue: #{number_to_currency(@invoice_1.total_revenue / 100.00)}")
         end
 
         it 'has invoice status as a select field and the current status is selected' do
