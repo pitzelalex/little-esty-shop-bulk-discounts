@@ -8,7 +8,7 @@ RSpec.describe 'The merchant invoices index page', type: :feature do
 
       describe 'github partial' do
         it 'displays the repo info' do
-          results = PORO::GithubDecorator.new(GithubRepo.new)
+          results = Poro::GithubDecorator.new(GithubRepo.new)
           visit merchant_invoices_path(merchant_1)
 
           expect(page).to have_content "Repo Name: little-esty-shop"

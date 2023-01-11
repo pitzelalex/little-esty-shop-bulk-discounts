@@ -5,7 +5,7 @@ class Merchants::InvoicesController < ApplicationController
   def index
     merchant
     @invoices = @merchant.invoices
-    @github = PORO::GithubDecorator.new(GithubRepo.new)
+    @github = Poro::GithubDecorator.new(GithubRepo.new)
     @invoices = @merchant.invoices.indexed
   end
 
