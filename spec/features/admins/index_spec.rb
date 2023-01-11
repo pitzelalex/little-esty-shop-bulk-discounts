@@ -129,7 +129,7 @@ RSpec.describe 'Admin Dashboard', type: :feature do
           ii2 = create(:invoice_item, invoice: inv4, status: 2)
   
           visit admin_index_path 
-save_and_open_page
+
           within '#incomplete_invoices' do 
             expect(page).to have_content("Invoice ##{inv1.id} - Saturday, August 4, 2018")
             expect(page).to have_content("Invoice ##{inv3.id} - Thursday, March 21, 2019")
