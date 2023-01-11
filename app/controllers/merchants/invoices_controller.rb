@@ -20,4 +20,8 @@ class Merchants::InvoicesController < ApplicationController
   def merchant
     @merchant = Merchant.find(params[:merchant_id])
   end
+
+  def github
+    @github = GithubRepo.new
+  end
 end

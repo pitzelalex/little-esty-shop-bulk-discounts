@@ -24,9 +24,9 @@ RSpec.describe 'The Merchant item edit page', type: :feature do
 
       expect(current_path).to eq merchant_item_path(merchant_1, item)
       expect(page).to have_content "Item Information Successfully Updated"
-      expect(page).to have_content "Name: New Name"
+      expect(page).to have_content "New Name"
       expect(page).to have_content "Description: Description_1"
-      expect(page).to have_content "Unit Price: 11000"
+      expect(page).to have_content "Unit Price: $110.00"
 
       item = merchant_2.items.first
       visit edit_merchant_item_path(merchant_2, item)
@@ -37,9 +37,9 @@ RSpec.describe 'The Merchant item edit page', type: :feature do
 
       expect(current_path).to eq merchant_item_path(merchant_2, item)
       expect(page).to have_content "Item Information Successfully Updated"
-      expect(page).to have_content "Name: New Name"
+      expect(page).to have_content "New Name"
       expect(page).to have_content "Description: Description_5"
-      expect(page).to have_content "Unit Price: 11111"
+      expect(page).to have_content "Unit Price: $111.11"
     end
 
     it 'redirects back to the item edit page if information is incorrectly filled in after clicking submit' do
