@@ -34,7 +34,6 @@ RSpec.describe 'The merchant invoices index page', type: :feature do
         merchant_2.invoices.each do |invoice|
           expect(page).to have_content("Invoice ##{invoice.id}")
         end
-        save_and_open_page
       end
 
       it "has a link from each id to the corresponding merchant invoice page" do
