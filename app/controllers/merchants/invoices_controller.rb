@@ -6,6 +6,7 @@ class Merchants::InvoicesController < ApplicationController
     merchant
     @invoices = @merchant.invoices
     @github = GithubRepo.new
+    @invoices = @merchant.invoices.indexed
   end
 
   def show

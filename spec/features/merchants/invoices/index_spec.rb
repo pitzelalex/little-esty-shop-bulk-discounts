@@ -19,19 +19,20 @@ RSpec.describe 'The merchant invoices index page', type: :feature do
         visit merchant_invoices_path(merchant_1)
 
         merchant_1.invoices.each do |invoice|
-          expect(page).to have_content("Invoice: #{invoice.id}")
+          
+          expect(page).to have_content("Invoice ##{invoice.id}")
         end
         merchant_2.invoices.each do |invoice|
-          expect(page).not_to have_content("Invoice: #{invoice.id}")
+          expect(page).not_to have_content("Invoice ##{invoice.id}")
         end
 
         visit merchant_invoices_path(merchant_2)
 
         merchant_1.invoices.each do |invoice|
-          expect(page).not_to have_content("Invoice: #{invoice.id}")
+          expect(page).not_to have_content("Invoice ##{invoice.id}")
         end
         merchant_2.invoices.each do |invoice|
-          expect(page).to have_content("Invoice: #{invoice.id}")
+          expect(page).to have_content("Invoice ##{invoice.id}")
         end
         save_and_open_page
       end
