@@ -1,30 +1,35 @@
-<%= link_to "Create a New Merchant", new_admin_merchant_path %>
+<section class="right">
+  <div id="top_merchants">
+  <h2>Top Merchants</h2>
+    <% @merchants.top_five_merchants.each_with_index do |top_merch, index| %>
+      <p><%= "#{index + 1}. " %> <%= link_to top_merch.name, admin_merchant_path(top_merch) %>
+        <%= "- #{number_to_currency(top_merch.total_rev / 100.00)} in sales" %></p>
+        <p><%= "Top selling date for #{top_merch.name} was #{top_merch.best_day.strftime("%A, %B %-d, %Y")}." %></p>
+    <br>
+    <% end %>  
+  </div>
+</section>
 
-<section id="enabled_merchants">
-  <h3>Enabled Merchants</h3>
+<section class="left">
+<%= link_to "New Merchant", new_admin_merchant_path %>
+
+  <section id="enabled_merchants">
+  <h2>Enabled Merchants</h2>
   <% @merchants.enabled.each do |merchant| %>
     <p><%= link_to merchant.name, admin_merchant_path(merchant) %></p>
-    <div id="merchant_<%= merchant.id %>">
+      <div id="merchant_<%= merchant.id %>">
       <%= render partial: 'shared/enable_disable', locals: { entity: merchant, path: admin_merchant_path(merchant) } %>
-    </div>
-  <% end %>    
-</section>
-<section id="disabled_merchants">
-  <h3>Disabled Merchants</h3>
+      </div>
+    <% end %>    
+  </section>
+  <section id="disabled_merchants">
+  <h2>Disabled Merchants</h2>
   <% @merchants.disabled.each do |merchant| %>
     <p><%= link_to merchant.name, admin_merchant_path(merchant) %></p>
-    <div id="merchant_<%= merchant.id %>">
+      <div id="merchant_<%= merchant.id %>">
       <%= render partial: 'shared/enable_disable', locals: { entity: merchant, path: admin_merchant_path(merchant) } %>
-    </div>
-  <% end %>
+      </div>
+    <% end %>
+  </section>
 </section>
 
-<div id="top_merchants">
-  <h3>Top Merchants</h3>
-  <% @merchants.top_five_merchants.each_with_index do |top_merch, index| %>
-      <%= "#{index + 1}. " %> <%= link_to top_merch.name, admin_merchant_path(top_merch) %>
-        <%= "- $ #{top_merch.total_rev} in sales" %>
-        <%= "Top selling date for #{top_merch.name} was #{top_merch.best_day.strftime("%A, %B %-d, %Y")}." %>
-    <br>
-  <% end %>  
-</div>
