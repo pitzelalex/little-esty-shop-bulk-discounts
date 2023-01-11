@@ -1,7 +1,11 @@
 class Merchants::InvoicesController < ApplicationController
 
+  before_action :github, only: [:index]
+
   def index
     merchant
+    @invoices = @merchant.invoices
+    @github = GithubRepo.new
     @invoices = @merchant.invoices.indexed
   end
 

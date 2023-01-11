@@ -6,6 +6,15 @@ RSpec.describe 'The merchant invoices index page', type: :feature do
       let(:merchant_1) { create(:merchant_with_invoices) }
       let(:merchant_2) { create(:merchant_with_invoices) }
 
+      describe 'github partial' do
+        it 'displays the repo info' do
+          visit merchant_invoices_path(merchant_1)
+
+          expect(page).to have_content "Repo Name: little-esty-shop"
+          expect(page).to have_content "User Names: Tscasady, pkseverance, Kerynn, pitzelalex"
+        end
+      end
+      
       it 'shows all of the invoices that include at least one of my merchant items and shows their id' do
         visit merchant_invoices_path(merchant_1)
 
@@ -25,6 +34,7 @@ RSpec.describe 'The merchant invoices index page', type: :feature do
         merchant_2.invoices.each do |invoice|
           expect(page).to have_content("Invoice ##{invoice.id}")
         end
+        save_and_open_page
       end
 
       it "has a link from each id to the corresponding merchant invoice page" do
