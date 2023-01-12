@@ -1,6 +1,6 @@
 class Merchants::InvoicesController < ApplicationController
 
-  before_action :github, only: [:index]
+  # before_action :github, only: [:index]
 
   def index
     merchant
