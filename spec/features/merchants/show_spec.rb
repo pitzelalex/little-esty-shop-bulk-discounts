@@ -49,7 +49,7 @@ RSpec.describe 'it shows the merchant dashboard page', type: :feature do
       it 'shows the names of the top 5 customers by number of successful transactions' do
         cus2_invoices = 5.times { create(:invoice_with_transactions, merchant: merchant_2, customer: cus2)}
         cus2_unsuccesful_invoices = 5.times { create(:invoice_with_transactions, merchant: merchant_1, customer: cus2, invoice_has_success: false)}
-        
+
         visit "/merchants/#{merchant_1.id}/dashboard"
 
         within "#top_customers" do
@@ -157,6 +157,18 @@ RSpec.describe 'it shows the merchant dashboard page', type: :feature do
             expect('Saturday, October 10, 2020').to appear_before('Tuesday, November 10, 2020')
           end
         end
+      end
+    end
+
+    describe 'bulk discounts' do
+      it 'dislpays a link to view all my discounts that takes me to my discounts index' do
+        visit "/merchants/#{merchant_1.id}/dashboard"
+
+        expect(page).to have_link "My Bulk Discounts", href: merchant_bulk_discounts_path(merchant_1)
+
+        click_link "My Bulk Discounts"
+
+        expect(current_path).to eq(merchant_bulk_discounts_path(merchant_1))
       end
     end
   end
