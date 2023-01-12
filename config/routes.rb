@@ -2,8 +2,9 @@ Rails.application.routes.draw do
   resources :merchants do
     resources :items, controller: "merchants/items"
     resources :invoices, only: [:index, :show], controller: 'merchants/invoices'
+    resources :bulk_discounts, only: [:index], controller: 'merchants/bulk_discounts'
   end
-  
+
   resources :invoice_items, only: :update
 
   get '/merchants/:id/dashboard', to: "merchants#show"
