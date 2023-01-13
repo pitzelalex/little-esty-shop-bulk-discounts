@@ -6,12 +6,14 @@
       <th>ID</th>
       <th>Item Threshold</th>
       <th>Discount %</th>
+      <th></th>
     </tr>
     <% @discounts.each do |discount| %>
       <tr id="discount-<%= discount.id %>">
         <td><%= discount.id %></td>
         <td><%= discount.threshold %></td>
         <td><%= discount.discount_percentage %>%</td>
+        <td> <%= link_to 'show', merchant_bulk_discount_path(@merchant, discount) %> </td>
       </tr>
     <% end %>
   </table>

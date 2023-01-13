@@ -12,29 +12,48 @@ RSpec.describe 'The merchant bulk discounts index page', type: :feature do
     describe 'when I visit my merchant bulk discounts index' do
       it 'displays all of my bulk discounts' do
         visit merchant_bulk_discounts_path(merchant_1)
-        # require 'pry'; binding.pry
-        # save_and_open_page
+
         within '#discounts' do
+          expect(page).to have_content('ID')
           expect(page).to have_content('Item Threshold')
           expect(page).to have_content('Discount %')
 
           within "#discount-#{bd_1.id}" do
+            expect(page).to have_content(bd_1.id)
             expect(page).to have_content('5')
             expect(page).to have_content('10%')
           end
 
           within "#discount-#{bd_2.id}" do
+            expect(page).to have_content(bd_2.id)
             expect(page).to have_content('10')
             expect(page).to have_content('20%')
           end
 
           within "#discount-#{bd_3.id}" do
+            expect(page).to have_content(bd_3.id)
             expect(page).to have_content('20')
             expect(page).to have_content('30%')
           end
         end
       end
-      it 'displays a link to each discounts show page'
+      it 'displays a link to each discounts show page' do
+        visit merchant_bulk_discounts_path(merchant_1)
+
+        within '#discounts' do
+          within "#discount-#{bd_1.id}" do
+            expect(page).to have_link "show", href: merchant_bulk_discount_path(merchant_1, bd_1)
+          end
+
+          within "#discount-#{bd_2.id}" do
+            expect(page).to have_link "show", href: merchant_bulk_discount_path(merchant_1, bd_2)
+          end
+
+          within "#discount-#{bd_3.id}" do
+            expect(page).to have_link "show", href: merchant_bulk_discount_path(merchant_1, bd_3)
+          end
+        end
+      end
     end
   end
 end
