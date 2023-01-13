@@ -1,7 +1,13 @@
 class BulkDiscountsController < ApplicationController
   def create
-    BulkDiscount.create(bd_params)
-    redirect_to merchant_bulk_discounts_path(bd_params[:merchant_id])
+    bd = BulkDiscount.new(bd_params)
+    
+    if bd.save
+      redirect_to merchant_bulk_discounts_path(bd_params[:merchant_id])
+    else
+      flash[:alert] = bd.errors.full_messages.to_sentence
+      redirect_to new_merchant_bulk_discount_path(bd_params[:merchant_id])
+    end
   end
 
   private
