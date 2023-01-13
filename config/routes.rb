@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :bulk_discounts, only: [:index, :show, :new], controller: 'merchants/bulk_discounts'
   end
 
+  resources :bulk_discounts, only: [:create]
   resources :invoice_items, only: :update
 
   get '/merchants/:id/dashboard', to: "merchants#show"
