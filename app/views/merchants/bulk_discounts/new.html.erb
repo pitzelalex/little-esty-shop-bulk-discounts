@@ -1,0 +1,12 @@
+<h2 class="subtitle2">New Bulk Discount</h2>
+<%= form_with model: @bulk_discount, local: true do |f| %>
+  <%= f.hidden_field :merchant_id %>
+
+  <%= f.label :threshold %>
+  <%= f.number_field :threshold %>
+
+  <%= f.label :discount %>
+  <%= f.number_field :discount %>
+
+  <%= f.submit %>
+<% end %>

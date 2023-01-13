@@ -9,7 +9,7 @@ RSpec.describe 'it shows the merchant dashboard page', type: :feature do
   let!(:cus4) { create(:customer_with_success_trans, merchant: merchant_1, inv_count: 2)}
   let!(:cus5) { create(:customer_with_success_trans, merchant: merchant_1, inv_count: 5)}
   let!(:cus6) { create(:customer_with_success_trans, merchant: merchant_1, inv_count: 6)}
-  
+
   describe 'when a user visits the merchant dashboard' do
     it 'shows the name of the merchant' do
       visit "/merchants/#{merchant_1.id}/dashboard"
