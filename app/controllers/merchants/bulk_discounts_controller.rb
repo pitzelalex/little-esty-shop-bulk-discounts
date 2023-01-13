@@ -4,6 +4,10 @@ class Merchants::BulkDiscountsController < ApplicationController
     @discounts = merchant.bulk_discounts
   end
 
+  def new
+    merchant
+  end
+
   private
 
   def merchant
