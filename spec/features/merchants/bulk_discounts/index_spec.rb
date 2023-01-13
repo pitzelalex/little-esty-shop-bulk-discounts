@@ -37,6 +37,7 @@ RSpec.describe 'The merchant bulk discounts index page', type: :feature do
           end
         end
       end
+
       it 'displays a link to each discounts show page' do
         visit merchant_bulk_discounts_path(merchant_1)
 
@@ -53,6 +54,16 @@ RSpec.describe 'The merchant bulk discounts index page', type: :feature do
             expect(page).to have_link "show", href: merchant_bulk_discount_path(merchant_1, bd_3)
           end
         end
+      end
+
+      it 'has a link to create a new discount' do
+        visit merchant_bulk_discounts_path(merchant_1)
+
+        expect(page).to have_link "New Bulk Discount", href: new_merchant_bulk_discount_path(merchant_1)
+
+        click_link 'New Bulk Discount'
+
+        expect(current_path).to eq(new_merchant_bulk_discount_path(merchant_1))
       end
     end
   end

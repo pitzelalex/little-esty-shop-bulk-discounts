@@ -3,6 +3,13 @@ require 'rails_helper'
 RSpec.describe BulkDiscount, type: :model do
   describe 'relationships' do
     it { should belong_to :merchant }
+    it { should validate_numericality_of(:threshold).only_integer }
+    it {
+      should validate_numericality_of(:discount)
+        .is_less_than_or_equal_to(1.0)
+        .is_greater_than_or_equal_to(0)
+        .with_message('must be a number between 0 and 100')
+    }
   end
 
   describe 'instance methods' do
