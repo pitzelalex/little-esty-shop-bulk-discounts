@@ -72,7 +72,7 @@ RSpec.describe 'The merchant bulk discounts index page', type: :feature do
         expect(page).to have_css("#discount-#{bd_1.id}")
 
         within "#discount-#{bd_1.id}" do
-          expect(page).to have_link 'Delete', href: bulk_discount_path(bd_1)
+          expect(page).to have_link 'Delete', href: bulk_discount_path(bd_1, merchant_id: merchant_1)
           click_link 'Delete'
         end
 
