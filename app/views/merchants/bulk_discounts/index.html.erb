@@ -13,7 +13,8 @@
         <td><%= discount.id %></td>
         <td><%= discount.threshold %></td>
         <td><%= discount.discount_percentage %>%</td>
-        <td> <%= link_to 'show', merchant_bulk_discount_path(@merchant, discount) %> </td>
+        <td> <%= link_to 'show', merchant_bulk_discount_path(@merchant, discount) %> 
+        <%= link_to 'Delete', bulk_discount_path(discount, merchant_id: @merchant.id), method: :delete %> </td>
       </tr>
     <% end %>
   </table>
