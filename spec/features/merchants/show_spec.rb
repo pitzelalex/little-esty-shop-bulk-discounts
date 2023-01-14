@@ -164,9 +164,9 @@ RSpec.describe 'it shows the merchant dashboard page', type: :feature do
       it 'dislpays a link to view all my discounts that takes me to my discounts index' do
         visit "/merchants/#{merchant_1.id}/dashboard"
 
-        expect(page).to have_link "My Bulk Discounts", href: merchant_bulk_discounts_path(merchant_1)
+        expect(page).to have_link 'My Bulk Discounts', href: merchant_bulk_discounts_path(merchant_1)
 
-        click_link "My Bulk Discounts"
+        click_link 'My Bulk Discounts'
 
         expect(current_path).to eq(merchant_bulk_discounts_path(merchant_1))
       end
