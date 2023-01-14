@@ -1,0 +1,11 @@
+<%= form_with model: @discount do |f| %>
+  <%= f.hidden_field :merchant_id, value: @merchant.id %>
+
+  <%= f.label :threshold %>
+  <%= f.number_field :threshold %>
+
+  <%= f.label :discount %>
+  <%= f.number_field :discount, value: @discount.discount_percentage %>
+
+  <%= f.submit %>
+<% end %>
