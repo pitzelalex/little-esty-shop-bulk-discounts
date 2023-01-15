@@ -13,6 +13,11 @@ class Item < ApplicationRecord
     self.invoice_items.where(invoice_id: invoice.id).first
   end
 
+  def bulk_discount(invoice)
+    ii = invoice_item_by_invoice(invoice)
+    bd = ii.bulk_discounts.where('threshold <= ?', ii.quantity).order(threshold: :desc).first
+  end
+
   def date_with_most_sales
     self.invoices.has_successful_transaction.select('invoices.*', 'count(invoices.created_at) as number_of_sales').group(:id, :created_at).order(:number_of_sales).first.created_at
   end

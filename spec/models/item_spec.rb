@@ -56,5 +56,21 @@ RSpec.describe Item, type: :model do
         expect(item.shippable_invoices).to eq([inv1, inv3])
       end
     end
+
+    describe '#bulk_discount' do
+      it 'returns the bulk discount this item qualifies for' do
+        merchant = create(:merchant_with_items, num: 3)
+        invoice = create(:invoice)
+        ii1 = create(:invoice_item, item: merchant.items[0], invoice: invoice, quantity: 20, unit_price: 100000) # 1_600_000
+        ii2 = create(:invoice_item, item: merchant.items[1], invoice: invoice, quantity: 10, unit_price: 100000) # 900_000
+        ii3 = create(:invoice_item, item: merchant.items[2], invoice: invoice, quantity: 5, unit_price: 100000) # 500_000
+        bd1 = create(:bulk_discount, threshold: 10, discount: 0.90, merchant: merchant)
+        bd2 = create(:bulk_discount, threshold: 20, discount: 0.80, merchant: merchant)
+
+        expect(merchant.items[0].bulk_discount(invoice)).to eq(bd2)
+        expect(merchant.items[1].bulk_discount(invoice)).to eq(bd1)
+        expect(merchant.items[2].bulk_discount(invoice)).to eq(nil)
+      end
+    end
   end
 end
