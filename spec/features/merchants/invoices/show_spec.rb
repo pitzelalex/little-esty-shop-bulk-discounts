@@ -97,5 +97,19 @@ RSpec.describe 'The merchant invoice show page', type: :feature do
 
       expect(page).to have_content("Status can't be blank")
     end
+
+    it 'displays the total discounted revenue for my merchant' do
+      merchant = create(:merchant_with_items, num: 3)
+      invoice = create(:invoice, merchant: merchant)
+      ii1 = create(:invoice_item, item: merchant.items[0], invoice: invoice, quantity: 20, unit_price: 100000) # 1_600_000
+      ii2 = create(:invoice_item, item: merchant.items[1], invoice: invoice, quantity: 10, unit_price: 100000) # 900_000
+      ii3 = create(:invoice_item, item: merchant.items[2], invoice: invoice, quantity: 5, unit_price: 100000) # 500_000
+      bd1 = create(:BulkDiscount, threshold: 10, discount: 0.90)
+      bd2 = create(:BulkDiscount, threshold: 20, discount: 0.80)
+
+      visit merchant_invoice_path(merchant, invoice)
+
+      expect(page).to have_content('Total revenue after discounts: $30,000.00')
+    end
   end
 end
