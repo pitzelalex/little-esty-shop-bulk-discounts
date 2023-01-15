@@ -1,5 +1,7 @@
 class BulkDiscount < ApplicationRecord
   belongs_to :merchant
+  has_many :items, through: :merchant
+  has_many :invoice_items, through: :items
   validates :threshold, numericality: { only_integer: true }
   validates :discount, numericality: { less_than_or_equal_to: 1.0, greater_than_or_equal_to: 0, message: 'must be a number between 0 and 100' }
 

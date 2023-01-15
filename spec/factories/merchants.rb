@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :merchant do
     sequence(:name) { |n| "Merchant_#{n}" }
     status { 0 }
-    
+
     trait :enabled do 
       status { 1 }
     end
