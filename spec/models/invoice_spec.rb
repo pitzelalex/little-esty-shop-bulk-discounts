@@ -23,15 +23,18 @@ RSpec.describe Invoice, type: :model do
     describe '#discounted_revenue' do
       it 'returns the total revenue after discounts for an invoice' do
         merchant = create(:merchant_with_items, num: 3)
+        merchant2 = create(:merchant_with_items, num: 3)
         # require 'pry'; binding.pry
         invoice = create(:invoice)
         ii1 = create(:invoice_item, item: merchant.items[0], invoice: invoice, quantity: 20, unit_price: 100000) # 1_600_000
         ii2 = create(:invoice_item, item: merchant.items[1], invoice: invoice, quantity: 10, unit_price: 100000) # 900_000
         ii3 = create(:invoice_item, item: merchant.items[2], invoice: invoice, quantity: 5, unit_price: 100000) # 500_000
+        ii4 = create(:invoice_item, item: merchant2.items[2], invoice: invoice, quantity: 5, unit_price: 100000) # 400_000
         bd1 = create(:bulk_discount, threshold: 10, discount: 0.90, merchant: merchant)
         bd2 = create(:bulk_discount, threshold: 20, discount: 0.80, merchant: merchant)
+        bd3 = create(:bulk_discount, threshold: 5, discount: 0.80, merchant: merchant2)
 
-        expect(invoice.discounted_revenue).to eq(3_000_000)
+        expect(invoice.discounted_revenue_for(merchant)).to eq(3_000_000)
       end
     end
   end
