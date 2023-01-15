@@ -14,7 +14,16 @@ class Invoice < ApplicationRecord
   def total_revenue
     self.invoice_items.sum('quantity*unit_price')
   end
-  
+
+  def discounted_revenue
+    merchant = Merchant.first
+    require 'pry'; binding.pry
+    BulkDiscount.joins(:invoice_items).where(invoice_items: { invoice_id: self.id }).where("invoice_items.quantity >= ?", 20)
+    BulkDiscount.joins(:invoice_items).where("invoice_items.quantity >= ?", 20)
+    BulkDiscount.select('bulk_discounts.*, invoice_items.*').joins(:invoice_items).where(invoice_items: { invoice_id: self.id })
+    merchant.invoice_items.joins(:bulk_discounts)
+  end
+
   def self.incomplete_invoices
     self.joins(:invoice_items).where.not(invoice_items: { status: 2 }).order(:created_at).distinct
   end
