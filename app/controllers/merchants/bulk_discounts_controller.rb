@@ -2,6 +2,7 @@ class Merchants::BulkDiscountsController < ApplicationController
   def index
     merchant
     @discounts = merchant.bulk_discounts
+    @holidays = HolidayDecorator.new('ca')
   end
 
   def show
