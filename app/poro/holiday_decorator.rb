@@ -4,8 +4,7 @@ class HolidayDecorator
   end
 
   def next_holidays(num)
-    @holidays.map.with_index do |holiday, index|
-      break if index == num
+    names = @holidays.first(num).map.with_index do |holiday, index|
       holiday[:name]
     end
   end

@@ -80,6 +80,19 @@ RSpec.describe 'The merchant bulk discounts index page', type: :feature do
 
         expect(page).not_to have_css("#discount-#{bd_1.id}")
       end
+
+      it 'lists the next 3 upcoming holidays' do
+        holidays = JSON.parse((HTTParty.get('https://date.nager.at/api/v3/NextPublicHolidays/CA')).body, symbolize_names: true)
+
+        visit merchant_bulk_discounts_path(merchant_1)
+
+        within '#holidays' do
+          expect(page).to have_content('Upcoming Holidays')
+          expect(page).to have_content(holidays[0][:name])
+          expect(page).to have_content(holidays[1][:name])
+          expect(page).to have_content(holidays[2][:name])
+        end
+      end
     end
   end
 end
