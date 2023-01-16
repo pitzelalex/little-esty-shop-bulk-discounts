@@ -20,8 +20,8 @@ RSpec.describe Invoice, type: :model do
       end
     end
 
-    describe '#discounted_revenue' do
-      it 'returns the total revenue after discounts for an invoice' do
+    describe '#discounted_revenue_for' do
+      it 'returns the total revenue after discounts for a merchant from an invoice' do
         merchant = create(:merchant_with_items, num: 3)
         merchant2 = create(:merchant_with_items, num: 3)
         # require 'pry'; binding.pry
@@ -33,8 +33,31 @@ RSpec.describe Invoice, type: :model do
         bd1 = create(:bulk_discount, threshold: 10, discount: 0.90, merchant: merchant)
         bd2 = create(:bulk_discount, threshold: 20, discount: 0.80, merchant: merchant)
         bd3 = create(:bulk_discount, threshold: 5, discount: 0.80, merchant: merchant2)
+        invoice2 = create(:invoice)
+        ii1 = create(:invoice_item, item: merchant.items[0], invoice: invoice2, quantity: 20, unit_price: 100000)
 
         expect(invoice.discounted_revenue_for(merchant)).to eq(3_000_000)
+      end
+    end
+
+    describe '#discounted_revenue' do
+      it 'returns the total revenue after discounts regardless of merchant' do
+        merchant = create(:merchant_with_items, num: 3)
+        merchant2 = create(:merchant_with_items, num: 3)
+        invoice = create(:invoice)
+        ii1 = create(:invoice_item, item: merchant.items[0], invoice: invoice, quantity: 20, unit_price: 100000) # 1_600_000
+        ii2 = create(:invoice_item, item: merchant.items[1], invoice: invoice, quantity: 10, unit_price: 100000) # 900_000
+        ii3 = create(:invoice_item, item: merchant.items[2], invoice: invoice, quantity: 5, unit_price: 100000) # 500_000
+        ii4 = create(:invoice_item, item: merchant2.items[2], invoice: invoice, quantity: 5, unit_price: 100000) # 400_000
+        ii5 = create(:invoice_item, item: merchant2.items[1], invoice: invoice, quantity: 15, unit_price: 100000) # 1_050_000
+        bd1 = create(:bulk_discount, threshold: 10, discount: 0.90, merchant: merchant)
+        bd2 = create(:bulk_discount, threshold: 20, discount: 0.80, merchant: merchant)
+        bd3 = create(:bulk_discount, threshold: 5, discount: 0.80, merchant: merchant2)
+        bd4 = create(:bulk_discount, threshold: 10, discount: 0.70, merchant: merchant2)
+        invoice2 = create(:invoice)
+        ii1 = create(:invoice_item, item: merchant.items[0], invoice: invoice2, quantity: 20, unit_price: 100000)
+
+        expect(invoice.discounted_revenue).to eq(4_450_000)
       end
     end
   end

@@ -123,8 +123,6 @@ RSpec.describe 'The merchant invoice show page', type: :feature do
 
       visit merchant_invoice_path(merchant, invoice)
 
-      save_and_open_page
-
       within "#item-#{merchant.items[0].id}" do
         expect(page).to have_link 'Discount Details', href: merchant_bulk_discount_path(merchant, bd2)
       end

@@ -20,6 +20,10 @@ class Invoice < ApplicationRecord
     merchant.invoice_items.where(invoice_id: id).sum { |ii| ii.discounted_revenue }
   end
 
+  def discounted_revenue
+    self.invoice_items.sum { |ii| ii.discounted_revenue }
+  end
+
   def self.incomplete_invoices
     self.joins(:invoice_items).where.not(invoice_items: { status: 2 }).order(:created_at).distinct
   end
