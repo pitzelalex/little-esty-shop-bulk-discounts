@@ -20,6 +20,23 @@ RSpec.describe Invoice, type: :model do
       end
     end
 
+    describe '#total_revenue_for' do
+      it 'returns the total revenue for an invoice by merchant' do
+        merchant = create(:merchant_with_items, num: 3)
+        merchant2 = create(:merchant_with_items, num: 3)
+        # require 'pry'; binding.pry
+        invoice = create(:invoice)
+        ii1 = create(:invoice_item, item: merchant.items[0], invoice: invoice, quantity: 20, unit_price: 100000) # 2_000_000
+        ii2 = create(:invoice_item, item: merchant.items[1], invoice: invoice, quantity: 10, unit_price: 100000) # 1_000_000
+        ii3 = create(:invoice_item, item: merchant.items[2], invoice: invoice, quantity: 5, unit_price: 100000) # 500_000
+        ii4 = create(:invoice_item, item: merchant2.items[2], invoice: invoice, quantity: 5, unit_price: 100000) # 500_000
+        invoice2 = create(:invoice)
+        ii1 = create(:invoice_item, item: merchant.items[0], invoice: invoice2, quantity: 20, unit_price: 100000)
+
+        expect(invoice.total_revenue_for(merchant)).to eq(3_500_000)
+      end
+    end
+
     describe '#discount_value' do
       it 'returns a proc object' do
         invoice = create(:invoice)
