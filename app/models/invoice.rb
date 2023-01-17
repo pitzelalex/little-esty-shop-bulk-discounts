@@ -15,13 +15,16 @@ class Invoice < ApplicationRecord
     self.invoice_items.sum('quantity*unit_price')
   end
 
+  def discount_value
+    Proc.new { |x| x.invoice_discount }
+  end
+
   def discounted_revenue_for(merchant)
-    # merchant.invoice_items.where(invoice_id: id).sum('quantity*invoice_items.unit_price')
-    merchant.invoice_items.where(invoice_id: id).sum { |ii| ii.discounted_revenue }
+    merchant.invoice_items.where(invoice_id: id).select('invoice_items.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS total').group(:id).sum("?", &discount_value)
   end
 
   def discounted_revenue
-    self.invoice_items.sum { |ii| ii.discounted_revenue }
+    self.invoice_items.where(invoice_id: id).select('invoice_items.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS total').group(:id).sum("?", &discount_value)
   end
 
   def self.incomplete_invoices

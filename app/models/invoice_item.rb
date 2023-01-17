@@ -7,16 +7,15 @@ class InvoiceItem < ApplicationRecord
   validates_presence_of :status
   enum status: ['pending', 'packaged', 'shipped']
 
-  def revenue
-    InvoiceItem.where(id: self.id).sum('quantity*unit_price')
+  def discount
+    self.bulk_discounts.where('threshold <= ?', self.quantity).order(threshold: :desc).first.try(:discount)
   end
 
-  def discounted_revenue
-    if self.bulk_discounts.where('threshold <= ?', self.quantity).count == 0
-      revenue
+  def invoice_discount
+    if discount.nil?
+      return 1 * self.total
     else
-      discount = self.bulk_discounts.where('threshold <= ?', self.quantity).order(threshold: :desc).first.discount
-      revenue * discount
+      return discount * self.total
     end
   end
 end
