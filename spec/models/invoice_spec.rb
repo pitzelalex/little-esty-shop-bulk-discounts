@@ -20,6 +20,13 @@ RSpec.describe Invoice, type: :model do
       end
     end
 
+    describe '#discount_value' do
+      it 'returns a proc object' do
+        invoice = create(:invoice)
+        expect(invoice.discount_value).to be_a Proc
+      end
+    end
+
     describe '#discounted_revenue_for' do
       it 'returns the total revenue after discounts for a merchant from an invoice' do
         merchant = create(:merchant_with_items, num: 3)
