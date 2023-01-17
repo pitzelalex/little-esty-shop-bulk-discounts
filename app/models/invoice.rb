@@ -15,6 +15,10 @@ class Invoice < ApplicationRecord
     self.invoice_items.sum('quantity*unit_price')
   end
 
+  def total_revenue_for(merchant)
+    merchant.invoice_items.where(invoice_id: id).sum('quantity*invoice_items.unit_price')
+  end
+
   def discount_value
     Proc.new { |x| x.invoice_discount }
   end
