@@ -15,25 +15,25 @@
         <th>Status</th>
         <th></th>
       </tr>
-      <% @items.each do |item| %>
-        <tr id="item-<%= item.id %>">
+      <% @invoice_items.each do |ii| %>
+        <tr id="item-<%= ii.id %>">
 
-          <td><%= item.name %></td>
+          <td><%= ii.item.name %></td>
           
-          <td><%= item.invoice_item_by_invoice(@invoice).quantity %></td>
+          <td><%= ii.quantity %></td>
           
-          <td><%= number_to_currency((item.invoice_item_by_invoice(@invoice).unit_price)/100.00) %></td>
+          <td><%= number_to_currency((ii.unit_price)/100.00) %></td>
 
           <td>
-            <%= form_with model: item.invoice_item_by_invoice(@invoice), local: true do |form| %>
+            <%= form_with model: ii, local: true do |form| %>
               <%= form.select :status, ['', 'pending', 'packaged', 'shipped'] %>
               <%= form.submit 'Update Item Status' %>
             <% end %>
           </td>
 
           <td>
-            <% if item.bulk_discount(@invoice) %>
-              <%= link_to 'Discount Details', merchant_bulk_discount_path(@merchant, item.bulk_discount(@invoice)) %>
+            <% if ii.bulk_discount %>
+              <%= link_to 'Discount Details', merchant_bulk_discount_path(@merchant, ii.bulk_discount) %>
             <% else %>
               <p></p>
             <% end %>

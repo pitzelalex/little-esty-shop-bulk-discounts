@@ -4,6 +4,8 @@ class Item < ApplicationRecord
   has_many :invoices, through: :invoice_items
   has_many :customers, through: :invoices
   has_many :transactions, through: :invoices
+  has_many :bulk_discounts, through: :merchant
+
   validates_presence_of :name, :description, :unit_price
   validates_numericality_of :unit_price
   enum status: [:disabled, :enabled]
@@ -11,11 +13,6 @@ class Item < ApplicationRecord
 
   def invoice_item_by_invoice(invoice)
     self.invoice_items.where(invoice_id: invoice.id).first
-  end
-
-  def bulk_discount(invoice)
-    ii = invoice_item_by_invoice(invoice)
-    bd = ii.bulk_discounts.where('threshold <= ?', ii.quantity).order(threshold: :desc).first
   end
 
   def date_with_most_sales

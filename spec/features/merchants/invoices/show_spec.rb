@@ -17,16 +17,16 @@ RSpec.describe 'The merchant invoice show page', type: :feature do
       end
     end
 
-    it "Displays a list of all that invoice's items with my merchant and their details" do
+    it "Displays a list of all that invoice's invoice_items with my merchant and their details" do
       merchant_1.invoices.group(:id).each do |invoice|
         visit merchant_invoice_path(merchant_1, invoice)
         within "#items" do
           expect(page).to have_content('Items on this Invoice:')
-          invoice.items.each do |item|
-            within "#item-#{item.id}" do
-              expect(page).to have_content("#{item.name}")
-              expect(page).to have_content("#{item.invoice_items.where(invoice_id: invoice.id).first.quantity}")
-              expect(page).to have_content("#{number_to_currency((item.invoice_items.where(invoice_id: invoice.id).first.unit_price)/100.00)}")
+          invoice.invoice_items.each do |ii|
+            within "#item-#{ii.id}" do
+              expect(page).to have_content("#{ii.item.name}")
+              expect(page).to have_content("#{ii.quantity}")
+              expect(page).to have_content("#{number_to_currency((ii.unit_price)/100.00)}")
             end
           end
           merchant_2.invoices.group(:id).each do |invoice|
@@ -57,9 +57,9 @@ RSpec.describe 'The merchant invoice show page', type: :feature do
 
       visit merchant_invoice_path(merchant_1, invoice)
 
-      invoice.items.each do |item|
-        within "#item-#{item.id}" do
-          expect(page).to have_select('invoice_item[status]', selected: item.invoice_item_by_invoice(invoice).status)
+      invoice.invoice_items.each do |ii|
+        within "#item-#{ii.id}" do
+          expect(page).to have_select('invoice_item[status]', selected: ii.status)
           expect(page).to have_select('invoice_item[status]', options: ['', 'pending', 'packaged', 'shipped'])
         end
       end
@@ -67,30 +67,32 @@ RSpec.describe 'The merchant invoice show page', type: :feature do
 
     it "has a button to 'Update Item Status' which updates the invoice item status when clicked" do
       invoice = merchant_1.invoices.first
-      item_1 = invoice.items.first
+      ii_1 = invoice.invoice_items.first
 
       visit merchant_invoice_path(merchant_1, invoice)
 
-      invoice.items.each do |item|
-        within "#item-#{item.id}" do
+      invoice.invoice_items.each do |ii|
+        within "#item-#{ii.id}" do
           expect(page).to have_button 'Update Item Status'
         end
       end
 
-      within "#item-#{item_1.id}" do
+      within "#item-#{ii_1.id}" do
         select 'packaged', from: 'invoice_item[status]'
         click_button('Update Item Status')
       end
 
       expect(current_path).to eq(merchant_invoice_path(merchant_1, invoice))
 
-      within "#item-#{item_1.id}" do
+      within "#item-#{ii_1.id}" do
         expect(page).to have_select('invoice_item[status]', selected: 'packaged')
       end
 
-      expect(item_1.invoice_item_by_invoice(invoice).status).to eq('packaged')
+      ii_1.reload
 
-      within "#item-#{item_1.id}" do
+      expect(ii_1.status).to eq('packaged')
+
+      within "#item-#{ii_1.id}" do
         select '', from: 'invoice_item[status]'
         click_button('Update Item Status')
       end
@@ -123,15 +125,15 @@ RSpec.describe 'The merchant invoice show page', type: :feature do
 
       visit merchant_invoice_path(merchant, invoice)
 
-      within "#item-#{merchant.items[0].id}" do
+      within "#item-#{ii1.id}" do
         expect(page).to have_link 'Discount Details', href: merchant_bulk_discount_path(merchant, bd2)
       end
 
-      within "#item-#{merchant.items[1].id}" do
+      within "#item-#{ii2.id}" do
         expect(page).to have_link 'Discount Details', href: merchant_bulk_discount_path(merchant, bd1)
       end
 
-      within "#item-#{merchant.items[2].id}" do
+      within "#item-#{ii3.id}" do
         expect(page).not_to have_link 'Discount Details'
       end
     end
