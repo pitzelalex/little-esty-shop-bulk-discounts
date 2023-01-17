@@ -8,11 +8,11 @@ class InvoiceItem < ApplicationRecord
   enum status: ['pending', 'packaged', 'shipped']
 
   def bulk_discount
-    bd = self.bulk_discounts.where('threshold <= ?', self.quantity).order(threshold: :desc).first
+    bd = self.bulk_discounts.where('threshold <= ?', self.quantity).order(discount: :asc).first
   end
 
   def discount
-    self.bulk_discounts.where('threshold <= ?', self.quantity).order(threshold: :desc).first.try(:discount)
+    self.bulk_discounts.where('threshold <= ?', self.quantity).order(discount: :asc).first.try(:discount)
   end
 
   def invoice_discount
