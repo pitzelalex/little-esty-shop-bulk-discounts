@@ -7,6 +7,10 @@ class InvoiceItem < ApplicationRecord
   validates_presence_of :status
   enum status: ['pending', 'packaged', 'shipped']
 
+  def bulk_discount
+    bd = self.bulk_discounts.where('threshold <= ?', self.quantity).order(threshold: :desc).first
+  end
+
   def discount
     self.bulk_discounts.where('threshold <= ?', self.quantity).order(threshold: :desc).first.try(:discount)
   end

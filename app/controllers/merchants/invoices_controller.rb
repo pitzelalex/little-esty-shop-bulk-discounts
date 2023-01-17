@@ -12,7 +12,8 @@ class Merchants::InvoicesController < ApplicationController
   def show
     merchant
     @invoice = Invoice.find(params[:id])
-    @items = @invoice.items
+    @items = @invoice.items #needs a distinct
+    @invoice_items = @invoice.invoice_items.order(quantity: :desc)
   end
 
   private
